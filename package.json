@@ -4,24 +4,26 @@
   "description": "npm init package file",
   "main": "Gruntfile.js",
   "directories": {
-    "test": "test"
+    "src": "src"
   },
   "scripts": {
-    "test": "test"
+    "model": "src/model",
+    "controller": "src/controller",
+    "view": "src/view"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/or9/sudodeez.git"
+    "url": "git://github.com/or9/flashcards.git"
   },
   "keywords": [
-    "sud0",
+    "flashcards",
     "js",
-    "test"
+    "HTML 5"
   ],
   "author": ":Drahman",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/or9/sudodeez/issues"
+    "url": "https://github.com/or9/flashcards/issues"
   },
-  "homepage": "https://github.com/or9/sudodeez"
+  "homepage": "https://github.com/or9/flashcards"
 }
