@@ -1,0 +1,27 @@
+{
+  "name": "js",
+  "version": "0.0.0",
+  "description": "npm init package file",
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/or9/sudodeez.git"
+  },
+  "keywords": [
+    "sud0",
+    "js",
+    "test"
+  ],
+  "author": ":Drahman",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/or9/sudodeez/issues"
+  },
+  "homepage": "https://github.com/or9/sudodeez"
+}
