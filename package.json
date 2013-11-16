@@ -1,7 +1,7 @@
 {
-  "name": "js",
+  "name": "Flashcard",
   "version": "0.0.0",
-  "description": "npm init package file",
+  "description": "Flashcards game",
   "main": "Gruntfile.js",
   "directories": {
     "src": "src"
@@ -9,7 +9,8 @@
   "scripts": {
     "model": "src/model",
     "controller": "src/controller",
-    "view": "src/view"
+    "view": "src/view",
+    "main": "src/main.js"
   },
   "repository": {
     "type": "git",
@@ -21,9 +22,17 @@
     "HTML 5"
   ],
   "author": ":Drahman",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/or9/flashcards/issues"
   },
-  "homepage": "https://github.com/or9/flashcards"
+  "homepage": "https://github.com/or9/flashcards",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.7"
+  },
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.7"
+  }
 }
