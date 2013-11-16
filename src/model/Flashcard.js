@@ -1,10 +1,23 @@
+/*
+ * Flashcard is main
+ * Card instantiated for each card by Flashcard instance
+ * Main initializes, sets / gets values, runs
+ */
 function Flashcard(options) {
 	// Named function
-	
+	if(!!window.Worker) {
+		// import scripts, this.init(true)
+		
+	} else {
+		// load scripts, this.init(false)
+		
+	}
 }
 
 Flashcard.prototype.language = function(str_lang) {
 	// Set base language
+	// GET language from HTML meta content-language?
+	// 		No. Doesn't make sense. Page is in native language. Game is for foreign language
 	this.language = str_lang;
 };
 
@@ -16,6 +29,10 @@ Flashcard.prototype.audio = function(bool) {
 	
 };
 
+Flashcard.prototype.init = function(bool_useWorkers) {
+	
+};
+
 Flashcard.prototype.Card = function() {
 	// Card object to be instantiated
 	
@@ -23,6 +40,7 @@ Flashcard.prototype.Card = function() {
 
 Flashcard.prototype.Options = {
 	language: "",
+	charset: "",
 	audio: "",
 	etc: ""
 };
