@@ -37,12 +37,11 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.min.js'
       },
       my_target: {
-        files: [{
-            expand: true,
-            cwd: 'src/scripts',
-            src: '**/*.js',
-            dest: 'build/<%= pkg.name %>.min.js': ['src/*/*.js']   
-        }]
+        files: {
+          'build/model/model.min.js': ['src/model/*.js'],
+          'build/controller/controller.min.js': ['src/controller/*.js'],
+          'build/main.js': ['src/*.js']
+        }
       }
     },
     qunit: {
