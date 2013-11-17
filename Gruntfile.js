@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     // Metadata.
-    pkg: grunt.file.readJSON('flashcards.jquery.json'),
+    pkg: grunt.file.readJSON('flashcards.json'),
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
@@ -27,12 +27,23 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        banner: '<%= banner %>'
+        banner: '<%= banner %> %= grunt.template.today("yyyy-mm-dd") %> */\n',
+        mangle: {
+            except: ["jquery"]
+        }
       },
       dist: {
         src: '<%= concat.dist.dest %>',
         dest: 'dist/<%= pkg.name %>.min.js'
       },
+      my_target: {
+        files: [{
+            expand: true,
+            cwd: 'src/scripts',
+            src: '**/*.js',
+            dest: 'build/<%= pkg.name %>.min.js': ['src/*/*.js']   
+        }]
+      }
     },
     qunit: {
       files: ['test/**/*.html']
