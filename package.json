@@ -1,38 +1,19 @@
 {
-  "name": "Flashcard",
-  "version": "0.0.0",
-  "description": "Flashcards game",
-  "main": "Gruntfile.js",
-  "directories": {
-    "src": "src"
+  "name": "Flashcards game",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">= 0.8.0"
   },
   "scripts": {
-    "model": "src/model",
-    "controller": "src/controller",
-    "view": "src/view",
-    "main": "src/main.js"
+    "test": "grunt qunit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/or9/flashcards.git"
-  },
-  "keywords": [
-    "flashcards",
-    "js",
-    "HTML 5"
-  ],
-  "author": ":Drahman",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/or9/flashcards/issues"
-  },
-  "homepage": "https://github.com/or9/flashcards",
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-uglify": "~0.2.7"
-  },
-  "dependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-uglify": "~0.2.7"
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-qunit": "~0.2.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-watch": "~0.4.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt": "~0.4.1"
   }
 }

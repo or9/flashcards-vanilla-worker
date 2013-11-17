@@ -1,0 +1,27 @@
+{
+  "name": "flashcards",
+  "title": "Flashcards",
+  "description": "Flashcards game",
+  "version": "0.1.0",
+  "homepage": "https://github.com/or9/flashcards",
+  "author": {
+    "name": ":Durmon",
+    "email": "durmon.albasir@gmail.com",
+    "url": "https://github.com/or9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/or9/flashcards.git"
+  },
+  "bugs": "https://github.com/or9/flashcards/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/or9/flashcards/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "keywords": []
+}
