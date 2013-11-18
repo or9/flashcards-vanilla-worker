@@ -1,6 +1,14 @@
-(function() {
+function Card(index) {
+	// Named function
+	"use strict";
 	
-}).apply(Flashcard.Card());
+}
+
+Card.prototype = {
+		
+};
+
+
 
 
 
