@@ -1,24 +1,22 @@
-if(window.addEventListener) {
-	window.addEventListener("message", msg_handler, false);
-}
-
-function msg_handler(e) {
-	if(!!window.Worker) {
-		
-	} else {
-		
+function AbstractMsg() {
+	this.useWorkers = function() {
+//		console.log(this.name, arguments);
+		return !!window.Worker;
+	};
+	
+	function msg_handler(e, fn) {
+//		console.log(this.name, arguments);
+		fn(e);
 	}
+	
+	this.register = function(target, callback) {
+//		console.log(this.name, arguments);
+		target.addEventListener("message", msg_handler.call(this, callback), false);
+	};
 }
 
-/*
- * Can use:
- * 		navigator object
- *		location object (read-only)
- *		importScripts() method (for accessing script files in the same domain)
- *		JavaScript objects such as Object, Array, Date, Math, String
- *		XMLHttpRequest
- *		setTimeout() and setInterval() methods
- *	Can't use:
- *		The DOM
- *		The worker's parent page (except via postMessage()) 
- */
+function SpecMessage(type) {
+	
+}
+
+SpecMessage.prototype = new AbstractMessage();

@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     // Metadata.
-    pkg: grunt.file.readJSON('flashcards.json'),
+    pkg: grunt.file.readJSON('package.json'),
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
@@ -38,8 +38,8 @@ module.exports = function(grunt) {
       },
       my_target: {
         files: {
-          'build/model/model.min.js': ['src/model/*.js'],
-          'build/controller/controller.min.js': ['src/controller/*.js'],
+          'build/model/model.js': ['src/model/*.js'],
+          'build/controller/controller.js': ['src/controller/*.js'],
           'build/main.js': ['src/*.js']
         }
       }
