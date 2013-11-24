@@ -19,4 +19,4 @@ function SpecMessage(type) {
 	
 }
 
-SpecMessage.prototype = new AbstractMessage();
+SpecMessage.prototype = new AbstractMsg();
