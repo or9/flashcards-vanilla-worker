@@ -39,6 +39,38 @@ var bindClick = document.body.addEventListener
 * hasOwnProperty() checks whether property defined on object
 * 	vs inherited from prototype
 */
+
+/* **************************************************************************************************
+  	U+060C ،‎ arabic comma
+ 	U+060D ؍‎ arabic date separator
+ 	U+060E ؎‎ arabic poetic verse sign
+ 	U+060F ؏‎ arabic sign misra
+ 	U+061F ؟‎ arabic question mark
+ 	U+066D ٭ arabic five pointed star
+ 	U+06DD ۝‎ arabic end of ayah
+ 	U+06DE ۞‎ arabic start of rub el hizb
+ 	U+06E9 ۩‎ arabic arabic place of sajdah
+ 	U+FD3E ﴾ arabic ornate left parenthesis
+ 	U+FD3F ﴿ arabic ornate right parenthesis
+ 
+ ************************************************************************************************** */
+
+/* **************************************************************************************************
+	U+FDF0 ﷰ‎ arabic ligature salla used as koranic stop sign isolated form (صلے)
+	U+FDF1 ﷱ‎ arabic ligature qala used as koranic stop sign isolated form (قلے)
+	U+FDF2 ﷲ‎ arabic ligature allah isolated form (الله)
+	U+FDF3 ﷳ‎ arabic ligature akbar isolated form (As used for the phrase الله اكبر Allahu akbar)
+	U+FDF4 ﷴ‎ arabic ligature mohammad isolated form (محمد)
+	U+FDF5 ﷵ‎ arabic ligature salam isolated form (Abbreviation for صلعم "peace be upon him")
+	U+FDF6 ﷶ‎ arabic ligature rasoul isolated form (رسول)
+	U+FDF7 ﷷ‎ arabic ligature alayhe isolated form (عليه)
+	U+FDF8 ﷸ‎ arabic ligature wasallam isolated form (وسلم)
+	U+FDF9 ﷹ‎ arabic ligature salla isolated form
+	U+FDFA ﷺ‎ arabic ligature sallallahou alayhe wasallam (صلى الله عليه وسلم "peace be upon him")
+	U+FDFB ﷻ‎ arabic ligature jallajalalouhou (جل جلاله)
+	U+FDFC ﷼‎ rial sign (ريال)
+	U+FDFD ﷽‎ arabic ligature bismillah ar-rahman ar-raheem (the Basmala)
+************************************************************************************************** */
  
 if(!Array.prototype.forEach) {
 	Array.prototype.forEach = function(callback, context) {

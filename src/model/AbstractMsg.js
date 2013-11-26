@@ -20,3 +20,5 @@ function SpecMessage(type) {
 }
 
 SpecMessage.prototype = new AbstractMsg();
+
+testA(1);

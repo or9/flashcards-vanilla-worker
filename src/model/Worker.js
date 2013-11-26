@@ -11,29 +11,41 @@
  *  status: TODO
  *  
  */
-self.addEventListener("message", msg_handler, false);
-self.addEventListener("error", err_handler, false);
 
-var workerData = {};
+var a = 0;
+
+function testA(b) {
+	a += b
+	postMessage("testA(b) from within worker‚Ä¶ " + a);
+	// Should not increment‚Ä¶
+	// Because test is being called from seperate worker instances
+	// Each instance's var a should be isolated from change
+}
+
+addEventListener("message", msg_handler, false);
+addEventListener("error", err_handler, false);
+
+var workerData = {
+		id: location["search"].slice(1)
+};
 var timer = 0;
 
+postMessage(workerData);
+
 function msg_handler(e) {
-	console.log("worker received message", e, e.data);
-	self.postMessage("ready for work");
-	
+	workerData.msg = workerData.id + " ready for work";
+	postMessage(workerData);
 	workerData.fn = e.data.fn;
 	
 	if(!!e.data && !!e.data.fn) {
 		(function() {
 			this[e.data.fn](e.data);
-		})();
-		
+		})();	
 	}
-	
 }
 
 function err_handler(e) {
-	self.postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
+	postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
 }
 
 function callback(data) {
@@ -44,7 +56,6 @@ function callback(data) {
 }
 
 function importScript(data) {
-	console.log("importScript…");
 	importScripts(data.msg);
 	workerData.msg = data.msg;
 	workerData.status = true;
@@ -53,38 +64,32 @@ function importScript(data) {
 }
 
 function passThrough(data) {
-	console.log("passThrough…");
 	
-}
-
-function getLocation(data) {
-	console.log("getLocation…", self.location, "…");
-	postMessage(self.location);
 }
 
 function ajax(data) {
-	console.log("ajax… from", self.location);
-	var ajax = new XMLHTTPRequest();
+	var ax = new XMLHTTPRequest();
 	var random = !!data.cache? "": Math.random();
-	ajax.addEventListener("readyStateChange", ajax_handler, false);
-	ajax.open("GET", data.msg + random, true);
-	ajax.send();
+	ax.addEventListener("readyStateChange", ajax_handler, false);
+	ax.open("GET", data.msg + random, true);
+	ax.send();
 	
 	function ajax_handler(e) {
-		if(ajax.readyState === 4) {
-			if(ajax.status === 200) {
-				workerData.msg = ajax.responseText;
+		if(ax.readyState === 4) {
+			if(ax.status === 200) {
+				workerData.msg = ax.responseText;
 				workerData.status = true;
 				postMessage(workerData);
 			} else {
-				console.error("worker ajax failed");
+				workerData.status = false;
+				postMessage(workerData);
+				
 			}
 		}
 	}
 }
 
 function timeout(data) {
-	console.log("setTimeout…");
 	var int = parseInt(data.msg);
 	
 	if(data.timer === "set")
@@ -100,7 +105,6 @@ function timeout(data) {
 }
 
 function interval(data) {
-	console.log("setInterval…");
 	var int = parseInt(data.msg);
 	
 	if(data.timer === "set")
@@ -117,28 +121,33 @@ function interval(data) {
 }
 
 function spawn() {
-	console.log("spawn… not permitted…");
+	
 }
 
 function shutdown() {
-	console.log("shutdown…");
-	self.close();
+	close();
 }
 
 function status() {
-	console.log("status…");
 	
 }
 
 function SubWorker(src, msg, callback) {
-//	console.log(new Worker());
-//	var worker = new Worker(src);
-//	console.log(worker);
-//	worker.postMessage(msg, callback);
+//	Cannot create SubWorker from within Worker; 
+//	Webkit bug
+	var subworkerData = {
+			"id": location["search"].slice(1),
+			"msg": msg,
+			"callback": callback
+	};
+	
+	var worker = new Worker(src);
+	worker.postMessage(subworkerData);
 }
 
-
-this.postMessage("worker loaded");
+function getLocation(part) {
+	return !!part? location[part].toString(): location.toString();
+}
 
 /*
  * Can use:

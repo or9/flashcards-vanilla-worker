@@ -1,0 +1,408 @@
+{
+	{	
+		"id": "0623",
+		"character": "أ‎",
+		"name": "ʾalif",
+		"position": 1,
+		"contextualForms": {
+			"isolated": "FE83",
+			"initial": "",
+			"medial": "",
+			"final": "FE84"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0628",
+		"character": "ب‎",
+		"name": "bāʾ",
+		"position": 2,
+		"contextualForms": {
+			"isolated": "FE8F",
+			"initial": "FE91",
+			"medial": "FE92",
+			"final": "FE90"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "062A",
+		"character": "ت‎",
+		"name": "tāʾ",
+		"position": 3,
+		"contextualForms": {
+			"isolated": "FE98",
+			"initial": "FE97",
+			"medial": "FE98",
+			"final": "FE96"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "062B",
+		"character": "ث‎",
+		"name": "ṯāʾ",
+		"position": 4,
+		"contextualForms": {
+			"isolated": "FE99",
+			"initial": "FE9B",
+			"medial": "FE9C",
+			"final": "FE9A"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "062C",
+		"character": "ج‎",
+		"name": "ǧīm",
+		"position": 5,
+		"contextualForms": {
+			"isolated": "FE9D",
+			"initial": "FE9F",
+			"medial": "FEA0",
+			"final": "FE9E"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "062D",
+		"character": "ح‎",
+		"name": "ḥāʾ",
+		"position": 6,
+		"contextualForms": {
+			"isolated": "FEA1",
+			"initial": "FEA3",
+			"medial": "FEA4",
+			"final": "FEA2"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "062E",
+		"character": "خ‎",
+		"name": "ḫāʾ",
+		"position": 7,
+		"contextualForms": {
+			"isolated": "FEA5",
+			"initial": "FEA7",
+			"medial": "FEA8",
+			"final": "FEA6"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "062F",
+		"character": "د‎",
+		"name": "dāl",
+		"position": 8,
+		"contextualForms": {
+			"isolated": "FEA9",
+			"initial": "",
+			"medial": "",
+			"final": "FEAA"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0630",
+		"character": "ذ‎",
+		"name": "ḏāl",
+		"position": 9,
+		"contextualForms": {
+			"isolated": "FEAB",
+			"initial": "",
+			"medial": "",
+			"final": "FEAC"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0631",
+		"character": "ر‎",
+		"name": "rāʾ",
+		"position": 10,
+		"contextualForms": {
+			"isolated": "FEAD",
+			"initial": "",
+			"medial": "",
+			"final": "FEAE"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0632",
+		"character": "ز‎",
+		"name": "zayn/zāy",
+		"position": 11,
+		"contextualForms": {
+			"isolated": "FEAF",
+			"initial": "",
+			"medial": "",
+			"final": "FEB0"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0633",
+		"character": "س‎",
+		"name": "sīn",
+		"position": 12,
+		"contextualForms": {
+			"isolated": "FEB1",
+			"initial": "FEB3",
+			"medial": "FEB4",
+			"final": "FEB2"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0634",
+		"character": "ش‎",
+		"name": "šīn",
+		"position": 13,
+		"contextualForms": {
+			"isolated": "FEB5",
+			"initial": "FEB7",
+			"medial": "FEB8",
+			"final": "FEB6"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0635",
+		"character": "ص‎",
+		"name": "ṣād",
+		"position": 14,
+		"contextualForms": {
+			"isolated": "FEB9",
+			"initial": "FEBB",
+			"medial": "FEBC",
+			"final": "FEBA"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0636",
+		"character": "ض‎",
+		"name": "ḍād",
+		"position": 15,
+		"contextualForms": {
+			"isolated": "FEBD",
+			"initial": "FEBF",
+			"medial": "FEC0",
+			"final": "FEBE"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0637",
+		"character": "ط‎‎",
+		"name": "ṭāʾ",
+		"position": 16,
+		"contextualForms": {
+			"isolated": "FEC1",
+			"initial": "FEC3",
+			"medial": "FEC4",
+			"final": "FEC2"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0638",
+		"character": "ظ‎‎",
+		"name": "ẓāʾ",
+		"position": 17,
+		"contextualForms": {
+			"isolated": "FEC5",
+			"initial": "FEC7",
+			"medial": "FEC8",
+			"final": "FEC6"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0639",
+		"character": "ع‎",
+		"name": "ʿayn",
+		"position": 18,
+		"contextualForms": {
+			"isolated": "FEC9",
+			"initial": "FECB",
+			"medial": "FECC",
+			"final": "FECA"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "063A",
+		"character": "غ‎",
+		"name": "ġayn",
+		"position": 19,
+		"contextualForms": {
+			"isolated": "FECD",
+			"initial": "FECF",
+			"medial": "FED0",
+			"final": "FECE"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0641",
+		"character": "ف‎",
+		"name": "fāʾ",
+		"position": 20,
+		"contextualForms": {
+			"isolated": "FED1",
+			"initial": "FED3",
+			"medial": "FED4",
+			"final": "FED2"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0642",
+		"character": "ق‎",
+		"name": "qāf",
+		"position": 21,
+		"contextualForms": {
+			"isolated": "FED5",
+			"initial": "FED7",
+			"medial": "FED8",
+			"final": "FED6"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0643",
+		"character": "ك‎",
+		"name": "kāf",
+		"position": 22,
+		"contextualForms": {
+			"isolated": "FEDB",
+			"initial": "FEDC",
+			"medial": "FEDA",
+			"final": "FED9"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0644",
+		"character": "ل‎",
+		"name": "lām",
+		"position": 23,
+		"contextualForms": {
+			"isolated": "FEDD",
+			"initial": "FEDF",
+			"medial": "FEE0",
+			"final": "FEDE"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0645",
+		"character": "م‎",
+		"name": "mīm",
+		"position": 24,
+		"contextualForms": {
+			"isolated": "FEE1",
+			"initial": "FEE3",
+			"medial": "FEE4",
+			"final": "FEE2"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0646",
+		"character": "ن‎",
+		"name": "nūn",
+		"position": 25,
+		"contextualForms": {
+			"isolated": "FEE5",
+			"initial": "FEE7",
+			"medial": "FEE8",
+			"final": "FEE6"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0647",
+		"character": "ﻫ‎",
+		"name": "hāʾ",
+		"position": 26,
+		"contextualForms": {
+			"isolated": "FEE9",
+			"initial": "FEEB",
+			"medial": "FEEC",
+			"final": "FEEA"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0648",
+		"character": "و‎",
+		"name": "wāw",
+		"position": 27,
+		"contextualForms": {
+			"isolated": "FEED",
+			"initial": "",
+			"medial": "",
+			"final": "FEEE"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "064A",
+		"character": "ي‎",
+		"name": "yāʾ",
+		"position": 28,
+		"contextualForms": {
+			"isolated": "FEF1",
+			"initial": "FEF3",
+			"medial": "FEF4",
+			"final": "FEF2"
+		},
+		"tags": ["tag0", "tag1", "tag2"]
+	},
+	{
+		"id": "0622",
+		"character": "آ‎",
+		"name": "ʾalif maddah",
+		"position": 29,
+		"contextualForms": {
+			"isolated": "FE81",
+			"initial": "",
+			"medial": "",
+			"final": "FE82"
+		},
+		"tags": ["tag0", "tag1", "tag2"],
+		"special": true
+	},
+	{
+		"id": "0629",
+		"character": "ة‎",
+		"name": "Tāʾ marbūṭah",
+		"position": 30,
+		"contextualForms": {
+			"isolated": "FE93",
+			"initial": "",
+			"medial": "",
+			"final": "FE94"
+		},
+		"tags": ["tag0", "tag1", "tag2"],
+		"special": true
+	},
+	{
+		"id": "0649",
+		"character": "ى‎",
+		"name": "ʾalif maqṣūrah",
+		"position": 31,
+		"contextualForms": {
+			"isolated": "FEEF",
+			"initial": "",
+			"medial": "",
+			"final": "FEF0"
+		},
+		"tags": ["tag0", "tag1", "tag2"],
+		"special": true
+	}
+}

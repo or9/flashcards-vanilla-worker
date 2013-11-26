@@ -9,6 +9,8 @@
  * 		create web workers
  * 		instantiate cards
  */
+testA(1);
+
 function Game(options) {
 	// Named function
 	"use strict";

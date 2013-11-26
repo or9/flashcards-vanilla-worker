@@ -1,3 +1,5 @@
+testA(1);
+
 function Card() {
 	// Named function
 	"use strict";

@@ -1,3 +1,5 @@
+testA(1);
+
 function Storage() {
 	"use strict";
 	var store;
