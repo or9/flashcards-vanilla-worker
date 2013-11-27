@@ -20,16 +20,21 @@ div {
 .row {
 	display: inline-block;
 	text-align: center;
+	width: 100%;
 }
 .col {
 	display: inline-block;
 	float: none;
-	text-align: left;
+	text-align: center;
 	vertical-align: top;
 }
 .card {
 	display: inline-block;
 	vertical-align: middle;
+	border-radius: 3px;
+	float: none;
 
+	padding: 1%;
+	margin: 1%;
 	background: rgba(0, 128, 164, 0.66);
 }
