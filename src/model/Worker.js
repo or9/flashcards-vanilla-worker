@@ -68,10 +68,10 @@ function passThrough(data) {
 }
 
 function ajax(data) {
-	var ax = new XMLHTTPRequest();
+	var ax = new XMLHttpRequest();
 	var random = !!data.cache? "": Math.random();
 	ax.addEventListener("readyStateChange", ajax_handler, false);
-	ax.open("GET", data.msg + random, true);
+	ax.open("GET", data.msg + "?" + random, true);
 	ax.send();
 	
 	function ajax_handler(e) {

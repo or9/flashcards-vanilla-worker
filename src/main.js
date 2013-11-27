@@ -11,6 +11,9 @@ function testA(b) {
 			list1: ["AbstractMsg.js", "Card.js", "Game.js", "Storage.js"],
 			list2: ["storage.js", "card.js", "game.js"],
 	};
+	var ajax = {
+		list1: ["../model/Schema.json","../controller/characters.json"]
+	};
 	var data = {
 			fn: "importScript",
 			msg: ""
@@ -46,13 +49,17 @@ function testA(b) {
 	}
 	
 	for(var prop in imp) {
-		importLoop(imp[prop]);
+		var dir = prop === imp.list1? "../model/": "../controller/";
+		importLoop(imp[prop], dir);
 	}
 	
-	function importLoop(list) {
+	data.fn = "ajax";
+	importLoop(ajax.list1, "");
+
+	function importLoop(list, dir) {
 		var len = list.length;
 		var i = 0;
-		var dir = list === imp.list1? "../model/": "../controller/";
+		
 		for(i; i < len; i++) {
 			data.id = i;
 			data.msg = dir + list[i];
@@ -76,26 +83,5 @@ function testA(b) {
 			}).apply(worker_handler);
 		}
 	}
-	
-	//data.type = "fn";
-	//data.fn = "importScript";
-	//data.msg = "script1, script2, script3";
-	//worker.postMessage(data);
-	//
-	//data.fn = "passThrough";
-	//worker.postMessage(data);
-	//
-	//data.fn = "getLocation";
-	//worker.postMessage(data);
-	//
-	//data.fn = "ajax";
-	//worker.postMessage(data);
-	//
-	//data.fn = "timeout";
-	//worker.postMessage(data);
-	//
-	//data.fn = "interval";
-	//worker.postMessage(data);
-	//
-	//data.type = "";
+
 })();

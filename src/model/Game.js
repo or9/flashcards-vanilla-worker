@@ -20,32 +20,6 @@ function Game(options) {
 			ended:false
 		};
 	
-	if(!!window.Worker) {
-		// import scripts, this.init(true)
-		this.workers = true;
-		var worker = new Worker("model/Worker.js");
-		window.addEventListener("message", msgHandler, false);
-	} else {
-		// load scripts, this.init(false)
-		this.workers = false;
-	}
-	
-	for(var i = 0; i < arguments.length; i++) {
-		for(var key in options) {
-			this.key = options[key];
-		}
-	}
-	
-	// Get data
-	function init(useWorkers) {
-		state.initialized = true;
-		if(useWorkers) {
-			
-		} else {
-			
-		}
-	}
-	
 	// Instantiate cards @ length based on returned data
 	
 	// Set up game's event handlers
@@ -55,12 +29,16 @@ function Game(options) {
 	};
 	
 	this.answer = function(isTrue) {
-		
+		checkAnswer(isTrue);
 	};
 	
 	this.end = function(isWin) {
 		state.ended = true;
 		
 	};
+
+	function checkAnswer(isTrueFalse) {
+		
+	}
 	
 }

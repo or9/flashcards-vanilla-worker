@@ -183,3 +183,26 @@ function createGenerics(list, isGuys) {
 }
 
 
+	
+data.type = "fn";
+data.fn = "importScript";
+data.msg = "script1, script2, script3";
+worker.postMessage(data);
+
+data.fn = "passThrough";
+worker.postMessage(data);
+
+data.fn = "getLocation";
+worker.postMessage(data);
+
+data.fn = "ajax";
+worker.postMessage(data);
+
+data.fn = "timeout";
+worker.postMessage(data);
+
+data.fn = "interval";
+worker.postMessage(data);
+
+data.type = "";
+
