@@ -6,8 +6,30 @@ body {
 	width: 100%;
 	/*min-width: 360px;*/
 	height: auto;
+	box-sizing: border-box;
+}
+span {
+	display: inline-block; 
+	box-sizing: border-box;
 }
 div {
 	display: block;
 	position: relative;
+	box-sizing: border-box;
+}
+.row {
+	display: inline-block;
+	text-align: center;
+}
+.col {
+	display: inline-block;
+	float: none;
+	text-align: left;
+	vertical-align: top;
+}
+.card {
+	display: inline-block;
+	vertical-align: middle;
+
+	background: rgba(0, 128, 164, 0.66);
 }

@@ -1,17 +1,31 @@
-var console = console || new Console();
+var console = console || {log: function() {alert("console unavailable")}};
 
-var a = 0;
-function testA(b) {
-	alert("a: ", a);
-	return a += b;
-}
+(function($) {
+	$.ajax({
+		url: "./controller/characters.json",
+		type: "GET",
+		dataType: "json"
+	}).done(function(data, textStatus, jqXHR) {
+		console.log("ajax done; data, textStatus, jqXHR: \n",
+			"\n\t", data, "\n\t", textStatus, "\n\t", jqXHR);
 
-(function() {
-	var imp = {
+		createGame(data);
+
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		console.log("ajax failed; jqXHR, textStatus, errorThrown: \n",
+			"\n\t", jqXHR, "\n\t", textStatus, "\n\t", errorThrown);
+
+	}).always(function(dataOrXHR, textStatus, XHRorError) {
+		// console.log("ajax always; dataOrXHR, textStatus, XHRorError: \n",
+		// 	"\n\t", dataOrXHR, "\n\t", textStatus, "\n\t", XHRorError);
+
+	});
+
+	var workerScripts = {
 			list1: ["AbstractMsg.js", "Card.js", "Game.js", "Storage.js"],
 			list2: ["storage.js", "card.js", "game.js"],
 	};
-	var ajax = {
+	var workerAjax = {
 		list1: ["../model/Schema.json","../controller/characters.json"]
 	};
 	var data = {
@@ -20,6 +34,23 @@ function testA(b) {
 	};
 	var worker_handler = new WorkerHandler();
 	var workerID = 0;
+
+	function createGame(data) {
+		console.log("creating game from data. \n", data);
+		for(var key in data) {
+			console.log(data[key]);
+			console.log(data[key].position);
+			var p = data[key].position;
+			$("#cardTable").append("<div class=\"card\" id=\"" + key + "\"></div>");
+			$(".card").eq(p - 1).append("<dl></dl>");
+			for(var subkey in data[key]) {
+				$(".card").eq(p - 1).children("dl").append($("<dt />").html(key));
+				$(".card").eq(p - 1).children("dl").append($("<dd />").html(data[key]));	
+			}
+
+
+		}
+	}
 	
 	function WorkerHandler() {
 		this.getLocation = function(data) {
@@ -48,13 +79,13 @@ function testA(b) {
 		};
 	}
 	
-	for(var prop in imp) {
-		var dir = prop === imp.list1? "../model/": "../controller/";
-		importLoop(imp[prop], dir);
+	for(var prop in workerScripts) {
+		var dir = prop === workerScripts.list1? "../model/": "../controller/";
+		importLoop(workerScripts[prop], dir);
 	}
 	
 	data.fn = "ajax";
-	importLoop(ajax.list1, "");
+	importLoop(workerAjax.list1, "");
 
 	function importLoop(list, dir) {
 		var len = list.length;
@@ -84,4 +115,4 @@ function testA(b) {
 		}
 	}
 
-})();
+})(jQuery);

@@ -1,5 +1,5 @@
 {
-	{	
+	"card_normal_0": {	
 		"id": "0623",
 		"character": "أ‎",
 		"name": "ʾalif",
@@ -12,7 +12,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_1": {
 		"id": "0628",
 		"character": "ب‎",
 		"name": "bāʾ",
@@ -25,7 +25,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_2": {
 		"id": "062A",
 		"character": "ت‎",
 		"name": "tāʾ",
@@ -38,7 +38,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_3": {
 		"id": "062B",
 		"character": "ث‎",
 		"name": "ṯāʾ",
@@ -51,7 +51,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_4": {
 		"id": "062C",
 		"character": "ج‎",
 		"name": "ǧīm",
@@ -64,7 +64,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_5": {
 		"id": "062D",
 		"character": "ح‎",
 		"name": "ḥāʾ",
@@ -77,7 +77,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_6": {
 		"id": "062E",
 		"character": "خ‎",
 		"name": "ḫāʾ",
@@ -90,7 +90,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_7": {
 		"id": "062F",
 		"character": "د‎",
 		"name": "dāl",
@@ -103,7 +103,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_8": {
 		"id": "0630",
 		"character": "ذ‎",
 		"name": "ḏāl",
@@ -116,7 +116,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_9": {
 		"id": "0631",
 		"character": "ر‎",
 		"name": "rāʾ",
@@ -129,7 +129,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_10": {
 		"id": "0632",
 		"character": "ز‎",
 		"name": "zayn/zāy",
@@ -142,7 +142,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_11": {
 		"id": "0633",
 		"character": "س‎",
 		"name": "sīn",
@@ -155,7 +155,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_12": {
 		"id": "0634",
 		"character": "ش‎",
 		"name": "šīn",
@@ -168,7 +168,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_13": {
 		"id": "0635",
 		"character": "ص‎",
 		"name": "ṣād",
@@ -181,7 +181,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_14": {
 		"id": "0636",
 		"character": "ض‎",
 		"name": "ḍād",
@@ -194,7 +194,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_15": {
 		"id": "0637",
 		"character": "ط‎‎",
 		"name": "ṭāʾ",
@@ -207,7 +207,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_16": {
 		"id": "0638",
 		"character": "ظ‎‎",
 		"name": "ẓāʾ",
@@ -220,7 +220,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_17": {
 		"id": "0639",
 		"character": "ع‎",
 		"name": "ʿayn",
@@ -233,7 +233,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_18": {
 		"id": "063A",
 		"character": "غ‎",
 		"name": "ġayn",
@@ -246,7 +246,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_19": {
 		"id": "0641",
 		"character": "ف‎",
 		"name": "fāʾ",
@@ -259,7 +259,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_20": {
 		"id": "0642",
 		"character": "ق‎",
 		"name": "qāf",
@@ -272,7 +272,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_21": {
 		"id": "0643",
 		"character": "ك‎",
 		"name": "kāf",
@@ -285,7 +285,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_22": {
 		"id": "0644",
 		"character": "ل‎",
 		"name": "lām",
@@ -298,7 +298,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_23": {
 		"id": "0645",
 		"character": "م‎",
 		"name": "mīm",
@@ -311,7 +311,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_24": {
 		"id": "0646",
 		"character": "ن‎",
 		"name": "nūn",
@@ -324,7 +324,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_25": {
 		"id": "0647",
 		"character": "ﻫ‎",
 		"name": "hāʾ",
@@ -337,7 +337,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_26": {
 		"id": "0648",
 		"character": "و‎",
 		"name": "wāw",
@@ -350,7 +350,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_normal_27": {
 		"id": "064A",
 		"character": "ي‎",
 		"name": "yāʾ",
@@ -363,7 +363,7 @@
 		},
 		"tags": ["tag0", "tag1", "tag2"]
 	},
-	{
+	"card_special_0": {
 		"id": "0622",
 		"character": "آ‎",
 		"name": "ʾalif maddah",
@@ -377,7 +377,7 @@
 		"tags": ["tag0", "tag1", "tag2"],
 		"special": true
 	},
-	{
+	"card_special_1": {
 		"id": "0629",
 		"character": "ة‎",
 		"name": "Tāʾ marbūṭah",
@@ -391,7 +391,7 @@
 		"tags": ["tag0", "tag1", "tag2"],
 		"special": true
 	},
-	{
+	"card_special_2": {
 		"id": "0649",
 		"character": "ى‎",
 		"name": "ʾalif maqṣūrah",
