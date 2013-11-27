@@ -21,6 +21,7 @@ var console = console || {log: function() {alert("console unavailable")}};
 
 	});
 
+	var workers = [];
 	var workerScripts = {
 			list1: ["AbstractMsg.js", "Card.js", "Game.js", "Storage.js"],
 			list2: ["storage.js", "card.js", "game.js"],
@@ -28,8 +29,8 @@ var console = console || {log: function() {alert("console unavailable")}};
 	var workerAjax = {
 		list1: ["../model/Schema.json","../controller/characters.json"]
 	};
-	var data = {
-			fn: "importScript",
+	var workerData = {
+			fn: "importScript", // importScript, ajax, getLocation, timeout, interval, createCard, stop
 			msg: ""
 	};
 	var worker_handler = new WorkerHandler();
@@ -37,74 +38,96 @@ var console = console || {log: function() {alert("console unavailable")}};
 
 	function createGame(data) {
 		console.log("creating game from data. \n", data);
+		workerData.fn = "createCard";
 		for(var key in data) {
-			// console.log(data[key]);
-			// console.log(data[key].position);
-			var p = data[key].position;
-			$("#cardTable").append("<div class=\"card\" id=\"" + key + "\"></div>");
-			$(".card").eq(p - 1).append("<dl></dl>");
-			for(var subkey in data[key]) {
-				console.log(subkey);
-				$(".card").eq(p - 1).children("dl").append($("<dt />").html(subkey));
-				$(".card").eq(p - 1).children("dl").append($("<dd />").html(data[key][subkey]));	
-			}
+			// console.log(workerID, data[key]);
+			workerData.msg = data[key];
+			var worker = spawnWorker();
+			worker.postMessage(workerData);
+			workers.push(worker);
+			// following stuff is what card workers should be doing per card
+			// loop over data, extract, parse, etc; send back
+
+			// var p = data[key].position;
+			// $("#cardTable").append("<div class=\"card\" id=\"" + key + "\"></div>");
+			// $(".card").eq(p - 1).append("<dl></dl>");
+			// for(var subkey in data[key]) {
+			// 	console.log(subkey);
+			// 	$(".card").eq(p - 1).children("dl").append($("<dt />").html(subkey));
+			// 	$(".card").eq(p - 1).children("dl").append($("<dd />").html(data[key][subkey]));	
+			// }
 
 
 		}
 	}
 	
 	function WorkerHandler() {
+		this.test = function(data) {
+			console.log("test > data: ", data);
+			console.log(data.msg);
+		};
+
 		this.getLocation = function(data) {
-			console.log("getLocation handler received", data);
+			console.log("getLocation handler received: ", data);
 			
 		};
 		
 		this.importScript = function(data) {
-			console.log("import handler received", data);
+			console.log("import handler received: ", data);
 			
 		};
 		
 		this.ajax = function(data) {
-			console.log("ajax handler received", data);
+			console.log("ajax handler received: ", data);
 			
 		};
 		
 		this.timeout = function(data) {
-			console.log("timeout handler received", data);
+			console.log("timeout handler received: ", data);
 			
 		};
 		
 		this.interval = function(data) {
-			console.log("interval handler received", data);
+			console.log("interval handler received: ", data);
 			
+		};
+
+		this.createCard = function(data) {
+			// console.log("createCard handler received: ", data);
+			console.log("createCard msg: ", data.msg);
+			var ctable = document.getElementById("cardTable");
+			ctable.innerHTML += data.msg;
+		};
+		this.stop = function(data) {
+			console.log("stop handler received: ", data);
 		};
 	}
 	
-	for(var prop in workerScripts) {
-		var dir = prop === workerScripts.list1? "../model/": "../controller/";
-		importLoop(workerScripts[prop], dir);
-	}
+	// for(var prop in workerScripts) {
+	// 	var dir = prop === workerScripts.list1? "../model/": "../controller/";
+	// 	importLoop(workerScripts[prop], dir);
+	// }
 	
-	data.fn = "ajax";
-	importLoop(workerAjax.list1, "");
+	// workerData.fn = "ajax";
+	// importLoop(workerAjax.list1, "");
 
 	function importLoop(list, dir) {
 		var len = list.length;
 		var i = 0;
 		
 		for(i; i < len; i++) {
-			data.id = i;
-			data.msg = dir + list[i];
+			workerData.msg = dir + list[i];
 			spawnWorker();
+			worker.postMessage(workerData);
 		}
 	}
 	
 	function spawnWorker() {
 		var worker = new Worker("./model/Worker.js" + "?" + workerID);
-		workerID += 1;
+		workerID = parseInt(workerID) + 1;
 		worker.addEventListener("message", msg_handler, false);
-		worker.postMessage(data);
 //		worker.terminate();
+		return worker;
 	}
 	
 	function msg_handler(e) {

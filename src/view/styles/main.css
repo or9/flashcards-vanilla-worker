@@ -8,26 +8,33 @@ body {
 	height: auto;
 	box-sizing: border-box;
 }
-span {
+
+span, 
+input[type="text"], 
+input[type="button"] {
 	display: inline-block; 
 	box-sizing: border-box;
 }
+
 div {
 	display: block;
 	position: relative;
 	box-sizing: border-box;
 }
+
 .row {
 	display: inline-block;
 	text-align: center;
 	width: 100%;
 }
+
 .col {
 	display: inline-block;
 	float: none;
 	text-align: center;
 	vertical-align: top;
 }
+
 .card {
 	display: inline-block;
 	vertical-align: middle;

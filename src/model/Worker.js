@@ -12,16 +12,6 @@
  *  
  */
 
-var a = 0;
-
-function testA(b) {
-	a += b
-	postMessage("testA(b) from within worker… " + a);
-	// Should not increment…
-	// Because test is being called from seperate worker instances
-	// Each instance's var a should be isolated from change
-}
-
 addEventListener("message", msg_handler, false);
 addEventListener("error", err_handler, false);
 
@@ -30,11 +20,11 @@ var workerData = {
 };
 var timer = 0;
 
-postMessage(workerData);
-
 function msg_handler(e) {
-	workerData.msg = workerData.id + " ready for work";
+	workerData.fn = "test";
+	workerData.msg = e.data.msg;
 	postMessage(workerData);
+
 	workerData.fn = e.data.fn;
 	
 	if(!!e.data && !!e.data.fn) {
@@ -118,6 +108,52 @@ function interval(data) {
 		workerData.fn = "tick";
 		postMessage(workerData);
 	}
+}
+
+function createCard(data) {
+	var msg = data["msg"];
+	for(var key in msg) {
+		var p = msg.position;
+		var dl = "<dl>" + content("dt") + "</dl>";
+		var card = "<div class=\"card\" id=\"card_" + p + "\" \>" + 
+			"<h2>" + msg.character + "</h2>" +
+			//dl +
+			contextualForms(msg["contextualForms"]) +
+			tags(msg["tags"]) +
+			"</div>";
+
+		function content(e) {
+			var _content = "<" + e + ">";
+			var _end = "</" + e + ">";
+			var _inner = e === "dt"? key: msg[key];
+			var _warriors = _content + _inner + _end;
+			return _warriors;
+		}
+	}
+
+
+	function contextualForms(obj) {
+		var _forms = "<ul class=\"forms\">";
+		for(var key in obj) {
+			if(obj[key] !== "") {
+				_forms += "<li>" + obj[key] + "</li>";
+			}
+		}
+		return _forms + "</ul>";
+	}
+
+	function tags(arr) {
+		var i = 0;
+		var len = arr.length;
+		var _tags = "<ul class=\"tags\">";
+		for(i; i < len; i++) {
+			_tags += "<li>" + arr[i] + "</li>";
+		}
+		return _tags + "</ul>";
+	}
+
+	workerData.msg = card;
+	postMessage(workerData);
 }
 
 function spawn() {
