@@ -4,7 +4,7 @@ body {
 	padding: 0;
 	position: relative;
 	width: 100%;
-	/*min-width: 360px;*/
+	min-width: 360px;
 	height: auto;
 	box-sizing: border-box;
 }
