@@ -1,57 +1,67 @@
-/*
- * Flashcard is main
- * Card instantiated for each card by Flashcard instance
- * Main initializes, sets / gets values, runs
- */
+function Game() {
+	"use strict";
 
-/* Game properties 
- * 		set language
- * 		create web workers
- * 		instantiate cards
- */
-"use strict";
-addEventListener("message", msg_handler, false);
-addEventListener("error", err_handler, false);
+	var expected = "";
 
-var state = {
-		initialized:false, 
-		ran:false, 
-		ended:false
+	this.answer = function(answer) {
+		if(answer === expected)
+			correct(answer);
+		else
+			incorrect(answer);
 	};
 
-function msg_handler(e) {
-	// workerData.fn = "test";
-	// workerData.msg = e.data.msg;
-	postMessage(workerData);
-	workerData.fn = e.data.fn;
-	
-	if(!!e.data && !!e.data.fn) {
-		(function() {
-			this[e.data.fn](e.data);
-		})();	
-	}
-}
+	this.state = {
+		started: false,
+		ended: false,
+		initialized: false
+	};
 
-function err_handler(e) {
-	postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
-}
-
-function begin(isInit) {
-	if(!isInit) {
-		isInit = true;
+	function correct(answer) {
+		console.log("private function: correct(" + answer + ") : ");
 	}
 
-	
+	function incorrect(answer) {
+		console.log("private function: incorrect(" + answer + ") : ");
+	}
+
+	this.setExpected = function(expectedAnswerString) {
+		expected = expectedAnswerString;
+	};
+
+	this.getExpected = function() {
+		return expected;
+	};
 }
 
-function answer(data) {
+function CardGame(type) {
+	var cards = [];
+	var questions = [];
+	var gameType = type || defaultType;
 
+	function defaultType() {
+
+	}
+
+	this.setCards = function(cardsArray) {
+		cards = cardsArray;
+	};
+
+	this.getCard = function(index) {
+		return !!index? cards[index]: cards;
+	};
+
+	this.getQuestion = function(index) {
+		return !!index? questions[index]: questions;
+	};
 }
 
-function end(data) {
+CardGame.prototype = new Game();
 
-}
-
-function checkAnswer(answer) {
-
-}
+var testGame = new CardGame();
+console.log(testGame);
+console.log("testGame expected answer: ", testGame.getExpected);
+testGame.setExpected("string1");
+console.log("testGame expected answer: ", testGame.getExpected);
+console.log("send wrong answer via testGame: ", testGame.answer("string2"));
+console.log("send correct answer via testGame: ", testGame.answer("string1"));
+console.log(document);

@@ -20,8 +20,8 @@ var console = console || {log: function() {alert("console unavailable")}};
 		// 	"\n\t", dataOrXHR, "\n\t", textStatus, "\n\t", XHRorError);
 
 	});
-
-	var game = new Worker("./model/Game.js");
+	
+	var gameInterface = new Worker("./controller/game.js");
 	var gameData = {
 		fn: "start",
 		msg: ""
