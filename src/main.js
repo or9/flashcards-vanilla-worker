@@ -21,6 +21,11 @@ var console = console || {log: function() {alert("console unavailable")}};
 
 	});
 
+	var game = new Worker("./model/Game.js");
+	var gameData = {
+		fn: "start",
+		msg: ""
+	};
 	var workers = [];
 	var workerAjax = {
 		list1: ["../model/Schema.json","../controller/characters.json"]
@@ -132,13 +137,6 @@ var console = console || {log: function() {alert("console unavailable")}};
 			}).apply(worker_handler);
 		}
 	}
-
-	var obj = {};
-	(function() {
-		this.something = function() {
-
-		};
-	}).apply(obj);
 
 
 })(jQuery);

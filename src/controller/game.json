@@ -1,11 +1,14 @@
 {
-	"card": {
-		"character": "0"
+	"question_0": {
+		"answer": 0,
+		"options": ""
 	},
-	"card": {
-		"character": "1"
+	"question_": {
+		"answer": 0,
+		"options": ""
 	},
-	"card": {
-		"character": "2"
+	"question_": {
+		"answer": 0,
+		"options": ""
 	}
 }

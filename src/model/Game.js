@@ -9,36 +9,49 @@
  * 		create web workers
  * 		instantiate cards
  */
-testA(1);
+"use strict";
+addEventListener("message", msg_handler, false);
+addEventListener("error", err_handler, false);
 
-function Game(options) {
-	// Named function
-	"use strict";
-	var state = {
-			initialized:false, 
-			ran:false, 
-			ended:false
-		};
-	
-	// Instantiate cards @ length based on returned data
-	
-	// Set up game's event handlers
-	this.begin = function(isInitial) {
-		state.ran = true;
-		
-	};
-	
-	this.answer = function(isTrue) {
-		checkAnswer(isTrue);
-	};
-	
-	this.end = function(isWin) {
-		state.ended = true;
-		
+var state = {
+		initialized:false, 
+		ran:false, 
+		ended:false
 	};
 
-	function checkAnswer(isTrueFalse) {
-		
+function msg_handler(e) {
+	// workerData.fn = "test";
+	// workerData.msg = e.data.msg;
+	postMessage(workerData);
+	workerData.fn = e.data.fn;
+	
+	if(!!e.data && !!e.data.fn) {
+		(function() {
+			this[e.data.fn](e.data);
+		})();	
 	}
+}
+
+function err_handler(e) {
+	postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
+}
+
+function begin(isInit) {
+	if(!isInit) {
+		isInit = true;
+	}
+
 	
+}
+
+function answer(data) {
+
+}
+
+function end(data) {
+
+}
+
+function checkAnswer(answer) {
+
 }
