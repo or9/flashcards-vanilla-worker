@@ -1,16 +1,14 @@
 function Game() {
 	"use strict";
 
-	var expected = "";
+	var expected = ""; // readonly
 
 	this.answer = function(answer) {
-		if(answer === expected)
-			correct(answer);
-		else
-			incorrect(answer);
+		return answer === expected? true: false;
 	};
 
 	this.state = {
+		ready: false,
 		started: false,
 		ended: false,
 		initialized: false
@@ -18,29 +16,36 @@ function Game() {
 
 	function correct(answer) {
 		console.log("private function: correct(" + answer + ") : ");
+		return true;
 	}
 
 	function incorrect(answer) {
 		console.log("private function: incorrect(" + answer + ") : ");
+		return true;
 	}
 
 	this.setExpected = function(expectedAnswerString) {
 		expected = expectedAnswerString;
 	};
-
-	this.getExpected = function() {
-		return expected;
-	};
 }
 
 function CardGame(type) {
 	var cards = [];
-	var questions = [];
+	var questions = {};
 	var gameType = type || defaultType;
+	var expected = "cg priv";
 
 	function defaultType() {
-
+		
 	}
+
+	this.init = function(jsonData) {
+		questions = jsonData;
+		
+		for(var key in questions) {
+			
+		}
+	};
 
 	this.setCards = function(cardsArray) {
 		cards = cardsArray;
@@ -56,12 +61,3 @@ function CardGame(type) {
 }
 
 CardGame.prototype = new Game();
-
-var testGame = new CardGame();
-console.log(testGame);
-console.log("testGame expected answer: ", testGame.getExpected);
-testGame.setExpected("string1");
-console.log("testGame expected answer: ", testGame.getExpected);
-console.log("send wrong answer via testGame: ", testGame.answer("string2"));
-console.log("send correct answer via testGame: ", testGame.answer("string1"));
-console.log(document);

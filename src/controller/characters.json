@@ -3,6 +3,7 @@
 		"id": "0623",
 		"character": "أ‎",
 		"name": "ʾalif",
+		"transliteration": "",
 		"position": 1,
 		"contextualForms": {
 			"isolated": "FE83",
@@ -16,6 +17,7 @@
 		"id": "0628",
 		"character": "ب‎",
 		"name": "bāʾ",
+		"transliteration": "",
 		"position": 2,
 		"contextualForms": {
 			"isolated": "FE8F",
@@ -29,6 +31,7 @@
 		"id": "062A",
 		"character": "ت‎",
 		"name": "tāʾ",
+		"transliteration": "",
 		"position": 3,
 		"contextualForms": {
 			"isolated": "FE98",
@@ -42,6 +45,7 @@
 		"id": "062B",
 		"character": "ث‎",
 		"name": "ṯāʾ",
+		"transliteration": "",
 		"position": 4,
 		"contextualForms": {
 			"isolated": "FE99",
@@ -55,6 +59,7 @@
 		"id": "062C",
 		"character": "ج‎",
 		"name": "ǧīm",
+		"transliteration": "",
 		"position": 5,
 		"contextualForms": {
 			"isolated": "FE9D",
@@ -68,6 +73,7 @@
 		"id": "062D",
 		"character": "ح‎",
 		"name": "ḥāʾ",
+		"transliteration": "",
 		"position": 6,
 		"contextualForms": {
 			"isolated": "FEA1",
@@ -81,6 +87,7 @@
 		"id": "062E",
 		"character": "خ‎",
 		"name": "ḫāʾ",
+		"transliteration": "",
 		"position": 7,
 		"contextualForms": {
 			"isolated": "FEA5",
@@ -94,6 +101,7 @@
 		"id": "062F",
 		"character": "د‎",
 		"name": "dāl",
+		"transliteration": "",
 		"position": 8,
 		"contextualForms": {
 			"isolated": "FEA9",
@@ -107,6 +115,7 @@
 		"id": "0630",
 		"character": "ذ‎",
 		"name": "ḏāl",
+		"transliteration": "",
 		"position": 9,
 		"contextualForms": {
 			"isolated": "FEAB",
@@ -120,6 +129,7 @@
 		"id": "0631",
 		"character": "ر‎",
 		"name": "rāʾ",
+		"transliteration": "",
 		"position": 10,
 		"contextualForms": {
 			"isolated": "FEAD",
@@ -133,6 +143,7 @@
 		"id": "0632",
 		"character": "ز‎",
 		"name": "zayn/zāy",
+		"transliteration": "",
 		"position": 11,
 		"contextualForms": {
 			"isolated": "FEAF",
@@ -146,6 +157,7 @@
 		"id": "0633",
 		"character": "س‎",
 		"name": "sīn",
+		"transliteration": "",
 		"position": 12,
 		"contextualForms": {
 			"isolated": "FEB1",
@@ -159,6 +171,7 @@
 		"id": "0634",
 		"character": "ش‎",
 		"name": "šīn",
+		"transliteration": "",
 		"position": 13,
 		"contextualForms": {
 			"isolated": "FEB5",
@@ -172,6 +185,7 @@
 		"id": "0635",
 		"character": "ص‎",
 		"name": "ṣād",
+		"transliteration": "",
 		"position": 14,
 		"contextualForms": {
 			"isolated": "FEB9",
@@ -185,6 +199,7 @@
 		"id": "0636",
 		"character": "ض‎",
 		"name": "ḍād",
+		"transliteration": "",
 		"position": 15,
 		"contextualForms": {
 			"isolated": "FEBD",
@@ -198,6 +213,7 @@
 		"id": "0637",
 		"character": "ط‎‎",
 		"name": "ṭāʾ",
+		"transliteration": "",
 		"position": 16,
 		"contextualForms": {
 			"isolated": "FEC1",
@@ -211,6 +227,7 @@
 		"id": "0638",
 		"character": "ظ‎‎",
 		"name": "ẓāʾ",
+		"transliteration": "",
 		"position": 17,
 		"contextualForms": {
 			"isolated": "FEC5",
@@ -224,6 +241,7 @@
 		"id": "0639",
 		"character": "ع‎",
 		"name": "ʿayn",
+		"transliteration": "",
 		"position": 18,
 		"contextualForms": {
 			"isolated": "FEC9",
@@ -237,6 +255,7 @@
 		"id": "063A",
 		"character": "غ‎",
 		"name": "ġayn",
+		"transliteration": "",
 		"position": 19,
 		"contextualForms": {
 			"isolated": "FECD",
@@ -250,6 +269,7 @@
 		"id": "0641",
 		"character": "ف‎",
 		"name": "fāʾ",
+		"transliteration": "",
 		"position": 20,
 		"contextualForms": {
 			"isolated": "FED1",
@@ -263,6 +283,7 @@
 		"id": "0642",
 		"character": "ق‎",
 		"name": "qāf",
+		"transliteration": "",
 		"position": 21,
 		"contextualForms": {
 			"isolated": "FED5",
@@ -276,6 +297,7 @@
 		"id": "0643",
 		"character": "ك‎",
 		"name": "kāf",
+		"transliteration": "",
 		"position": 22,
 		"contextualForms": {
 			"isolated": "FEDB",
@@ -289,6 +311,7 @@
 		"id": "0644",
 		"character": "ل‎",
 		"name": "lām",
+		"transliteration": "",
 		"position": 23,
 		"contextualForms": {
 			"isolated": "FEDD",
@@ -302,6 +325,7 @@
 		"id": "0645",
 		"character": "م‎",
 		"name": "mīm",
+		"transliteration": "",
 		"position": 24,
 		"contextualForms": {
 			"isolated": "FEE1",
@@ -315,6 +339,7 @@
 		"id": "0646",
 		"character": "ن‎",
 		"name": "nūn",
+		"transliteration": "",
 		"position": 25,
 		"contextualForms": {
 			"isolated": "FEE5",
@@ -328,6 +353,7 @@
 		"id": "0647",
 		"character": "ﻫ‎",
 		"name": "hāʾ",
+		"transliteration": "",
 		"position": 26,
 		"contextualForms": {
 			"isolated": "FEE9",
@@ -341,6 +367,7 @@
 		"id": "0648",
 		"character": "و‎",
 		"name": "wāw",
+		"transliteration": "",
 		"position": 27,
 		"contextualForms": {
 			"isolated": "FEED",
@@ -354,6 +381,7 @@
 		"id": "064A",
 		"character": "ي‎",
 		"name": "yāʾ",
+		"transliteration": "",
 		"position": 28,
 		"contextualForms": {
 			"isolated": "FEF1",
@@ -367,6 +395,7 @@
 		"id": "0622",
 		"character": "آ‎",
 		"name": "ʾalif maddah",
+		"transliteration": "",
 		"position": 29,
 		"contextualForms": {
 			"isolated": "FE81",
@@ -381,6 +410,7 @@
 		"id": "0629",
 		"character": "ة‎",
 		"name": "Tāʾ marbūṭah",
+		"transliteration": "",
 		"position": 30,
 		"contextualForms": {
 			"isolated": "FE93",
@@ -395,6 +425,7 @@
 		"id": "0649",
 		"character": "ى‎",
 		"name": "ʾalif maqṣūrah",
+		"transliteration": "",
 		"position": 31,
 		"contextualForms": {
 			"isolated": "FEEF",

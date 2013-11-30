@@ -19,6 +19,10 @@
 				"description": "The character value itself",
 				"type": "string"
 			},
+			"transliteration": {
+				"description": "Romanization of language",
+				"type": "string"
+			},
 			"contextualforms": {
 				"type": "array",
 				"form": {
@@ -38,7 +42,7 @@
 				"uniqueItems": true 
 			}
 		},
-		"required": ["id", "name"]
+		"required": ["id", "name", "character"]
 	},
 	"required": ["title"]
 }

@@ -1,52 +1,112 @@
-testA(1);
+addEventListener("message", msg_handler, false);
+addEventListener("error", err_handler, false);
 
-function Card(index, datasrc) {
-	// Named function
-	"use strict";
+var workerData = {
+	id: location["search"].slice(1)
+};
+var timer = 0;
+
+function msg_handler(e) {
+	// workerData.fn = "test";
+	// workerData.msg = e.data.msg;
+	postMessage(workerData);
+	workerData.fn = e.data.fn;
 	
-	var index = index || 0;
-	var audio = datasrc[index].audio;
-	var character = datasrc[index].character;
-	var name = datasrc[index].name;
-	var forms = datasrc[index].contextualForms;
-	for(var key in datasrc[index].contextualForms) {
-		forms.key = forms[key];
-	}
-	// Define base properties of all cards
-	this.audio = ""; // file location
-	this.character = "template";
-	this.name = "template";
-	this.index = 0; // correct position within alphabet
-	
-	this.getCardByIndex = function(n_index) {
-		return datasrc[n_index];
-	};
-
-	this.getCharacter = function() {
-		return character;
-	};
-
-	this.getAudio = function() {
-		return audio;
+	if(!!e.data && !!e.data.fn) {
+		(function() {
+			this[e.data.fn](e.data);
+		})();	
 	}
 }
 
-function GameCard(prop) {
-	console.log(typeof prop);
-	this[prop] = undefined;
-	// this.addEventListener("click", game.answer_handler, false);
+function err_handler(e) {
+	postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
 }
 
-GameCard.prototype = new Card();
+function callback(data) {
+	var cb = false;
+	if(!!data.callback || data.callback === "")
+		cb = true;
+		return cb;
+}
 
-// return card by index?
-// instantiate card type by ref #?
-// if param.length >= 3, unique ID of card
-// else, return card by index?
-// 
+function timeout(data) {
+	var int = parseInt(data.msg);
+	
+	if(data.timer === "set")
+		timer = setTimeout(timeoutCallback, int);
+	else
+		clearTimeout(timer);
+	
+	function timeoutCallback() {
+		workerData.msg = "timer end";
+		workerData.status = true;
+		postMessage(workerData);
+	}
+}
 
-// Models:
-// 		Guess Character (given name)
-//		Guess Name (given character)
-//		Guess Character and / or Name (given audio)
-//		Guess Audio (given name and / or character)
+function interval(data) {
+	var int = parseInt(data.msg);
+	
+	if(data.timer === "set")
+		timer = setInterval(tick, int);
+	else
+		clearInterval(timer);
+	
+	function intervalCallback() {
+		workerData.msg = "tick";
+		workerData.status = true;
+		workerData.fn = "tick";
+		postMessage(workerData);
+	}
+}
+
+function createCard(data) {
+	var msg = data["msg"];
+	for(var key in msg) {
+		var p = msg.position;
+		// var card = "<div class=\"card\" id=\"card_" + p + "\" \>" + 
+		var card = "<div class=\"card\" id=\"card_" + workerData.id + "\" data-position=\"" + p + "\" \>" + 
+			"<h2>" + msg.character + "</h2>" +
+			contextualForms(msg["contextualForms"]) +
+			tags(msg["tags"]) +
+			"</div>";
+	}
+
+
+	function contextualForms(obj) {
+		// use &#x....; to use unicode in HTML markup
+		var _forms = "<ul class=\"forms\">";
+		for(var key in obj) {
+			if(obj[key] !== "") {
+				_forms += "<li>" + "&#x" + obj[key] + ";</li>";
+			}
+		}
+		return _forms + "</ul>";
+	}
+
+	function tags(arr) {
+		var i = 0;
+		var len = arr.length;
+		var _tags = "<ul class=\"tags\">";
+		for(i; i < len; i++) {
+			_tags += "<li>" + arr[i] + "</li>";
+		}
+		return _tags + "</ul>";
+	}
+
+	workerData.msg = card;
+	postMessage(workerData);
+}
+
+function shutdown() {
+	close();
+}
+
+function status() {
+	postMessage(workerData);
+}
+
+function getLocation(part) {
+	return !!part? location[part].toString(): location.toString();
+}
