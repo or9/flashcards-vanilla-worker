@@ -7,8 +7,6 @@ var workerData = {
 var timer = 0;
 
 function msg_handler(e) {
-	// workerData.fn = "test";
-	// workerData.msg = e.data.msg;
 	postMessage(workerData);
 	workerData.fn = e.data.fn;
 	
@@ -61,11 +59,10 @@ function interval(data) {
 	}
 }
 
-function createCard(data) {
-	var msg = data["msg"];
+function createCard(jsonData) {
+	var msg = jsonData["msg"];
 	for(var key in msg) {
 		var p = msg.position;
-		// var card = "<div class=\"card\" id=\"card_" + p + "\" \>" + 
 		var card = "<div class=\"card\" id=\"card_" + workerData.id + "\" data-position=\"" + p + "\" \>" + 
 			"<h2>" + msg.character + "</h2>" +
 			contextualForms(msg["contextualForms"]) +
@@ -94,7 +91,7 @@ function createCard(data) {
 		}
 		return _tags + "</ul>";
 	}
-
+	// console.log(workerData.fn + " " + workerData.id);
 	workerData.msg = card;
 	postMessage(workerData);
 }

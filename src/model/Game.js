@@ -1,6 +1,5 @@
 function Game() {
 	"use strict";
-
 	var expected = ""; // readonly
 
 	this.answer = function(answer) {
@@ -36,28 +35,33 @@ function CardGame(type) {
 	var expected = "cg priv";
 
 	function defaultType() {
-		
+
 	}
 
 	this.init = function(jsonData) {
+		console.log("CardGame.init");
 		questions = jsonData;
 		
 		for(var key in questions) {
-			
+
 		}
 	};
 
 	this.setCards = function(cardsArray) {
-		cards = cardsArray;
+		cards = typeOf(cardsArray) === "array"? cardsArray: cards.push(cardsArray);
 	};
 
-	this.getCard = function(index) {
+	this.getCards = function(index) {
 		return !!index? cards[index]: cards;
 	};
 
-	this.getQuestion = function(index) {
+	this.getQuestions = function(index) {
 		return !!index? questions[index]: questions;
+	};
+
+	this.setQuestions = function(cards) {
+
 	};
 }
 
-CardGame.prototype = new Game();
+CardGame.prototype = new Game();	

@@ -1,65 +1,60 @@
 var console = console || {log: function() {alert("console unavailable")}};
-
+var com = com || {}; com.sudo = com.sudo || {};
+console.log("com: ", com, "\ncom.sudo: ", com.sudo);
 (function($) {
-	$.getScript("./model/WorkerHandler.js");
-	$.getScript("./controller/card.js"); 
-	$.getScript("./controller/game.js");
-	$.getScript("./controller/storage.js");
-	
-	function WorkerHandler() {
-		this.test = function(data) {
-			console.log("test > data: ", data);
-			console.log(data.msg);
+	"use strict";
 
-		};
+	var mainHandler = function(){};
+	var game = new Worker("./controller/game.js");
+	var main = new Worker("./model/AbstractWorker.js");
 
-		this.getLocation = function(data) {
-			console.log("getLocation handler received: ", data.msg);
-			
-		};
-		
-		this.importScript = function(data) {
-			console.log("import handler received: ", data.msg);
-			
-		};
-		
-		this.ajax = function(data) {
-			console.log("ajax handler received: ", data.msg);
-			
-		};
-		
-		this.timeout = function(data) {
-			console.log("timeout handler received: ", data);
-			
-		};
-		
-		this.interval = function(data) {
-			console.log("interval handler received: ", data);
-			
-		};
+	var scripts = {
+		worker: {
+			url: "./model/WorkerHandler.js",
+			callback: function(e) {
+				console.log("WorkerHandler callback called");
+				mainHandler = new MainHandler();
+				function MainHandler() {
+					// console.log("MainHandler");
+				}
 
-		this.createCard = function(data) {
-			// console.log("createCard handler received: ", data.id);
-			var ctable = document.getElementById("cardTable");
-			ctable.innerHTML += data.msg;
-			var cards = document.getElementsByClassName("card");
-			var len = cards.length;
-			if(len === workers.length) {
-				setupCardClickHandlers(cards, len);
+				MainHandler.prototype = new WorkerHandler();
 			}
-			// card.addEventListener("click", card_click_handler, false);
-		};
+		},
+		card: {
+			url: "./controller/card.js",
+			callback: function(e) {
+				// console.log("card callback called");
 
-		this.stop = function(data) {
-			console.log("stop handler received: ", data);
-		};
-	}
-	
+			}
+		},
+		storage: {
+			url: "./controller/storage.js",
+			callback: function(e) {
+				// console.log("storage callback called");
+
+			}
+		}
+	};
+
+	addScript.call(scripts.worker);
+	addScript.call(scripts.card);
+	addScript.call(scripts.storage);
+
 	function msg_handler(e) {
 		if(!!e.data && !!e.data.fn) {
 			(function() {
 				this[e.data.fn](e.data);
-			}).apply(main_handler);
+			}).apply(mainHandler);
 		}
+	}
+
+	function addScript() {
+		var head = document.getElementsByTagName("head")[0],
+			script = document.createElement("script");
+
+		script.src = this.url;
+		head.appendChild(script);
+		script.addEventListener("load", this.callback, false);
 	}
 })(jQuery);

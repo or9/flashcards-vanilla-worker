@@ -1,41 +1,34 @@
-/*
- * Flashcard is main
- * Card instantiated for each card by Flashcard instance
- * Main initializes, sets / gets values, runs
- */
-
-/* Game properties 
- * 		set language
- * 		create web workers
- * 		instantiate cards
- */
 "use strict";
+
 addEventListener("message", msg_handler, false);
 addEventListener("error", err_handler, false);
-
-importScripts("../model/Game.js");
 
 var data = {
 	fn: "",
 	msg: ""
 };
-var game = new CardGame();
+var cache = false;
+var cardGame = function(){};
 
-ajax("game.json", game.init);
+importScripts("../model/Game.js");
+var cardGame = new CardGame();
+ajax("game.json", cardGame.init);
 
 function msg_handler(e) {
-	postMessage(game);
-	game.fn = e.data.fn;
+	postMessage(data);
+	data.fn = e.data.fn;
 	
 	if(!!e.data && !!e.data.fn) {
 		(function() {
-			game[e.data.fn](e.data);
+			this[e.data.fn](e.data);
 		})();	
 	}
 }
 
 function err_handler(e) {
-	postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
+	data.fn = "error";
+	data.msg = "Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message;
+	postMessage(data);
 }
 
 function ajax(src, callback) {
@@ -49,9 +42,9 @@ function ajax(src, callback) {
 		if(ax.readyState === 4) {
 			if(ax.status === 200) {
 				callback(ax.responseText);
-				game.status = true;
+				data.status = true;
 			} else {
-				game.status = false;
+				data.status = false;
 				callback(ax.responseText);
 			}
 		}
