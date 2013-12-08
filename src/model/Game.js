@@ -30,26 +30,63 @@ function Game() {
 
 function CardGame(type) {
 	var cards = [];
-	var questions = {};
-	var gameType = type || defaultType;
+	var questions = {
+		total: 0,
+		current: 0,
+		answered: []
+	};
+	var types = {
+		basic: {
+			matchCharacter: function() {
+				
+			},
+			matchTransliteration: function() {
+				
+			}
+		},
+		advanced: {
+			matchCharacterForm: function() {
+				
+			},
+			matchFormTransliteration: function() {
+				
+			}
+		}
+	};
+	var gameType = type || types.basic.matchCharacter();
 	var expected = "cg priv";
-
+	var min = 0;
+	
 	function defaultType() {
-
+		
 	}
 
 	this.init = function(jsonData) {
 		console.log("CardGame.init");
-		questions = jsonData;
+		questions = {
+			current: {},
+			answered: {
+				"question": 0,
+				"isCorrect": false
+			},
+			all: []
+		};
+	};
+	
+	function answer() {
 		
-		for(var key in questions) {
-
+	}
+	
+	function nextRandomQuestion() {
+		for(var answered in questions) {
+			
 		}
-	};
-
-	this.setCards = function(cardsArray) {
-		cards = typeOf(cardsArray) === "array"? cardsArray: cards.push(cardsArray);
-	};
+		
+	}
+	
+	function getRandomInt(max) {
+		return Math.floor(Math.random() * (max - min + 1) + min);
+	}
 
 	this.getCards = function(index) {
 		return !!index? cards[index]: cards;
@@ -58,10 +95,15 @@ function CardGame(type) {
 	this.getQuestions = function(index) {
 		return !!index? questions[index]: questions;
 	};
-
+	
 	this.setQuestions = function(cards) {
-
+		questions[all] = cards;
 	};
+
+	this.setCards = function(cardsArray) {
+		cards = typeOf(cardsArray) === "array"? cardsArray: cards.push(cardsArray);
+	};
+
 }
 
 CardGame.prototype = new Game();	

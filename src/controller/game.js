@@ -1,5 +1,5 @@
 "use strict";
-
+importScripts("../model/Game.js");
 addEventListener("message", msg_handler, false);
 addEventListener("error", err_handler, false);
 
@@ -8,21 +8,29 @@ var data = {
 	msg: ""
 };
 var cache = false;
-var cardGame = function(){};
-
-importScripts("../model/Game.js");
 var cardGame = new CardGame();
-ajax("game.json", cardGame.init);
+// ajax("game.json", cardGame.init);
 
 function msg_handler(e) {
 	postMessage(data);
 	data.fn = e.data.fn;
 	
 	if(!!e.data && !!e.data.fn) {
-		(function() {
-			this[e.data.fn](e.data);
-		})();	
+		if(e.data.fn === "game") {
+			(function() {
+				cardGame[e.data.fn](e.data);
+			})();
+		} else {
+			(function() {
+				this[e.data.fn](e.data);
+			})();
+		}
 	}
+}
+
+function startGame(data) {
+	cardGame.setQuestions(data.msg);
+	cardGame.init();
 }
 
 function err_handler(e) {

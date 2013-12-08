@@ -1,8 +1,8 @@
 com.sudo.cards = com.sudo.cards || {};
+// according to design pattern, this should be a worker…
 
 (function() {
 	(function($) {
-		console.log("starting cards");
 		$.ajax({
 			url: "./controller/characters.json",
 			type: "GET",
@@ -28,6 +28,7 @@ com.sudo.cards = com.sudo.cards || {};
 	var cardID = 0;
 
 	function create(jsonData) {
+		// break up data and create each card from it
 		data.fn = "createCard";
 
 		for(var key in jsonData) {
@@ -60,7 +61,6 @@ com.sudo.cards = com.sudo.cards || {};
 	}
 
 	function spawnWorker() {
-		console.log("main cardID: ", cardID);
 		var card = new Worker("./model/Card.js" + "?" + cardID);
 		cardID = parseInt(cardID) + 1;
 		card.addEventListener("message", msg_handler, false);
@@ -69,10 +69,10 @@ com.sudo.cards = com.sudo.cards || {};
 
 
 	function CardHandler() {
-		// this.prototype = new WorkerHandler(); // can we do this?
+		this.prototype = new WorkerHandler(); // can we do this?
 
 		this.createCard = function(data) {
-			console.log("createCard handler received: ", data.id);
+			// console.log("createCard handler received: ", data.id);
 			var ctable = document.getElementById("cardTable");
 			ctable.innerHTML += data.msg;
 			var newcards = document.getElementsByClassName("card");
@@ -83,6 +83,18 @@ com.sudo.cards = com.sudo.cards || {};
 		};
 	};
 
-	CardHandler.prototype = new WorkerHandler();
+	this.getCard = function(index) {
+		// return all cards or card @ index
+		return !!index? cards[index]: cards;
+	};
+	// CardHandler.prototype = new WorkerHandler();
 
 }).apply(com.sudo.cards);
+
+// var timer = 0;
+// var interval = 500;
+// timer = setTimeout(log, interval);
+// function log() {
+// 	console.log(com.sudo.cards.getCard());
+// 	console.log(com.sudo.cards.getCard(1));
+// }

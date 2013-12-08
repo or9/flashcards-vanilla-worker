@@ -4,7 +4,6 @@ addEventListener("error", err_handler, false);
 var workerData = {
 	id: location["search"].slice(1)
 };
-var timer = 0;
 
 function msg_handler(e) {
 	postMessage(workerData);
@@ -19,44 +18,6 @@ function msg_handler(e) {
 
 function err_handler(e) {
 	postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
-}
-
-function callback(data) {
-	var cb = false;
-	if(!!data.callback || data.callback === "")
-		cb = true;
-		return cb;
-}
-
-function timeout(data) {
-	var int = parseInt(data.msg);
-	
-	if(data.timer === "set")
-		timer = setTimeout(timeoutCallback, int);
-	else
-		clearTimeout(timer);
-	
-	function timeoutCallback() {
-		workerData.msg = "timer end";
-		workerData.status = true;
-		postMessage(workerData);
-	}
-}
-
-function interval(data) {
-	var int = parseInt(data.msg);
-	
-	if(data.timer === "set")
-		timer = setInterval(tick, int);
-	else
-		clearInterval(timer);
-	
-	function intervalCallback() {
-		workerData.msg = "tick";
-		workerData.status = true;
-		workerData.fn = "tick";
-		postMessage(workerData);
-	}
 }
 
 function createCard(jsonData) {
@@ -91,16 +52,9 @@ function createCard(jsonData) {
 		}
 		return _tags + "</ul>";
 	}
-	// console.log(workerData.fn + " " + workerData.id);
+	
 	workerData.msg = card;
-	postMessage(workerData);
-}
-
-function shutdown() {
-	close();
-}
-
-function status() {
+	// set / post each card back to main thread
 	postMessage(workerData);
 }
 

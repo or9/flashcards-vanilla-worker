@@ -1,18 +1,24 @@
-var console = console || {log: function() {alert("console unavailable")}};
 var com = com || {}; com.sudo = com.sudo || {};
-console.log("com: ", com, "\ncom.sudo: ", com.sudo);
-(function($) {
-	"use strict";
+// We're not using jQuery here… is it required?
+// I like to use !! to coerce a boolean return
 
-	var mainHandler = function(){};
+(function() {
+	"use strict";
+	
+	var data = {
+		"fn": "startGame",
+		"msg": ""
+	};
+	var mainHandler = function() {};
 	var game = new Worker("./controller/game.js");
 	var main = new Worker("./model/AbstractWorker.js");
+	this.storage = new Worker("./controller/storage.js");
+	// var storage = new Worker("./controller/storage.js");
 
 	var scripts = {
 		worker: {
 			url: "./model/WorkerHandler.js",
 			callback: function(e) {
-				console.log("WorkerHandler callback called");
 				mainHandler = new MainHandler();
 				function MainHandler() {
 					// console.log("MainHandler");
@@ -24,15 +30,24 @@ console.log("com: ", com, "\ncom.sudo: ", com.sudo);
 		card: {
 			url: "./controller/card.js",
 			callback: function(e) {
-				// console.log("card callback called");
-
+				console.log("card scriptLoad callback called");
+				data["msg"] = e.data;
+				console.log(e);
+				// game.postMessage(data);
 			}
 		},
 		storage: {
-			url: "./controller/storage.js",
+			url: "./model/Storage.js",
+			controller: {
+				url: "./controller/storage.js",
+				callback: function(e) {
+					console.log("Storage.controller scriptLoad callback called");
+					
+				}
+			},
 			callback: function(e) {
-				// console.log("storage callback called");
-
+				console.log("storage scriptLoad callback called");
+				// addScript.call(scripts.storage.controller);
 			}
 		}
 	};
@@ -40,6 +55,7 @@ console.log("com: ", com, "\ncom.sudo: ", com.sudo);
 	addScript.call(scripts.worker);
 	addScript.call(scripts.card);
 	addScript.call(scripts.storage);
+	// addScript.call(scripts.storage.controller);
 
 	function msg_handler(e) {
 		if(!!e.data && !!e.data.fn) {
@@ -52,9 +68,11 @@ console.log("com: ", com, "\ncom.sudo: ", com.sudo);
 	function addScript() {
 		var head = document.getElementsByTagName("head")[0],
 			script = document.createElement("script");
-
+			
+		script.addEventListener("load", this.callback, false);			
 		script.src = this.url;
 		head.appendChild(script);
-		script.addEventListener("load", this.callback, false);
+
+		
 	}
-})(jQuery);
+}).apply(com.sudo);

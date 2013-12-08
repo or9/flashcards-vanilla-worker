@@ -1,5 +1,3 @@
-testA(1);
-
 function Storage() {
 	"use strict";
 	var store;
@@ -18,7 +16,7 @@ function Storage() {
 		this.getStore().getItem(key_str);
 	};
 	
-	this.removeItem = function(key_str) {
+	this.rm = function(key_str) {
 		this.getStore().removeItem(key_str);
 	};
 	
@@ -32,6 +30,8 @@ function Local() {
 	this.getStore = function() {
 		return store;
 	};
+
+	this.prototype = new Storage();
 }
 
 function Session() {
@@ -39,6 +39,8 @@ function Session() {
 	this.getStore = function() {
 		return store;
 	};
+
+	this.prototype = new Storage();
 }
 
 /*
