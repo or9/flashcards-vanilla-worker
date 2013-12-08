@@ -8,7 +8,7 @@ var data = {
 	msg: ""
 };
 var cache = false;
-var cardGame = new CardGame();
+var cardGame = new CardGame("junkType", "option1", "option2", "junk", "junk2", 1, 2);
 // ajax("game.json", cardGame.init);
 
 function msg_handler(e) {
@@ -18,17 +18,19 @@ function msg_handler(e) {
 	if(!!e.data && !!e.data.fn) {
 		if(e.data.fn === "game") {
 			(function() {
+				// console.log(cardGame);
 				cardGame[e.data.fn](e.data);
 			})();
 		} else {
 			(function() {
-				this[e.data.fn](e.data);
+				self[e.data.fn](e.data);
 			})();
 		}
 	}
 }
 
 function startGame(data) {
+	console.log("startGame from game Worker");
 	cardGame.setQuestions(data.msg);
 	cardGame.init();
 }

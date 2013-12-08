@@ -10,10 +10,14 @@ var com = com || {}; com.sudo = com.sudo || {};
 		"msg": ""
 	};
 	var mainHandler = function() {};
-	var game = new Worker("./controller/game.js");
+	this.game = new Worker("./controller/game.js");
 	var main = new Worker("./model/AbstractWorker.js");
-	this.storage = new Worker("./controller/storage.js");
+	// this.storage = new Worker("./controller/storage.js");
 	// var storage = new Worker("./controller/storage.js");
+	
+	// game: interface
+	// cards: object, com.sudo.cards
+	// main: interface
 
 	var scripts = {
 		worker: {
@@ -31,9 +35,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 			url: "./controller/card.js",
 			callback: function(e) {
 				console.log("card scriptLoad callback called");
-				data["msg"] = e.data;
-				console.log(e);
-				// game.postMessage(data);
+				
 			}
 		},
 		storage: {
@@ -54,7 +56,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 
 	addScript.call(scripts.worker);
 	addScript.call(scripts.card);
-	addScript.call(scripts.storage);
+	// addScript.call(scripts.storage);
 	// addScript.call(scripts.storage.controller);
 
 	function msg_handler(e) {
