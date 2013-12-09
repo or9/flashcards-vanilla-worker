@@ -24,7 +24,7 @@ function createCard(jsonData) {
 	var msg = jsonData["msg"];
 	for(var key in msg) {
 		var p = msg.position;
-		var card = "\n" + "<div class=\"card\" id=\"card_" + workerData.id + "\" data-position=\"" + p + "\" \>" + 
+		var card = "\n" + "<div class=\"card\" id=\"card_" + workerData.id + "\" data-position=\"" + p + "\" data-sound=\"" + "soundFile.mp4" + "\" \>" + 
 			"<h2>" + msg.character + "</h2>" +
 			contextualForms(msg["contextualForms"]) +
 			tags(msg["tags"]) +
