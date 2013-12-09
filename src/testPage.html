@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" type="image/x-icon" href="/image/faviconF.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- base of responsive stuff -->
+	<meta name="description" content="Main / index for Flashcard Game">
+	<meta name="keywords" content="Learning alphabet, flashcards">
+	<meta name="author" content=":Durmon">
+	<meta http-equiv="Content-Language" content="en">
+	<META http-equiv="Cache-Control" content="no-cache">
+    
+	<title>Flashcards</title>
+	
+	<script src="./libs/jquery/jquery.js"></script>
+	<link href="./view/styles/font.css" type="text/css" rel="stylesheet" media="all" />
+	<link href="./view/styles/main.css" type="text/css" rel="stylesheet" media="all" />
+	
+	<!--[if gte IE 9]>
+		<link href="./view/styles/gtie9.css" type="text/css" rel="stylesheet" media="all" />
+	<![endif]-->
+</head>
+
+<body>
+	<div class="row header" id="mainHeader">
+	
+	</div>
+	
+	<div class="row">
+		<h1 class="col full">Arabic Alphabet Flashcards</h1>
+		<fieldset class="col question" id="cardTable">
+			<legend>Card</legend>
+			
+			<div class="card current" id="card_1" data-position="2"><h2>ب&lrm;</h2><ul class="forms"><li>ﺏ</li><li>ﺑ</li><li>ﺒ</li><li>ﺐ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_3" data-position="4"><h2>ث&lrm;</h2><ul class="forms"><li>ﺙ</li><li>ﺛ</li><li>ﺜ</li><li>ﺚ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_2" data-position="3"><h2>ت&lrm;</h2><ul class="forms"><li>ﺘ</li><li>ﺗ</li><li>ﺘ</li><li>ﺖ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_0" data-position="1"><h2>أ&lrm;</h2><ul class="forms"><li>ﺃ</li><li>ﺄ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_4" data-position="5"><h2>ج&lrm;</h2><ul class="forms"><li>ﺝ</li><li>ﺟ</li><li>ﺠ</li><li>ﺞ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_5" data-position="6"><h2>ح&lrm;</h2><ul class="forms"><li>ﺡ</li><li>ﺣ</li><li>ﺤ</li><li>ﺢ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_6" data-position="7"><h2>خ&lrm;</h2><ul class="forms"><li>ﺥ</li><li>ﺧ</li><li>ﺨ</li><li>ﺦ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_10" data-position="11"><h2>ز&lrm;</h2><ul class="forms"><li>ﺯ</li><li>ﺰ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_8" data-position="9"><h2>ذ&lrm;</h2><ul class="forms"><li>ﺫ</li><li>ﺬ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_9" data-position="10"><h2>ر&lrm;</h2><ul class="forms"><li>ﺭ</li><li>ﺮ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_11" data-position="12"><h2>س&lrm;</h2><ul class="forms"><li>ﺱ</li><li>ﺳ</li><li>ﺴ</li><li>ﺲ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_7" data-position="8"><h2>د&lrm;</h2><ul class="forms"><li>ﺩ</li><li>ﺪ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_12" data-position="13"><h2>ش&lrm;</h2><ul class="forms"><li>ﺵ</li><li>ﺷ</li><li>ﺸ</li><li>ﺶ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_13" data-position="14"><h2>ص&lrm;</h2><ul class="forms"><li>ﺹ</li><li>ﺻ</li><li>ﺼ</li><li>ﺺ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_14" data-position="15"><h2>ض&lrm;</h2><ul class="forms"><li>ﺽ</li><li>ﺿ</li><li>ﻀ</li><li>ﺾ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_16" data-position="17"><h2>ظ&lrm;&lrm;</h2><ul class="forms"><li>ﻅ</li><li>ﻇ</li><li>ﻈ</li><li>ﻆ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_15" data-position="16"><h2>ط&lrm;&lrm;</h2><ul class="forms"><li>ﻁ</li><li>ﻃ</li><li>ﻄ</li><li>ﻂ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_17" data-position="18"><h2>ع&lrm;</h2><ul class="forms"><li>ﻉ</li><li>ﻋ</li><li>ﻌ</li><li>ﻊ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_18" data-position="19"><h2>غ&lrm;</h2><ul class="forms"><li>ﻍ</li><li>ﻏ</li><li>ﻐ</li><li>ﻎ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_21" data-position="22"><h2>ك&lrm;</h2><ul class="forms"><li>ﻛ</li><li>ﻜ</li><li>ﻚ</li><li>ﻙ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_19" data-position="20"><h2>ف&lrm;</h2><ul class="forms"><li>ﻑ</li><li>ﻓ</li><li>ﻔ</li><li>ﻒ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_22" data-position="23"><h2>ل&lrm;</h2><ul class="forms"><li>ﻝ</li><li>ﻟ</li><li>ﻠ</li><li>ﻞ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_20" data-position="21"><h2>ق&lrm;</h2><ul class="forms"><li>ﻕ</li><li>ﻗ</li><li>ﻘ</li><li>ﻖ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_24" data-position="25"><h2>ن&lrm;</h2><ul class="forms"><li>ﻥ</li><li>ﻧ</li><li>ﻨ</li><li>ﻦ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_23" data-position="24"><h2>م&lrm;</h2><ul class="forms"><li>ﻡ</li><li>ﻣ</li><li>ﻤ</li><li>ﻢ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_25" data-position="26"><h2>ﻫ&lrm;</h2><ul class="forms"><li>ﻩ</li><li>ﻫ</li><li>ﻬ</li><li>ﻪ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_27" data-position="28"><h2>ي&lrm;</h2><ul class="forms"><li>ﻱ</li><li>ﻳ</li><li>ﻴ</li><li>ﻲ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_26" data-position="27"><h2>و&lrm;</h2><ul class="forms"><li>ﻭ</li><li>ﻮ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_28" data-position="29"><h2>آ&lrm;</h2><ul class="forms"><li>ﺁ</li><li>ﺂ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_30" data-position="31"><h2>ى&lrm;</h2><ul class="forms"><li>ﻯ</li><li>ﻰ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+
+			<div class="card" id="card_29" data-position="30"><h2>ة&lrm;</h2><ul class="forms"><li>ﺓ</li><li>ﺔ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+			
+		</fieldset><!-- /.col#cardTable -->
+
+		<fieldset class="col choices" id="choiceColumn">
+			<legend>Choose an answer</legend>
+			<label for="choice0">Answer 0</label><input type="radio" name="choices" value="choice0" id="choice0" />
+			<label for="choice1">Answer 1</label><input type="radio" name="choices" value="choice0" id="choice1" />
+			<label for="choice2">Answer 2</label><input type="radio" name="choices" value="choice0" id="choice2" />
+			<label for="choice3">Answer 3</label><input type="radio" name="choices" value="choice0" id="choice3" />
+			<label for="choice4">Answer 4</label><input type="radio" name="choices" value="choice0" id="choice4" />
+			<label for="choice5">Answer 5</label><input type="radio" name="choices" value="choice0" id="choice5" />
+			<label for="choice6">Answer 6</label><input type="radio" name="choices" value="choice0" id="choice6" />
+		</div>
+	</div>
+	<div class="row footer" id="mainFooter">
+		<!-- Footer content -->
+		<ul>
+			<li>&copy; <span id="currentYear"></span></li>
+			<li class="credits">A production of :Durmon, Ibrahim and Bilal</li>
+			<li><a href="https://github.com/or9/flashcards" target="_blank">Checkout project source on Github</a></li>
+		</ul>
+	</div>
+	
+	<script>
+	(function() {
+		var year = new Date().getFullYear();
+		document.getElementById("currentYear").innerHTML = year;
+	})();
+	</script>
+</body>
+</html>
