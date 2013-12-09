@@ -27,20 +27,43 @@ div {
 	text-align: center;
 	width: 100%;
 }
-
+.header {
+	width: 100%;
+	
+}
+.footer {
+	width: 100%;
+	color: #b3b3b9;
+}
 .col {
 	display: inline-block;
 	float: none;
 	text-align: center;
 	vertical-align: top;
+	box-sizing: border-box;
 }
-
-.header {
-
+.col.full {
+	width: 100%;
 }
-.footer {
-	
+.col.question {
+	max-width: 66%;
 }
+.col.choices {
+/*	if only displaying a single quesiton, we should probably vertical-align middle this*/
+	max-width: 33%;
+}
+.footer ul {
+	display: inline-block;
+	box-sizing: border-box;
+}
+.footer li {
+	display: inline-block;
+	list-item-style: none;
+	border-left: 1px solid #d7d7d7;
+	padding: 0 10px;
+}
+.footer li:first-child {border-left: none;}
+.footer a {color: #b3b3b9;}
 
 .card {
 	display: inline-block;
@@ -51,4 +74,19 @@ div {
 	padding: 1%;
 	margin: 1%;
 	background: rgba(0, 128, 164, 0.66);
+}
+
+.choices label {
+	display: inline-block;
+	float: none; clear: none;
+	min-width: 50%;
+	height: auto;
+	vertical-align: middle;
+	padding: 10px 0;
+}
+.choices input {
+	display: inline-block;
+	float: none; clear: none;
+	width: 18%;
+	vertical-align: middle;
 }
