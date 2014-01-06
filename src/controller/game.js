@@ -9,6 +9,7 @@ var data = {
 };
 var cache = false;
 var cardGame = new CardGame("junkType", "option1", "option2", "junk", "junk2", 1, 2);
+var jsonData = {};
 // ajax("game.json", cardGame.init);
 
 function msg_handler(e) {
@@ -29,16 +30,30 @@ function msg_handler(e) {
 	}
 }
 
+function createQuestion(data) {
+	
+}
+
+function getQuestions(range) {
+	
+}
+
 function startGame(data) {
 	console.log("startGame from game Worker");
-	cardGame.setQuestions(data.msg);
-	cardGame.init();
+	cardGame.init(data.msg);
+	data.fn = "gameQuestions";
+	data.msg = data.msg;
+	postMessage(data);
 }
 
 function err_handler(e) {
 	data.fn = "error";
 	data.msg = "Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message;
 	postMessage(data);
+}
+
+function setupData(data) {
+	
 }
 
 function ajax(src, callback) {
@@ -59,4 +74,8 @@ function ajax(src, callback) {
 			}
 		}
 	}
+}
+
+function err_handler(e) {
+	postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
 }

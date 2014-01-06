@@ -2,6 +2,8 @@ com.sudo.cards = com.sudo.cards || {};
 // according to design pattern, this should be a worker…
 
 (function() {
+	var main = com.sudo.getMainInterface();
+	
 	(function($) {
 		$.ajax({
 			url: "./controller/characters.json",
@@ -28,13 +30,19 @@ com.sudo.cards = com.sudo.cards || {};
 	var cardID = 0;
 
 	function create(jsonData) {
+		data.fn = "startGame";
+		data.msg = jsonData;
+		var initCards = {"fn":"init","msg":"cards"};
+		com.sudo.getMainInterface().postMessage(initCards);
+        com.sudo.getGameInterface().postMessage(data);
+		
 		// break up data and create each card from it
 		data.fn = "createCard";
 
 		for(var key in jsonData) {
 			data.msg = jsonData[key];
 			var worker = spawnWorker();
-			worker.postMessage(data);
+			worker.postMessage(data); // send data to card for parsing
 			cards.push(worker);
 		}
 	}
@@ -78,17 +86,20 @@ com.sudo.cards = com.sudo.cards || {};
 			var newcards = document.getElementsByClassName("card");
 			var len = newcards.length;
 			if(len === cards.length) {
+				data.fn = "toggleReadyState";
+				data.msg = "cards";
+				main.postMessage(data);
+				
 				setupClickHandlers(newcards, len);
 			}
 		};
 	};
 
 	this.getCard = function(index) {
-		// return all cards or card @ index
+		// return all card workers or @ index
 		return !!index? cards[index]: cards;
 	};
-	// CardHandler.prototype = new WorkerHandler();
-
+	
 }).apply(com.sudo.cards);
 
 // var timer = 0;

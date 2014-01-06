@@ -46,7 +46,7 @@ div {
 	width: 100%;
 }
 .col.question {
-	max-width: 66%;
+	max-width: 65%;
 }
 .col.choices {
 /*	if only displaying a single quesiton, we should probably vertical-align middle this*/
@@ -73,20 +73,38 @@ div {
 
 	padding: 1%;
 	margin: 1%;
-	background: rgba(0, 128, 164, 0.66);
+	background: rgba(66, 128, 164, 0.66);
 }
-
+.card.current {
+	background: rgba(0, 128, 164, 1);
+}
+.card.answered {
+	
+}
+.card.correct {
+	
+}
+.card.incorrect {
+	
+}
 .choices label {
-	display: inline-block;
+	/*display: inline-block;*/
+	display: none;
 	float: none; clear: none;
-	min-width: 50%;
+	min-width: 50%; max-width: 80%;
 	height: auto;
 	vertical-align: middle;
 	padding: 10px 0;
 }
 .choices input {
-	display: inline-block;
+	/*display: inline-block;*/
+	display: none;
 	float: none; clear: none;
 	width: 18%;
 	vertical-align: middle;
 }
+.choices input.display-true, .choices label.display-true {
+	display: inline-block;
+}
+
+.display-none {display: none;}

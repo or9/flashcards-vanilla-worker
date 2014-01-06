@@ -37,4 +37,5 @@ function WorkerHandler() {
 	this.stop = function(data) {
 		console.log("stop handler received: ", data);
 	};
+	
 }

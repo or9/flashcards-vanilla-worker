@@ -1,11 +1,11 @@
 function Game() {
 	"use strict";
-	var expected = ""; // readonly
-
+	var expected = ""; // write only
+	
 	this.answer = function(answer) {
 		return answer === expected? true: false;
 	};
-
+	
 	this.state = {
 		ready: false,
 		started: false,
@@ -13,98 +13,167 @@ function Game() {
 		initialized: false
 	};
 
-	function correct(answer) {
-		console.log("private function: correct(" + answer + ") : ");
-		return true;
-	}
-
-	function incorrect(answer) {
-		console.log("private function: incorrect(" + answer + ") : ");
-		return true;
-	}
-
-	this.setExpected = function(expectedAnswerString) {
-		expected = expectedAnswerString;
+	this.setExpected = function(expectedAnswer) {
+		console.log("setting expected to " + expectedAnswer + " " + typeof expectedAnswer);
+		expected = expectedAnswer;
 	};
 }
 
 function CardGame(type) {
 	"use strict";
 	
-	var cards = [];
+	var initExpected = 0;
+	var cards = []; // Array of objects; why?
 	var types = {
 		// Keep object for reference globally within CardGame
 		basic: {
 			char2Trans: function() {
 				// Provided char, user must match to transliteration (and name?)
 				console.log("setting game type to basic matchChar2Transliteration");
-				
+				types.current = "basic.char2Trans";
+				types.heading = "Select the Character Card&#8217;s Name";
+				types.question = "The character&#8217;s name is&hellip; ";
 			},
 			trans2Char: function() {
 				// Provided transliteration, user must match to char
 				console.log("setting game type to basic matchTransliteration2Char");
-				
+				types.current = "basic.trans2Char";				
+				types.heading = "Select the Named Card&#8217;s Character";
+				types.question = "This character is&hellip; ";
 			},
 			sound2Char: function() {
 				// Provided sound, user must match to char
 				console.log("setting game type to basic matchChar2Sound");
-				
+				types.current = "basic.sound2Char";
+				types.heading = "What Character Makes This Sound?";
+				types.question = "That sound is&hellip; ";			
 			}
 		},
 		advanced: {
 			charform2Initial: function() {
 				// Provided char form (random, !initial), user must match to initial form (and name?)
 				console.log("setting game type to advanced matchCharForm2InitialForm");
+				types.current = "advanced.charform2Initial";
+				types.heading = "Select the Card&#8217;s Initial Form";
+				types.question = "The initial form of the character is&hellip; ";
 			},
 			trans2Charform: function() {
 				// Provided char transliteration, user must match to form(random, !initial)
 				console.log("setting game type to advanced matchTransliteration2Form");
-				
+				types.current = "advanced.trans2Charform";
+				types.heading = "Select an Associated Form of the Named Card";
+				types.question = "One possible form is&hellip; ";		
 			},
 			sound2Charform: function() {
 				//Provided sound, user must match to form(random, !initial)
 				console.log("setting game type to advanced matchSound2Form");
-				
+				types.current = "advanced.sound2Charform";			
+				types.heading = "Select an Associated Form of the Spoken Card";
+				types.question = "That sound was&hellip; ";
 			}
 		},
 		useVowels: false,
-		allQuestions: false
+		allQuestions: false,
+		current: "",
+		heading: "",
+		question: ""
 	};
 	
 	var questions = {
-		total: 0,
-		current: 0,
+		unanswered: [],
 		answered: [],
-		expect: 0
-	};
-	var expected = "cg priv";
-	var limit = {max: 0, min: 0};
-	setType(type, Array.prototype.slice.apply(arguments).slice(1));
-
-	this.state.ready = true;
-
-	this.init = function(cards) {
-		console.log("CardGame.init");
-		questions = {
-			current: {},
-			answered: {
-				"question": 0,
-				"isCorrect": false
-			},
-			all: []
-		};
-		this.state.initialized = true;
+		numToShow: 5,
+		text: function(type) {
+			// stub...
+			
+		}
 	};
 	
-	function answer() {
+	setType(type, Array.prototype.slice.apply(arguments).slice(1));
+
+	this.init = function(cardsDataObj) {
+		/*
+		 * id, character, name, transliteration, position, contextualForms, tags
+		 */
+		console.log("CardGame.init");
+		console.log("cards param from game: ", cards);
 		
+		//data.fn = "init";
+		//data.msg = "game";
+		//postMessage(data);
+		postmsg("init", "game");
+		
+		for(var single in cardsDataObj) {
+			//console.log("for single in cards: " + cardsDataObj[single]);
+			cards.push(cardsDataObj[single]); // can't push to obj'
+			
+			
+			populateQuestions(cardsDataObj[single]);
+			createQuestionElement(cardsDataObj[single]);
+		}
+		
+		postmsg("setGameHeadingForType", types.heading);
+		
+		this.state.initialized = true;
+		//console.log("Game end init > cards:"+ cards);
+		
+		nextRandomQuestion.call(this);
+		
+		this.state.ready = true;
+		postmsg("ready", "game");
+	};
+	
+	function populateQuestions(cardObj) {
+		questions.unanswered.push(cardObj.position - 1);
+		questions.answered = [];
+	}
+	
+	function createQuestionElement(cardObj) {
+		// Create HTML for answer label and input elements, send to main
+		var label = "<label class=\"question " + types.current + "\" id=\"question_" + cardObj.position + "\" for=\"question_rad_" + cardObj.position + "\" >"; // questions.current
+		var labelEnd = "</label>";
+		var _question = types.question + "<strong class=\"answer\">" + cardObj.name + "</strong>"; // questions.text
+		var radio = "<input class=\"question\" type=\"radio\" name=\"questions\" id=\"question_rad_" + cardObj.position + "\" />";
+		
+		postmsg("layoutQuestion", label + _question + labelEnd + radio);
+	}
+	
+	function postmsg(fn, msg) {
+		data.fn = fn;
+		data.msg = msg;
+		postMessage(data);
 	}
 	
 	function nextRandomQuestion() {
-		for(var answered in questions) {
+		// select random answers up to questions.numToShow - 1 + real answer, shuffle
+		var i = 0,
+			len = questions.numToShow - 1,
+			arr = [],
+			newExpected = randomIntFromSet();
 			
+		for(i; i < len; i++) {
+			arr.push(randomQuestion());
 		}
 		
+		function randomQuestion() {
+			var q = randomIntFromTotal();
+			if(q === newExpected)
+				randomQuestion();
+				
+			return q;
+		}
+		
+		this.setExpected(newExpected);
+		initExpected = newExpected;
+		console.log("newExpected is " + newExpected + " " + typeof newExpected);
+		arr.push(newExpected);
+		
+		//postmsg("setQuestionCard", newExpected);
+		// first cards need to be ready before posting
+		
+		postmsg("hidePreviousQuestions", questions.answered);
+		//console.log(shuffle(arr));
+		postmsg("setQuestions", shuffle(arr));
 	}
 	
 	function setType(type, options) {
@@ -193,25 +262,74 @@ function CardGame(type) {
 		}
 	} // /setType
 	
-	function getRandomInt(max) {
-		var _max = max || limit.max;
-		return Math.floor(Math.random() * (_max - limit.min + 1) + limit.min);
+	function randomIntFromSet() {
+		// Used for getting a single random integer
+		//var _max = max || limit.max;
+		//return Math.floor(Math.random() * (_max - limit.min + 1) + limit.min);
+		var rand = Math.floor(Math.random() * questions.unanswered.length);
+		return questions.unanswered[rand];
 	}
+	
+	function randomIntFromTotal() {
+		// used for getting a set of random selections
+		var mini = 0,
+			maxi = questions.unanswered.length + questions.answered.length;
+		return Math.floor(Math.random() * (maxi - mini + 1) + mini);
+	}
+	
+	function shuffle(array) {
+		var counter = array.length, temp, index;
+	
+		// While there are elements in the array
+		while (counter--) {
+			// Pick a random index
+			index = (Math.random() * counter) | 0;
+		
+			// A	nd swap the last element with it
+			temp = array[counter];
+			array[counter] = array[index];
+			array[index] = temp;
+		}
+		return array;
+	}
+	
+	this.verify = function(answerIndex) {
+		var index = questions.unanswered.indexOf(answerIndex);
+		if(this.answer(answerIndex)) {
+			questions.unanswered.splice(index, 1);
+			questions.answered.push(index);
+			nextRandomQuestion();
+		} else {
+			postmsg("game", ["Incorrect", answerIndex]);
+		}
+	};
 
 	this.getCards = function(index) {
 		return !!index? cards[index]: cards;
 	};
 
 	this.getQuestions = function(index) {
-		return !!index? questions[index]: questions;
+		return !!index? questions.all[index]: questions.all;
 	};
 	
-	this.setQuestions = function(cards) {
-		questions = cards;
+	this.setQuestions = function(data) {
+		// console.log("cards: " + cards);
+		
+	};
+	
+	this.resetGame = function(data) {
+		
 	};
 
 	this.setCards = function(cardsArray) {
 		cards = typeOf(cardsArray) === "array"? cardsArray: cards.push(cardsArray);
+	};
+	
+	this.getInitExpected = function() {
+		var tmp = initExpected;
+		initExpected = null;
+		//return tmp;
+		postmsg("setQuestionCard", tmp);
 	};
 
 }

@@ -44,6 +44,14 @@ function ajax(data) {
 	}
 }
 
+function toggleReadyState(data) {
+	postMessage(data);
+}
+
+function init(data) {
+	console.log("Abstract worker received init signal");
+}
+
 function callback(event, status) {
 	if(status === 200) {
 		// Handle successful response

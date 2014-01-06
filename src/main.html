@@ -27,12 +27,66 @@
 	</div>
 	
 	<div class="row">
-		<h1 class="col full">Flashcards</h1>
-		<div class="col" id="cardTable"></div>
+		<h1 class="col full">Arabic Alphabet Flashcards</h1>
+		
+		<fieldset class="col question" id="gameControls">
+			<legend>Game Controls</legend>
+			<input type="button" value="Reset Game" id="ctrlReset" />
+			<input type="button" value="Skip Question" id="ctrlSkip" />
+			<input type="button" value="Prevoius Question" id="ctrlPrev" />
+			
+			<fieldset id="fieldDifficulty">
+				<legend>Difficulty</legend>
+				<label for="ctrlDiffBasic">Basic</label>
+				<input type="radio" value="basic" id="ctrlDiffBasic" name="ctrlDifficulty" selected>
+				<label for="ctrlDiffAdvanced">Advanced</label>
+				<input type="radio" value="advanced" id="ctrlDiffAdvanced" name="ctrlDifficulty" />
+			</fieldset>
+			
+			<fieldset id="fieldGameType">
+				<legend><span id="difficultyTypeText"></span>Game Type</legend>
+				<select id="ctrlTypeBasic" value="">
+					<option value="char2Trans" selected>Transliteration of character</option>
+					<option value="trans2Char">Character of transliteration</option>
+					<option value="sound2Char">Character to sound</option>
+				</select>
+				<select id="ctrlTypeAdvanced" value="">
+					<option value="charform2Initial" selected>Initial form of contextual form</option>
+					<option value="trans2Charform">Character form of transliteration</option>
+					<option value="sound2Charform">Character form of audio</option>
+				</select>
+			</fieldset>
+		</fieldset>
+		
+		<fieldset class="col question" id="cardTable">
+			<legend>Card</legend>
+		</fieldset>
+		
+		<fieldset class="col choices" id="choiceColumn">
+			<legend>Choose an answer</legend>
+			<h2 id="gameTypeHeading"></h2>
+		
+		</fieldset>
 	</div>
 	<div class="row footer" id="mainFooter">
 		<!-- Footer content -->
-		
+		<dl>
+			<dt class="copyright">&copy; <span id="copyrightYear"></span></dt>
+			<dd>This content is released under an <a href="https://github.com/or9/flashcards/blob/master/LICENSE-MIT" target="_blank">MIT License</a>.</dd>
+			<dt>If you&#8217;re interested in the project&#8217;s technical side,</dt>
+			<dd><a href="https://github.com/or9/flashcards" target="_blank">Source is available on Github</a></dd>
+			<dt>Questions, comments, suggestions&hellip;</dt>
+			<dd>Need link</dd>
+		</dl>
+		<dl class="credits">
+			<dt>Drahman A.</dt>
+			<dd>Creator</dd>
+			<dd><a href="https:/github.com/or9">Fork me on Github</a></dd>
+			<dt>Ibrahim A.</dt>
+			<dd>Designer</dd>
+			<dt>Bilal A.</dt>
+			<dd>Designer</dd>
+		</dl>
 	</div>
 	
 	<script src="./main.js"></script>

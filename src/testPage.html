@@ -33,17 +33,17 @@
 			
 			<div class="card current" id="card_1" data-position="2"><h2>ب&lrm;</h2><ul class="forms"><li>ﺏ</li><li>ﺑ</li><li>ﺒ</li><li>ﺐ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
 
-			<div class="card" id="card_3" data-position="4"><h2>ث&lrm;</h2><ul class="forms"><li>ﺙ</li><li>ﺛ</li><li>ﺜ</li><li>ﺚ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+			<div class="card answered correct" id="card_3" data-position="4"><h2>ث&lrm;</h2><ul class="forms"><li>ﺙ</li><li>ﺛ</li><li>ﺜ</li><li>ﺚ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
 
-			<div class="card" id="card_2" data-position="3"><h2>ت&lrm;</h2><ul class="forms"><li>ﺘ</li><li>ﺗ</li><li>ﺘ</li><li>ﺖ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+			<div class="card answered incorrect" id="card_2" data-position="3"><h2>ت&lrm;</h2><ul class="forms"><li>ﺘ</li><li>ﺗ</li><li>ﺘ</li><li>ﺖ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
 
-			<div class="card" id="card_0" data-position="1"><h2>أ&lrm;</h2><ul class="forms"><li>ﺃ</li><li>ﺄ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+			<div class="card answered correct" id="card_0" data-position="1"><h2>أ&lrm;</h2><ul class="forms"><li>ﺃ</li><li>ﺄ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
 
-			<div class="card" id="card_4" data-position="5"><h2>ج&lrm;</h2><ul class="forms"><li>ﺝ</li><li>ﺟ</li><li>ﺠ</li><li>ﺞ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+			<div class="card answered correct" id="card_4" data-position="5"><h2>ج&lrm;</h2><ul class="forms"><li>ﺝ</li><li>ﺟ</li><li>ﺠ</li><li>ﺞ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
 
-			<div class="card" id="card_5" data-position="6"><h2>ح&lrm;</h2><ul class="forms"><li>ﺡ</li><li>ﺣ</li><li>ﺤ</li><li>ﺢ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+			<div class="card answered incorrect" id="card_5" data-position="6"><h2>ح&lrm;</h2><ul class="forms"><li>ﺡ</li><li>ﺣ</li><li>ﺤ</li><li>ﺢ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
 
-			<div class="card" id="card_6" data-position="7"><h2>خ&lrm;</h2><ul class="forms"><li>ﺥ</li><li>ﺧ</li><li>ﺨ</li><li>ﺦ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
+			<div class="card answered incorrect" id="card_6" data-position="7"><h2>خ&lrm;</h2><ul class="forms"><li>ﺥ</li><li>ﺧ</li><li>ﺨ</li><li>ﺦ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
 
 			<div class="card" id="card_10" data-position="11"><h2>ز&lrm;</h2><ul class="forms"><li>ﺯ</li><li>ﺰ</li></ul><ul class="tags"><li>tag0</li><li>tag1</li><li>tag2</li></ul></div>
 
@@ -116,10 +116,19 @@
 	</div>
 	
 	<script>
-	(function() {
+	(function($) {
 		var year = new Date().getFullYear();
 		document.getElementById("currentYear").innerHTML = year;
-	})();
+		
+		// Set static timer for init (this will be dynamic in actual code)
+		var timerID = 0;
+		timerID = setTimeout(timer_initComplete, 5000);
+		$("body").addClass("init");
+		
+		function timer_initComplete(e) {
+			$("body").removeClass("init");
+		}
+	})(jQuery);
 	</script>
 </body>
 </html>
