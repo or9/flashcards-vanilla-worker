@@ -16,9 +16,6 @@
 	<link href="./view/styles/font.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="./view/styles/main.css" type="text/css" rel="stylesheet" media="all" />
 	
-	<!--[if gte IE 9]>
-		<link href="./view/styles/gtie9.css" type="text/css" rel="stylesheet" media="all" />
-	<![endif]-->
 </head>
 
 <body>
@@ -30,32 +27,36 @@
 		<h1 class="col full">Arabic Alphabet Flashcards</h1>
 		
 		<fieldset class="col question" id="gameControls">
-			<legend>Game Controls</legend>
-			<input type="button" value="Reset Game" id="ctrlReset" />
-			<input type="button" value="Skip Question" id="ctrlSkip" />
-			<input type="button" value="Prevoius Question" id="ctrlPrev" />
-			
-			<fieldset id="fieldDifficulty">
-				<legend>Difficulty</legend>
-				<label for="ctrlDiffBasic">Basic</label>
-				<input type="radio" value="basic" id="ctrlDiffBasic" name="ctrlDifficulty" selected>
-				<label for="ctrlDiffAdvanced">Advanced</label>
-				<input type="radio" value="advanced" id="ctrlDiffAdvanced" name="ctrlDifficulty" />
-			</fieldset>
-			
-			<fieldset id="fieldGameType">
-				<legend><span id="difficultyTypeText"></span>Game Type</legend>
-				<select id="ctrlTypeBasic" value="">
-					<option value="char2Trans" selected>Transliteration of character</option>
-					<option value="trans2Char">Character of transliteration</option>
-					<option value="sound2Char">Character to sound</option>
-				</select>
-				<select id="ctrlTypeAdvanced" value="">
-					<option value="charform2Initial" selected>Initial form of contextual form</option>
-					<option value="trans2Charform">Character form of transliteration</option>
-					<option value="sound2Charform">Character form of audio</option>
-				</select>
-			</fieldset>
+			<form id="gcontrols" name="controls">
+				<legend>Game Controls</legend>
+				<input type="button" value="Reset Game" id="ctrlReset" />
+				<input type="button" value="Skip Question" id="ctrlSkip" />
+				<input type="button" value="Prevoius Question" id="ctrlPrev" />
+				
+				<fieldset id="fieldDifficulty">
+					<legend>Difficulty</legend>
+					<label for="ctrlDiffBasic">Basic</label>
+					<input type="radio" value="Basic" id="ctrlDiffBasic" name="ctrlDifficulty" checked>
+					<label for="ctrlDiffAdvanced">Advanced</label>
+					<input type="radio" value="Advanced" id="ctrlDiffAdvanced" name="ctrlDifficulty" />
+					<label for="ctrlUseVowels">Play with vowels enabled</label>
+					<input type="checkbox" value="Vowels" id="ctrlUseVowels" name="ctrlVowels" />
+				</fieldset>
+				
+				<fieldset id="fieldGameType">
+					<legend><span id="difficultyTypeText"></span>Game Type</legend>
+					<select id="ctrlTypeBasic" value="">
+						<option value="char2Trans" selected>Transliteration of character</option>
+						<option value="trans2Char">Character of transliteration</option>
+						<option value="sound2Char">Character to sound</option>
+					</select>
+					<select id="ctrlTypeAdvanced" value="">
+						<option value="charform2Initial" selected>Initial form of contextual form</option>
+						<option value="trans2Charform">Character form of transliteration</option>
+						<option value="sound2Charform">Character form of audio</option>
+					</select>
+				</fieldset>
+			</form>
 		</fieldset>
 		
 		<fieldset class="col question" id="cardTable">

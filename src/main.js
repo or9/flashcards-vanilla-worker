@@ -1,6 +1,5 @@
 var com = com || {}; com.sudo = com.sudo || {};
 // We're not using jQuery here… is it required?
-// I like to use !! to coerce a boolean return
 
 (function() {
 	"use strict";
@@ -8,29 +7,47 @@ var com = com || {}; com.sudo = com.sudo || {};
 	// card loads Card Models
 	// load game
 	// game loads Game Model
+	// card states altered by game state (get or post?)
+	//
 	
 	var data = {
-		"fn": "startGame",
-		"msg": ""
+		//"fn": "initGame",
+		"fn"		:	"init",
+		"msg"		: "",
+		"args"	:	""
 	};
-	var readyState = {
-		cards: false,
-		game: false,
-		layout: false
+	var readiness = {
+		cards: {state: false, depends: ["game"], ready:function(bool) {cardsReady(bool);}},
+		game: {state: false, depends: ["cards"], ready: function(bool) {gameReady(bool);}},
+		layout: {state: false, depends: ["game", "cards"], ready:function(bool) {layoutReady(bool);}},
+		storage: {state: false, depends: [], ready:function(bool) {storageReady(bool);}},
+		change: function(resource, state) {
+			this[resource].state = state || true;
+		}
 	};
-	var game = function() {};
-	var gameInterface = new Worker("./controller/game.js");
+	var gameOptions = {
+		diff: 		function() {return this.eName("ctrlDifficulty").value;},
+		type: 		function() {return this.eID("ctrlType" + this.diff()).value;},
+		vowels:		function() {return this.eName("ctrlVowels").checked? "useVowels": "";},
+		eID: 			function(idstr) {return document.getElementById(idstr);},
+		eName:		function(nstr) {return document.getElementById("gcontrols")[nstr];}
+	};
+	var game = new Worker("./controller/game.js");
 	var mainHandler = function() {}; // handler for receiving messages, based on WorkerHandler model
 	var main = new Worker("./model/AbstractWorker.js"); // Interface for messages to be sent to handler
 	main.addEventListener("message", msg_handler, false);
-	gameInterface.addEventListener("message", msg_handler, false);
-	// this.storage = new Worker("./controller/storage.js");
+	game.addEventListener("message", msg_handler, false);
 	// var storage = new Worker("./controller/storage.js");
-	
 	// game: interface
 	// cards: object, com.sudo.cards
 	// main: interface
 	
+	// Instantiate game via worker
+	// Accepts options as defined by UI form elements
+	// postmsg(this, fn, msg)
+
+	postmsg.call(game, "init", gameOptions.type() + ", " +  gameOptions.vowels());
+	//console.log("post type() and vowels()", gameOptions.type() + ", " + gameOptions.vowels());
 	var scripts = {
 		worker: {
 			url: "./model/WorkerHandler.js",
@@ -38,10 +55,23 @@ var com = com || {}; com.sudo = com.sudo || {};
 				mainHandler = new MainHandler();
 				function MainHandler() {
 					// console.log("MainHandler");
+					this.test = function(data) {
+						console.log("TEST: ", data.msg);
+					};
+
+					this.setReadyState = function(data) {
+						console.log("setReadyState called");
+						setReadyState(data.msg);
+					};
+					
 					this.toggleReadyState = function(data) {
 						toggleReadyState(data.msg);
 					};
-					
+
+					this.getGameType = function(data) {
+						getGameType(game);
+					};
+
 					this.init = function(data) {
 						console.log("this.init: ", data, data.msg, /cards/gi.test(data.msg));
 						var col = /cards/gi.test(data.msg)? document.getElementById("cardTable"): document.getElementById("choiceColumn");
@@ -55,7 +85,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 					};
 					
 					this.ready = function(data) {
-						console.log("GAME IS READY");
+						console.log("GAME says READY: ", data.msg);
 					};
 					
 					this.gameQuestions = function(data) {
@@ -64,7 +94,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 					};
 					
 					this.layoutQuestion = function(data) {
-						//console.log("layout question");
+						console.log("layout question");
 						// stop this from calling during init...
 						document.getElementById("choiceColumn").innerHTML += data.msg;
 					};
@@ -106,12 +136,19 @@ var com = com || {}; com.sudo = com.sudo || {};
 					}
 					
 					this.setQuestions = function(data) {
+						console.log("main.setQuestions data: ", data.msg);
 						var i = 0,
 							len = data.msg.length,
 							elements = [],
 							name = "display-true";
-							
+						
+						console.log("msg.length: ", len, "\tdata.msg[0]: ", data.msg[0], "\tdata.msg[1]: ", data.msg[1]);
+						console.log("#question_ d.m[0]", document.getElementById("question_" + data.msg[0]));
+						console.log("#question_ d.m[1]", document.getElementById("question_" + data.msg[1]));
 						for(i; i < len; i++) {
+							console.log(i);
+							// Why 0 and 1?
+							//
 							elements[0] = document.getElementById("question_" + data.msg[i]);
 							elements[1] = elements[0].nextSibling;						
 							adjustClass(elements, name, true);
@@ -158,19 +195,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 			url: "./controller/card.js",
 			callback: function(e) {
 				console.log("card scriptLoad callback called");
- 
-			}
-		},
-		game: {
-			url: "./model/Game.js",
-			callback: function(e) {
-				console.log("Game model scriptLoad callback");
-                // to ensure game is loaded before cards, load cards on completion
-                addScript.call(scripts.card);
-				game = new CardGame("junkType", "option1", "option2", "junk", "junk2", 1, 2);
-				// game.controller = new Worker("./controller/game.js");
-				
-				
+				 
 			}
 		},
 		layout: {
@@ -198,9 +223,6 @@ var com = com || {}; com.sudo = com.sudo || {};
 	addScript.call(scripts.worker);
 	addScript.call(scripts.card);
 	addScript.call(scripts.layout);
-	// addScript.call(scripts.game);
-	addScript.call(scripts.storage);
-	// addScript.call(scripts.storage.controller);
 
 	function msg_handler(e) {
 		if(!!e.data && !!e.data.fn) {
@@ -219,17 +241,88 @@ var com = com || {}; com.sudo = com.sudo || {};
 		head.appendChild(script);
 
 	}
-	
-	function toggleReadyState(resource) {
-		readyState[resource] = !!readyState[resource]? false: true;
-		console.log("toggleReadyState: ", resource, readyState[resource]);
-		if(resource === "cards") {
-			mainHandler.setQuestionCard(gameInterface.postMessage({"fn": "game", "msg": "getInitExpected"}));
+
+	function postmsg(fn, msg, args) {
+		data.fn = fn;
+		data.msg = msg;
+		data.args = args;
+		console.log(this, "posting message", data);
+		this.postMessage(data);
+	}
+
+	function gameReady(bool) {
+		console.log("CALL gameReady. Init.");
+		if(checkReadyDependencies("game")) {
+			console.log("game AND dependencies are ready");
+			readyGame();
 		}
 	}
 	
+	function cardsReady(bool) {
+		console.log("CALL cardsReady. Init.");
+		if(checkReadyDependencies("cards")) {
+			console.log("cards AND dependencies are ready");
+			readyGame();
+		}
+	}
+	
+	function layoutReady(bool) {
+		console.log("CALL layoutReady. Init.");
+		if(checkReadyDependencies("layout")) {
+			
+		}
+	}
+
+	function storageReady(bool) {
+		console.log("CALL storageReady. Init.");
+		if(checkReadyDependencies("storage")) {
+
+		}
+	}
+
+	function readyGame() {
+		console.log("set readyGame()");
+		postmsg.call(game, "mainReady", "true");
+	}
+
+	function checkReadyDependencies(resource) {
+		var i = 0,
+				len = readiness[resource].depends.length,
+				ready = true;
+		
+		// If dependencies, check ready state
+		for(i; i < len; i++) {
+			console.log("running for each dependency");
+			if(readiness[readiness[resource].depends[i]].state === false) {
+				// Check if dependencies are ready by property determined by associative array
+				ready = false;
+				break;
+			}
+		}
+		// If no dependencies, just return true
+		return ready;
+	}
+			
+	function toggleReadyState(resource, bool) {
+		console.log("toggleReadyState from: ", readiness[resource].state);
+		readiness[resource].state = bool || !readiness[resource].state? true: false;
+		readiness[resource].ready(readiness[resource].state);
+		console.log("toggleReadyState to: ", resource, readiness[resource].state);
+	}
+
+	function setReadyState(resource) {
+		console.log("setReadyState from: ", readiness[resource].state);
+		readiness[resource].state = true;
+		readiness[resource].ready(readiness[resource].state);
+		console.log("setReadyState to: ", resource, readiness[resource].state);
+	}
+
+	function getGameType(iface) {
+		postmsg.call(iface, "getGameType", gameOptions.type() + ", " +  gameOptions.vowels());
+	}
+	
 	this.getGameInterface = function() {
-		return gameInterface;
+		return game;
 	};
 	
 	this.getMainInterface = function() {
@@ -237,7 +330,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 	};
 	
 	this.getReadyState = function(resource) {
-		return readyState[resource];
+		return readiness[resource].state;
 	};
 	
 	/* CONTROL ELEMENTS
@@ -256,6 +349,8 @@ var com = com || {}; com.sudo = com.sudo || {};
 	/	question_rad_(#POSITION)
 	/	
 	*/
-	
+
+
+
 	document.getElementById("copyrightYear").innerHTML = new Date().getFullYear();
 }).apply(com.sudo);

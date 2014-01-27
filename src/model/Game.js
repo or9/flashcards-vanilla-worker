@@ -95,18 +95,15 @@ function CardGame(type) {
 		/*
 		 * id, character, name, transliteration, position, contextualForms, tags
 		 */
-		console.log("CardGame.init");
-		console.log("cards param from game: ", cards);
+		console.log(cardsDataObj);
+		console.log("CARDGAME INIT: cards param from game: ", cards);
 		
-		//data.fn = "init";
-		//data.msg = "game";
-		//postMessage(data);
+		this.state.initialized = true;
 		postmsg("init", "game");
 		
 		for(var single in cardsDataObj) {
 			//console.log("for single in cards: " + cardsDataObj[single]);
 			cards.push(cardsDataObj[single]); // can't push to obj'
-			
 			
 			populateQuestions(cardsDataObj[single]);
 			createQuestionElement(cardsDataObj[single]);
@@ -114,13 +111,14 @@ function CardGame(type) {
 		
 		postmsg("setGameHeadingForType", types.heading);
 		
-		this.state.initialized = true;
-		//console.log("Game end init > cards:"+ cards);
-		
-		nextRandomQuestion.call(this);
-		
 		this.state.ready = true;
-		postmsg("ready", "game");
+		//postmsg("ready", "game");
+		postmsg("setReadyState", "game");
+	};
+	
+	this.start = function(data) {
+		this.state.started = true;
+		nextRandomQuestion.call(this);
 	};
 	
 	function populateQuestions(cardObj) {
@@ -168,11 +166,10 @@ function CardGame(type) {
 		console.log("newExpected is " + newExpected + " " + typeof newExpected);
 		arr.push(newExpected);
 		
-		//postmsg("setQuestionCard", newExpected);
+		postmsg("setQuestionCard", newExpected);
 		// first cards need to be ready before posting
 		
 		postmsg("hidePreviousQuestions", questions.answered);
-		//console.log(shuffle(arr));
 		postmsg("setQuestions", shuffle(arr));
 	}
 	
@@ -180,8 +177,8 @@ function CardGame(type) {
 		// type: 0, CHAR; 1, TRANS; 2, ADVANCED CHAR; 3, ADVANCED TRANS; 4, "SOUND"; 5 "ADVANCED SOUND"
 		// options: {useVowels: true|false, advanced: true|false}
 		
-		console.log(type);
-		console.log(options);
+		console.log("SETTYPE: " + type);
+		console.log("SETTYPE options: " + options);
 		// if type is present and a string, change to uppercase, otherwise use number
 		var _type = !!type && typeof type === "string"? type.toString(): "default",
 			_options = options || {},
@@ -272,7 +269,7 @@ function CardGame(type) {
 	
 	function randomIntFromTotal() {
 		// used for getting a set of random selections
-		var mini = 0,
+		var mini = 1,
 			maxi = questions.unanswered.length + questions.answered.length;
 		return Math.floor(Math.random() * (maxi - mini + 1) + mini);
 	}
@@ -328,8 +325,9 @@ function CardGame(type) {
 	this.getInitExpected = function() {
 		var tmp = initExpected;
 		initExpected = null;
-		//return tmp;
+		console.log("---posting seQuestionCard message with tmp: " + tmp);
 		postmsg("setQuestionCard", tmp);
+		tmp = null;
 	};
 
 }
