@@ -150,7 +150,9 @@ var com = com || {}; com.sudo = com.sudo || {};
 							// Why 0 and 1?
 							//
 							elements[0] = document.getElementById("question_" + data.msg[i]);
-							elements[1] = elements[0].nextSibling;						
+							// what's this doing?
+							elements[1] = elements[0].nextSibling;
+							console.log("elements: [0, 1], nextSibling: ", elements);
 							adjustClass(elements, name, true);
 						}
 						

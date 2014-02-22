@@ -1,4 +1,5 @@
 "use strict";
+importScripts("../model/GameType.js");
 importScripts("../model/Game.js");
 addEventListener("message", msg_handler, false);
 addEventListener("error", err_handler, false);

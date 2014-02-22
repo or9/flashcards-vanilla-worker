@@ -89,7 +89,12 @@ function CardGame(type) {
 		}
 	};
 	
-	setType(type, Array.prototype.slice.apply(arguments).slice(1));
+	console.log(type, Array.prototype.slice.apply(arguments).slice(1));
+
+	var types = new GameType(type, Array.prototype.slice.apply(arguments).slice(1));
+	console.log("types object initialized and set to…: ", types);
+
+//	setType(type, Array.prototype.slice.apply(arguments).slice(1));
 
 	this.init = function(cardsDataObj) {
 		/*
@@ -155,10 +160,11 @@ function CardGame(type) {
 		
 		function randomQuestion() {
 			var q = randomIntFromTotal();
-			if(q === newExpected)
+			if(q === newExpected) {
 				randomQuestion();
-				
-			return q;
+			} else {
+				return q;
+			}
 		}
 		
 		this.setExpected(newExpected);
