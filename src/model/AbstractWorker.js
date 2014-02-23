@@ -1,3 +1,4 @@
+"use strict";
 addEventListener("message", msg_handler, false);
 addEventListener("error", err_handler, false);
 
@@ -30,9 +31,9 @@ function importScript(data) {
 	postMessage(workerData);
 }
 
-function ajax(data) {
+function ajax(data, callback) {
 	var ax = new XMLHttpRequest();
-	var random = !!data.cache? "": Math.random();
+	var random = !!data.cache? "": "?" +  Math.random() * 1000;
 	ax.addEventListener("readyStateChange", ajax_handler, false);
 	ax.open("GET", data.msg + "?" + random, true);
 	ax.send();
@@ -91,6 +92,12 @@ function interval(data) {
 
 function shutdown() {
 	close();
+}
+
+function postmsg(fn, msg) {
+ data.fn = fn;
+ data.msg = msg;
+ postMessage(data);
 }
 
 function status() {

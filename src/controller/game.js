@@ -1,6 +1,9 @@
 "use strict";
-importScripts("../model/GameType.js");
-importScripts("../model/Game.js");
+importScripts(
+		"../model/AbstractWorker.js",
+		"../model/GameType.js", 
+		"../model/Game.js");
+//importScripts("../model/Game.js");
 addEventListener("message", msg_handler, false);
 addEventListener("error", err_handler, false);
 
@@ -22,7 +25,6 @@ var instance = 0;
 ajax("characters.json", setJsonData);
 
 function msg_handler(e) {
-	//postMessage(data);
 	data.fn = e.data.fn;
 	
 	if(!!e.data && !!e.data.fn) {
@@ -45,7 +47,9 @@ function init(data) {
 	destroy();
 	cardGame = new CardGame(type);
 	ready.model = true;
-	if(!!ready.data && !!ready.model) {
+	console.log("\tCARDGAME: init called. MODEL.READY is true");
+	if(ready.data && ready.model) {
+		console.log("\tCARDGAME: DATA.READY && MODEL.READY");
 		cardGame.init(jsonData);
 	}
 	start();
@@ -68,8 +72,10 @@ function start(data) {
 
 function getGameType(data) {
 	if(!!data) {
+		console.log("\tdata is available. setting type to data.msg: " + data.msg); 
 		type = data.msg;
 	} else {
+		console.log("\tdata not available. posting message to getGameType from game");
 		postmsg("getGameType", "game");
 	}
 }
@@ -110,9 +116,9 @@ function err_handler(e) {
 
 function ajax(src, callback) {
 	var ax = new XMLHttpRequest();
-	var random = !!cache? "": Math.random() * 1000;
+	var random = !!cache? "": "?" + Math.random() * 1000;
 	ax.addEventListener("readystatechange", ajax_handler, false);
-	ax.open("GET", src + "?" + random, true);
+	ax.open("GET", src + random, true);
 	ax.send();
 	
 	function ajax_handler(e) {

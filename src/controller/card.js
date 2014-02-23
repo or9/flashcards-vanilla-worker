@@ -1,3 +1,18 @@
+"use strict";
+importScripts(
+		"../model/AbstractWorker.js", 
+		"../model/Card.js");
+addEventListener("message", msg_handler, false);
+addEventListener("error", err_handler, false);
+
+var ready = {
+	data: false,
+	model: false,
+	main: false
+};
+var cache = false;
+var cards = [];
+
 com.sudo.cards = com.sudo.cards || {};
 // according to design pattern, this should be a worker…
 
@@ -83,10 +98,6 @@ com.sudo.cards = com.sudo.cards || {};
 			var newcards = document.getElementsByClassName("card");
 			var len = newcards.length;
 			if(len === cards.length) {
-				//data.fn = "toggleReadyState";
-				//data.fn = "setReadyState";
-				//data.msg = "cards";
-				//main.postMessage(data);
 				postmsg.call(main, "toggleReadyState", "cards");	
 				setupClickHandlers(newcards, len);
 			}
@@ -105,10 +116,3 @@ com.sudo.cards = com.sudo.cards || {};
 	
 }).apply(com.sudo.cards);
 
-// var timer = 0;
-// var interval = 500;
-// timer = setTimeout(log, interval);
-// function log() {
-// 	console.log(com.sudo.cards.getCard());
-// 	console.log(com.sudo.cards.getCard(1));
-// }

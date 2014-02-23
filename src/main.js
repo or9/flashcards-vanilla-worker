@@ -10,6 +10,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 	// card states altered by game state (get or post?)
 	//
 	
+	var language = "Arabic";
 	var data = {
 		//"fn": "initGame",
 		"fn"		:	"init",
@@ -32,6 +33,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 		eID: 			function(idstr) {return document.getElementById(idstr);},
 		eName:		function(nstr) {return document.getElementById("gcontrols")[nstr];}
 	};
+	var card = new Worker("./controller/card.js");
 	var game = new Worker("./controller/game.js");
 	var mainHandler = function() {}; // handler for receiving messages, based on WorkerHandler model
 	var main = new Worker("./model/AbstractWorker.js"); // Interface for messages to be sent to handler
@@ -44,8 +46,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 	
 	// Instantiate game via worker
 	// Accepts options as defined by UI form elements
-	// postmsg(this, fn, msg)
-
+	postmsg.call(card, "init", language);
 	postmsg.call(game, "init", gameOptions.type() + ", " +  gameOptions.vowels());
 	//console.log("post type() and vowels()", gameOptions.type() + ", " + gameOptions.vowels());
 	var scripts = {
@@ -69,6 +70,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 					};
 
 					this.getGameType = function(data) {
+						console.log("MAIN: calling getGameType with data: ", data);
 						getGameType(game);
 					};
 
@@ -97,6 +99,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 						console.log("layout question");
 						// stop this from calling during init...
 						document.getElementById("choiceColumn").innerHTML += data.msg;
+					};
+
+					this.setGameType = function(data) {
+						console.log("MAIN setGameType to… \t", data.msg);
 					};
 					
 					this.setGameHeadingForType = function(data) {
@@ -142,13 +148,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 							elements = [],
 							name = "display-true";
 						
-						console.log("msg.length: ", len, "\tdata.msg[0]: ", data.msg[0], "\tdata.msg[1]: ", data.msg[1]);
-						console.log("#question_ d.m[0]", document.getElementById("question_" + data.msg[0]));
-						console.log("#question_ d.m[1]", document.getElementById("question_" + data.msg[1]));
 						for(i; i < len; i++) {
-							console.log(i);
+							console.log(i, data.msg, data.msg[i]);
+							console.log("MAIN: iterate on setQuestions #question_" + data.msg[i], document.getElementById("question_" + data.msg[i]));
 							// Why 0 and 1?
-							//
 							elements[0] = document.getElementById("question_" + data.msg[i]);
 							// what's this doing?
 							elements[1] = elements[0].nextSibling;
@@ -223,7 +226,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 	};
 
 	addScript.call(scripts.worker);
-	addScript.call(scripts.card);
+	//addScript.call(scripts.card);
 	addScript.call(scripts.layout);
 
 	function msg_handler(e) {

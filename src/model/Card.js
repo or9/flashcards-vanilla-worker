@@ -1,5 +1,12 @@
 addEventListener("message", msg_handler, false);
 addEventListener("error", err_handler, false);
+Card.prototype.id = 0;
+Card.prototype.character = "";
+Card.prototype.name = "";
+Card.prototype.forms = {};
+Card.prototype.tags = [];
+Card.prototype.sound = false;
+function Card() {}
 
 var workerData = {
 	id: location["search"].slice(1)
