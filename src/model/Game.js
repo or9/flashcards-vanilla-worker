@@ -103,8 +103,11 @@ function CardGame(type) {
 			len = questions.numToShow - 1,
 			arr = [],
 			newExpected = randomIntFromSet();
-			
+		/*	
 		for(i; i < len; i++) {
+			arr.push(randomQuestion());
+		}*/
+		while(i < len) {
 			arr.push(randomQuestion());
 		}
 

@@ -5,6 +5,10 @@ importScripts(
 addEventListener("message", msg_handler, false);
 addEventListener("error", err_handler, false);
 
+var data = {
+	fn: "",
+	msg: ""
+};
 var ready = {
 	data: false,
 	model: false,
@@ -12,14 +16,49 @@ var ready = {
 };
 var cache = false;
 var cards = [];
+var json = request("characters.json");
+function init(data) {
+	console.log("cards controller init called with data: " + data.msg);
+}
 
-com.sudo.cards = com.sudo.cards || {};
+function msg_handler(e) {
+	postMessage(workerData);
+	workerData.fn = e.data.fn;
+	console.log("card controller received msg: " + workerData);
+	if(!!e.data && !!e.data.fn) {
+		(function() {
+			this[e.data.fn](e.data);
+		})();
+	}
+}
+
+function request(url) {
+	var xhr = new XMLHttpRequest();
+	var random = !!data.cache? "": "?" +  Math.random() * 1000;
+	xhr.open("GET", url + random, true);
+	xhr.responseType = "text/json";
+	xhr.send();
+	xhr.onReadyStateChange = function(e) {
+		if(xhr.readyState === 4 && xhr.status === 200) {
+			return xhr.response;
+		} else {
+			throw error("Failed to load data");
+		}
+	};
+}
+
+function postmsg(data) {
+
+}
+
+//com.sudo.cards = com.sudo.cards || {};
 // according to design pattern, this should be a worker…
 
-(function() {
-	var main = com.sudo.getMainInterface();
+/*
+ * (function() {
+	//var main = com.sudo.getMainInterface();
 	
-	(function($) {
+	function($) {
 		$.ajax({
 			url: "./controller/characters.json",
 			type: "GET",
@@ -46,7 +85,7 @@ com.sudo.cards = com.sudo.cards || {};
 
 	function create(jsonData) {
 		var initCards = {"fn":"init","msg":"cards"};
-		com.sudo.getMainInterface().postMessage(initCards);
+		//com.sudo.getMainInterface().postMessage(initCards);
 		console.log("cards: create: jsonData: ", jsonData);	
 		// break up data and create each card from it
 		data.fn = "createCard";
@@ -115,4 +154,5 @@ com.sudo.cards = com.sudo.cards || {};
 	}
 	
 }).apply(com.sudo.cards);
+*/
 

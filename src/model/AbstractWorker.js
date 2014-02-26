@@ -9,14 +9,19 @@ var workerData = {
 var timer = 0;
 
 function msg_handler(e) {
-	postMessage(workerData);
+	console.log("ABSTRACT WORKER msg_handler: " + e.data.fn + " \t" + e.data.msg);
+	postMessage("test", workerData);
 	workerData.fn = e.data.fn;
-	
+	console.log("AbstractWorker received msg: " + workerData);	
 	if(!!e.data && !!e.data.fn) {
 		(function() {
 			this[e.data.fn](e.data);
 		})();	
 	}
+}
+
+function init(data) {
+	this.init(data);
 }
 
 function err_handler(e) {
@@ -34,8 +39,9 @@ function importScript(data) {
 function ajax(data, callback) {
 	var ax = new XMLHttpRequest();
 	var random = !!data.cache? "": "?" +  Math.random() * 1000;
+	console.log("AbstractWorker ajax request for: " + data.msg + random);
 	ax.addEventListener("readyStateChange", ajax_handler, false);
-	ax.open("GET", data.msg + "?" + random, true);
+	ax.open("GET", data.msg + random, true);
 	ax.send();
 	
 	function ajax_handler(e) {
@@ -78,7 +84,7 @@ function interval(data) {
 	var int = parseInt(data.msg);
 	
 	if(data.timer === "set")
-		timer = setInterval(tick, int);
+		timer = setInterval(intervalCallback, int);
 	else
 		clearInterval(timer);
 	

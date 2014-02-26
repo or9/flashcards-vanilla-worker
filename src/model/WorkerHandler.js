@@ -1,41 +1,35 @@
+WorkerHandler.prototype.test = function(data) {
+	console.log("WORKER HANDLER: test: " + data + "\tmsg: " data.msg);
+
+};
+WorkerHandler.prototype.log = function(data) {
+	console.log("WORKER HANDLER: log: " +  data + "\tmsg: " data.msg);
+
+};
+WorkerHandler.prototype.getLocation = function(data) {
+	console.log("WORKER HANDLER: getLocation: " +  data + "\tmsg: " data.msg);
+
+};
+WorkerHandler.prototype.importScript = function(data) {
+	console.log("WORKER HANDLER: importScript: " + data + "\tmsg: " data.msg);
+
+};
+WorkerHandler.prototype.ajax = function(data) {
+	console.log("WORKER HANDLER: ajax: " +  data + "\tmsg: " data.msg);
+
+};
+WorkerHandler.prototype.timeout = function(data) {
+	console.log("WORKER HANDLER: timeout: " +  data + "\tmsg: " data.msg);
+
+};
+WorkerHandler.prototype.interval = function(data) {
+	console.log("WORKER HANDLER: interval: " +  data + "\tmsg: " data.msg);
+
+};
+WorkerHandler.prototype.stop = function(data) {
+	console.log("WORKER HANDLER: stop: " +  data + "\tmsg: " data.msg);
+
+};
 function WorkerHandler() {
-	this.test = function(data) {
-		console.log("test > data: ", data);
-		console.log(data.msg);
-
-	};
-
-	this.log = function(data) {
-		console.log("Worker log: ", data.msg);
-	};
-
-	this.getLocation = function(data) {
-		console.log("getLocation handler received: ", data.msg);
-		
-	};
-	
-	this.importScript = function(data) {
-		console.log("import handler received: ", data.msg);
-		
-	};
-	
-	this.ajax = function(data) {
-		console.log("ajax handler received: ", data.msg);
-		
-	};
-	
-	this.timeout = function(data) {
-		console.log("timeout handler received: ", data);
-		
-	};
-	
-	this.interval = function(data) {
-		console.log("interval handler received: ", data);
-		
-	};
-
-	this.stop = function(data) {
-		console.log("stop handler received: ", data);
-	};
-	
+	console.log("WorkerHandler instantiated");
 }
