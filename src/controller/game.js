@@ -1,15 +1,17 @@
 "use strict";
+console.group("Controller - game");
+importScripts("../model/AbstractWorker.js");
+var abworker = new AbstractWorker();
 importScripts(
-		"../model/AbstractWorker.js",
 		"../model/GameType.js", 
 		"../model/Game.js");
-//importScripts("../model/Game.js");
 addEventListener("message", msg_handler, false);
-addEventListener("error", err_handler, false);
+//addEventListener("error", err_handler, false);
 
 var data = {
 	fn: "",
-	msg: ""
+	msg: "",
+	args: {}
 };
 var ready = {
 	data: false,
@@ -22,24 +24,25 @@ var jsonData = {};
 var type = getGameType();
 var instance = 0;
 
-ajax("characters.json", setJsonData);
+abworker.xhr.call(abworker, "../controller/characters.json", setJsonData);
 
 function msg_handler(e) {
-	data.fn = e.data.fn;
-	
-	if(!!e.data && !!e.data.fn) {
+	//data.fn = e.data.fn;
+	abworker.postmsg("receipt", e.data.fn, e.data.msg);
+	console.log("GAME WORKER CONTROLLER msg_handler called");
+	//if(!!e.data && !!e.data.fn) {
 		if(e.data.fn === "game") {
-			(function() {
-				console.log("GAME WORKER CARDGAME received: " + e.data.msg);
-				cardGame[e.data.fn](e.data);
-			})();
+			//console.log("GAME WORKER CARDGAME received: " + e.data.fn + " " + e.data.msg);
+			//e.data.fn.call(cardGame, e.data);
+			console.log("game worker calling: " + cardGame[e.data.fn]);
+			cardGame[e.data.fn](e.data);
 		} else {
-			(function() {
-				console.log("GAME WORKER INTERFACE received: " + e.data.msg);
-				self[e.data.fn](e.data);
-			})();
+			//console.log("GAME WORKER INTERFACE received: " + e.data.fn + " " + e.data.msg);
+			//e.data.fn.call(this, e.data);
+			console.log("game worker calling: " + self[e.data.fn]);
+			self[e.data.fn](e.data);
 		}
-	}
+	//}
 }
 
 function init(data) {
@@ -72,11 +75,13 @@ function start(data) {
 
 function getGameType(data) {
 	if(!!data) {
+		// Set
 		console.log("\tdata is available. setting type to data.msg: " + data.msg); 
 		type = data.msg;
 	} else {
+		// Get
 		console.log("\tdata not available. posting message to getGameType from game");
-		postmsg("getGameType", "game");
+		abworker.postmsg("getGameType", "game");
 	}
 }
 
@@ -87,11 +92,15 @@ function destroy(data) {
 function kill(data) {
 	self.close();
 }
-
-function postmsg(fn, msg) {
+/*
+function postmsg(fn, msg, args) {
 	data.fn = fn;
 	data.msg = msg;
+	data.args = args;
 	self.postMessage(data);
+}*/
+function postmsg(fn, msg, args) {
+	abworker.postmsg(fn, msg, args);
 }
 
 function createQuestion(data) {
@@ -102,18 +111,14 @@ function getQuestions(range) {
 	
 }
 
-function setJsonData(json) {
-	jsonData = JSON.parse(json);
+function setJsonData(xhr) {
+	jsonData = JSON.parse(xhr.responseText);
 	ready.data = true;
 	init();
 }
 
-function err_handler(e) {
-	data.fn = "error";
-	data.msg = "Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message;
-	postMessage(data);
-}
-
+console.groupEnd();
+/*
 function ajax(src, callback) {
 	var ax = new XMLHttpRequest();
 	var random = !!cache? "": "?" + Math.random() * 1000;
@@ -135,8 +140,4 @@ function ajax(src, callback) {
 			}
 		}
 	}
-}
-
-function err_handler(e) {
-	postMessage("Error @: ", e.lineno, "\n\t File: ", e.filename, "\n\t Message:", e.message);
-}
+}*/

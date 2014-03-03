@@ -1,13 +1,16 @@
 "use strict";
-importScripts(
-		"../model/AbstractWorker.js", 
-		"../model/Card.js");
+console.group("Controller - card");
+importScripts("../model/AbstractWorker.js");
+var abworker = new AbstractWorker();
+importScripts("../model/Card.js");
 addEventListener("message", msg_handler, false);
-addEventListener("error", err_handler, false);
+addEventListener("error", abworker.err_handler, false);
 
 var data = {
 	fn: "",
-	msg: ""
+	msg: "",
+	args: {},
+	cache: false
 };
 var ready = {
 	data: false,
@@ -16,40 +19,154 @@ var ready = {
 };
 var cache = false;
 var cards = [];
-var json = request("characters.json");
-function init(data) {
-	console.log("cards controller init called with data: " + data.msg);
-}
+console.log("about to ajax… ");
+
+console.log("====================CARD WORKER CALLING ABWORKER.XHR.CALL===========================");
+var json = {};
 
 function msg_handler(e) {
-	postMessage(workerData);
-	workerData.fn = e.data.fn;
-	console.log("card controller received msg: " + workerData);
-	if(!!e.data && !!e.data.fn) {
-		(function() {
-			this[e.data.fn](e.data);
-		})();
-	}
+	abworker.postmsg("receipt", e.data.fn, e.data.msg, e.data.args);
+	console.log("e.data.fn: " + e.data.fn + self[e.data.fn]);
+	self[e.data.fn](e.data);
 }
 
+function init(data) {
+	console.log("CARD WORKER init called with " + data.msg);
+	console.log(this, data);
+	json = abworker.xhr.call(abworker, "../controller/characters.json", create);
+}
+
+function create(xhr) {
+	var initCards = {"fn":"init","msg":"cards"};
+	var i = 0;
+	var len = cards.length;
+	var card = new Card();
+
+	//console.log("CARDWORKER: cards: create: jsonData: ", xhr.responseText);	
+	var jsonData = JSON.parse(xhr.responseText);
+	for(var key in jsonData) {
+		console.log("running for each card " + key);
+		card[key] = jsonData[key];
+		cards.push(card);
+		len += 1;
+	}
+	
+	for(i; i < len; i++) {
+		console.log("i:len" + i + ":" + len);
+		console.log("cards[i]: " + cards[i] + " " + cards[i].position + " " + cards[i].character + " " + cards[i].contextualForms +
+				"cards.length - 1" + cards[len - 1]);
+		createCard(cards[i], i);
+		console.log(i + ":" + len);
+	}
+	
+	ready.data = true;
+	ready.model = true;
+	postmsg("setupClickHandlers", "", "");
+	postmsg("setReadyState", "cards");
+	return xhr.responseText;
+}
+
+function mainReady(data) {
+	ready.main = data.args;
+}
+
+function postmsg(fn, msg, args) {
+	abworker.postmsg(fn, msg, args);
+} 
+
+function getCards(data) {
+	abworker.postmsg(data.fn, cards);
+}
+
+function getJSON(data) {
+	postmsg(data.fn, json);
+}
+
+function createCard(card, we) {
+	//  var msg = jsonData["msg"];
+	//for(var key in card) {
+	//	console.log(key);
+	var	position = card.position,
+		character = card.character,
+		name = card.name,
+		forms = contextualForms(card.contextualForms),
+		cardTags = tags(card["tags"]),
+		sound = card.sound || false;
+
+	console.log("properties of card: \n\t" + position + "\n\t" + character + "\n\t" + name + "\n\t" + forms + "\n\t" + cardTags +
+			"\n\t" + sound + "\n\t" + card + "\n\t" + we);
+
+	var card = "\n" + "<div class=\"card\" id=\"card_" + we + "\" data-position=\"" + position + "\" data-sound=\"" + "soundFile.mp4" + "\" \    >" + 
+		"<h2>" + character + "</h2>" +
+	"<h2>" + name + "</h2>" +
+		htmlForms(card["contextualForms"]) +
+		htmlTags(card["tags"]) +
+		"</div>" + "\n";
+
+	console.log("card created: " + card);
+	// set / post each card back to main thread
+	postmsg("createCard", card, "");
+	//postmsg("init", card, ""); // new… no shortcuts, I guess
+	//}
+
+	function contextualForms(obj) {
+		var _forms = "";
+		for(var key in obj) {
+			_forms += obj[key] + "\n";
+		}
+		return _forms;
+	}
+
+	function htmlForms(obj) {
+		// use &#x....; to use unicode in HTML markup
+		var _forms = "<ul class=\"forms\">";
+		for(var key in obj) {
+			if(obj[key] !== "") {
+				_forms += "<li>" + "&#x" + obj[key] + ";</li>";
+			}
+		}
+		return _forms + "</ul>";
+	}
+
+	function tags(arr) {
+		var i = 0;
+		var len = arr.length;
+		var _tags = "";
+		for(i; i < len; i++) {
+			_tags += arr[i] + " ";
+		}
+		return _tags;
+	}
+	function htmlTags(arr) {
+		var i = 0;
+		var len = arr.length;
+		var _tags = "<ul class=\"tags\">";
+		for(i; i < len; i++) {
+			_tags += "<li>" + arr[i] + "</li>";
+		}
+		return _tags + "</ul>";
+	}
+
+
+}
+
+/*
 function request(url) {
 	var xhr = new XMLHttpRequest();
-	var random = !!data.cache? "": "?" +  Math.random() * 1000;
+	var random = !!data.cache? "": "?" +  Math.random() * 100;
 	xhr.open("GET", url + random, true);
 	xhr.responseType = "text/json";
 	xhr.send();
 	xhr.onReadyStateChange = function(e) {
-		if(xhr.readyState === 4 && xhr.status === 200) {
+		if(xhr.readyState === 4) {
 			return xhr.response;
 		} else {
 			throw error("Failed to load data");
 		}
 	};
-}
+}*/
 
-function postmsg(data) {
-
-}
+console.groupEnd();
 
 //com.sudo.cards = com.sudo.cards || {};
 // according to design pattern, this should be a worker…

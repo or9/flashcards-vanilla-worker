@@ -10,14 +10,15 @@ var com = com || {}; com.sudo = com.sudo || {};
 	// card states altered by game state (get or post?)
 	//
 	
+	console.group("main");
 	var language = "Arabic";
 	var data = {
-		//"fn": "initGame",
 		"fn"		:	"init",
 		"msg"		: "",
 		"args"	:	""
 	};
 	var readiness = {
+		// Check ready state based on dependency table
 		cards: {state: false, depends: ["game"], ready:function(bool) {cardsReady(bool);}},
 		game: {state: false, depends: ["cards"], ready: function(bool) {gameReady(bool);}},
 		layout: {state: false, depends: ["game", "cards"], ready:function(bool) {layoutReady(bool);}},
@@ -27,6 +28,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 		}
 	};
 	var gameOptions = {
+		// Options as defined by DOM
 		diff: 		function() {return this.eName("ctrlDifficulty").value;},
 		type: 		function() {return this.eID("ctrlType" + this.diff()).value;},
 		vowels:		function() {return this.eName("ctrlVowels").checked? "useVowels": "";},
@@ -34,7 +36,9 @@ var com = com || {}; com.sudo = com.sudo || {};
 		eName:		function(nstr) {return document.getElementById("gcontrols")[nstr];}
 	};
 	var card = new Worker("./controller/card.js"); // Interface for cards
-	var game = new Worker("./controller/game.js"); // Interface for game
+	var game = new Worker("./controller/game.js"); // Interface for messages to be sent to handler
+	//var card = new Worker("./model/AbstractWorker.js?card.js"); // Interface for cards 
+	//var game = new Worker("./model/AbstractWorker.js?game.js"); // Interface for game
 	var main = new Worker("./model/AbstractWorker.js"); // Interface for messages to be sent to handler
 	var mainHandler = {}, // handler for receiving messages, based on WorkerHandler model
 			cardHandler = {},
@@ -50,36 +54,41 @@ var com = com || {}; com.sudo = com.sudo || {};
 	
 	// Instantiate game via worker
 	// Accepts options as defined by UI form elements
-	console.log("MAIN about to postmsg to card and game. what are they? \n", card, "\n", game);
+	//console.log("MAIN about to postmsg to card and game. what are they? \n", card, "\n", game);
 	postmsg.call(card, "init", language);
 	postmsg.call(game, "init", gameOptions.type() + ", " +  gameOptions.vowels());
-	console.log("MAIN after postmsg to card and game.");
-	//console.log("post type() and vowels()", gameOptions.type() + ", " + gameOptions.vowels());
+	
 	var scripts = {
 		worker: {
+			// After loading script, call callback with data
 			url: "./model/WorkerHandler.js",
 			callback: function(e) {
-				mainHandler = new MainHandler();
-				cardHandler = new CardHandler();
-				gameHandler = new GameHandler();
-
-				WorkerHandler.prototype.test = function(data) {
-					console.log("MAIN TEST: ", data.msg);
+			
+				// Set prototype first based on Parent class,
+				// Otherwise prototype properties will be overridden by parent prototype properties
+				// When setting Decendent.prototype = new Parent()
+				CardHandler.prototype = new WorkerHandler();
+				GameHandler.prototype = new WorkerHandler();
+				MainHandler.prototype = new WorkerHandler();
+				
+				WorkerHandler.prototype.getGameType = function(data) {
+					console.log("MAIN Generic getGameType called with data: ", data.fn, data.msg);
+					getGameType(data.msg);
 				};
 				WorkerHandler.prototype.setReadyState = function(data) {
-					console.log("MAIN setReadyState called");
+					console.log("MAIN Generic setReadyState called");
 					setReadyState(data.msg);
 				};
 				WorkerHandler.prototype.toggleReadyState = function(data) {
 					toggleReadyState(data.msg);
 				};
 				GameHandler.prototype.getGameType = function(data) {
-					console.log("MAIN getGameType called with data: ", data);
+					console.log("MAIN GameHandler getGameType called with data: ", data, data.fn, data.msg);
 					getGameType(game);
 				};
 				CardHandler.prototype.init = function(data) {
 				//WorkerHandler.prototype.init = function(data) {
-					console.log("MAIN init called with data: ", data, data.msg, /cards/gi.test(data.msg));
+					console.log("MAIN CardHandler init called with data: ", data, data.msg, /cards/gi.test(data.msg));
 					var col = /cards/gi.test(data.msg)? document.getELementById("cardTable"): document.getElementById("choiceColumn");
 					var legend = col.getElementsByTagName("legend")[0];
 					var heading = document.getElementById("gameTypeHeading");
@@ -88,8 +97,30 @@ var com = com || {}; com.sudo = com.sudo || {};
 					col.insertBefore(heading, col.childNodes[0]);
 					col.insertBefore(legend, heading);
 				};
+				CardHandler.prototype.createCard = function(data) {
+					var table = document.getElementById("cardTable");
+					var card = data.msg;
+					table.innerHTML += card;
+						
+				};
+				CardHandler.prototype.setupClickHandlers = function(data) {
+					var cards = document.querySelectorAll(".card"),
+							len = cards.length,
+							i = 0;
+					for(i; i < len; i++) {
+						console.log("setting click handler for: ", cards[i]);
+						cards[i].addEventListener("click", clickHandlerCard, false);
+					}
+				};
+				GameHandler.prototype.init = function(data) {
+					console.log("MAIN GameHandler init called with data: ", data, data.msg);
+					
+				};
+				CardHandler.prototype.setupClickHandlers = function(data) {
+					console.log("MAIN CardHandler setupClickHandlers called");
+				};
 				WorkerHandler.prototype.ready = function(data) {
-					console.log("MAIN ready called: ", data.msg);
+					console.log("MAIN Generic ready called: ", data.msg);
 				};
 				GameHandler.prototype.gameQuestions = function(data) {
 					// Receive all cards
@@ -97,26 +128,26 @@ var com = com || {}; com.sudo = com.sudo || {};
 				};
 
 				GameHandler.prototype.layoutQuestion = function(data) {
-					console.log("MAIN layout question"); 
+					console.log("MAIN GameHandler layout question"); 
 					// stop from calling during init… 
 					document.getElementById("choiceColumn").innerHTML += data.msg;
 				};
 				GameHandler.prototype.setGameType = function(data) {
-					console.log("MAIN setGameType to… \t", data.msg);
+					console.log("MAIN GameHandler setGameType to… \t", data.msg);
 				};
 				GameHandler.prototype.setGameHeadingForType = function(data) {
-					console.log("MAIN setGameHeadingForType");
+					console.log("MAIN GameHandler setGameHeadingForType");
 					document.getElementById("gameTypeHeading").innerHTML += data.msg;
 				};
 				GameHandler.prototype.setQuestionCard = function(data) {
-					console.log("MAIN setQuestionCard to:…", data.msg);
+					console.log("MAIN GameHandle resetQuestionCard to:…", data.msg);
 					var card = document.getElementById("card_" + data.msg),
 							name = "current";
 					console.log("MAIN setQuestionCard is: ", card);
 					adjustClass([card], name, true);
 				};
 				GameHandler.prototype.setQuestions = function(data) {
-					console.log("MAIN setQuestions to: ", data.msg);
+					console.log("MAIN GameHandle rsetQuestions to: ", data.msg);
 					var i = 0,
 							len = data.msg.length,
 							elements = [],
@@ -145,6 +176,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 					}
 				};
 				
+				function clickHandlerCard(e) {
+					console.log(e.target.id);
+				}
+
 				function moveElement(element, target) {
 					console.log("element: ", element, target);
 					element.className = /disp_none/g.test(element.className)? element.className: element.className += "disp_none";
@@ -179,20 +214,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 					}
 						
 				}
-				
-				CardHandler.prototype = new WorkerHandler();
-				GameHandler.prototype = new WorkerHandler();
-				MainHandler.prototype = new WorkerHandler();
-				function MainHandler() {}
-				function CardHandler() {}
-				function GameHandler() {}
-			}
-		},
-		card: {
-			url: "./controller/card.js",
-			callback: function(e) {
-				console.log("card scriptLoad callback called");
-				 
+
+				gameHandler = new GameHandler();
+				mainHandler = new MainHandler();
+				cardHandler = new CardHandler();
 			}
 		},
 		layout: {
@@ -219,32 +244,32 @@ var com = com || {}; com.sudo = com.sudo || {};
 
 	addScript.call(scripts.worker);
 	//addScript.call(scripts.card);
-	addScript.call(scripts.layout);
+	//addScript.call(scripts.layout);
 
 	function msg_handler_main(e) {
-		console.log("MAIN msg_handler_MAIN called", e);
-		(function() {
-			this[e.data.fn](e.data);
-		}).apply(mainHandler);
+		console.log("%cMAIN msg_handler_MAIN called", "color: orange;", e);
+		msg_handler.call(mainHandler, e.data);
 	}
 
 	function msg_handler_game(e) {
-		console.log("MAIN msg_handler_GAME called", e);
-		(function() {
-			this[e.data.fn](e.data);
-		}).apply(gameHandler);
+		console.log("%cMAIN msg_handler_GAME called", "color: cyan;", e);
+		msg_handler.call(gameHandler, e.data);
 	}
 
 	function msg_handler_card(e) {
-		console.log("MAIN msg_handler_CARD called", e);
-		(function() {
-			this[e.data.fn](e.data);
-		}).apply(cardHandler);
+		console.log("%cMAIN msg_handler_CARD called", "color: magenta;", e);
+		msg_handler.call(cardHandler, e.data);
+	}
+
+	function msg_handler(dataFromWorker) {
+		//console.log("%cmsg_handler: ", "color: blue;",  dataFromWorker, this, "\n\tfn: ", dataFromWorker.fn);
+		console.log("%ccalling: ", "color: blue;", this, this[dataFromWorker.fn]);
+		this[dataFromWorker.fn](dataFromWorker);
 	}
 
 	function addScript() {
 		var head = document.getElementsByTagName("head")[0],
-			script = document.createElement("script");
+				script = document.createElement("script");
 			
 		script.addEventListener("load", this.callback, false);			
 		script.src = this.url;
@@ -253,22 +278,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 	}
 
 	function postmsg(fn, msg, args) {
-		console.log("postmsg called…");
+		console.log("MAIN postmsg called for this, fn, msg, args…\n\t", this, fn, msg, args);
 		data.fn = fn;
 		data.msg = msg;
 		data.args = args;
-		//var fnlen = fn.length * 2;
-		//var msglen = msg.length * 2;
-		//var argslen = args? args.length * 2: 0;
-		
-		//var buff = new ArrayBuffer(fnlen + msglen + argslen + 2);
-		//var uintFN = new Uint8Array(buff, 1, fnlen);
-		//var uintMSG = new Uint8Array(buff, fnlen + 1, msglen);
-		//var uintARGS = new Uint8Array(buff, msglen + 1, buff.length - 1);
-		//uintFN.set(fn);
-		//uintMSG.set(msg);
-		//uintARGS.set(args);
-		//this.postMessage(data, [buff]);
 		this.postMessage(data);
 	}
 
@@ -304,6 +317,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 
 	function readyGame() {
 		console.log("set readyGame()");
+		postmsg.call(card, "mainReady", "true");
 		postmsg.call(game, "mainReady", "true");
 	}
 
@@ -340,7 +354,12 @@ var com = com || {}; com.sudo = com.sudo || {};
 	}
 
 	function getGameType(iface) {
+		console.log("%cMAIN getGameType called: ", "background: silver;", iface, gameOptions.type(), gameOptions.vowels());
 		postmsg.call(iface, "getGameType", gameOptions.type() + ", " +  gameOptions.vowels());
+	}
+
+	function getInterface(name) {
+		return this[name]; //error. not a function
 	}
 	
 	this.getGameInterface = function() {
@@ -354,6 +373,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 	this.getReadyState = function(resource) {
 		return readiness[resource].state;
 	};
+	
+	function MainHandler() {}
+	function CardHandler() {}
+	function GameHandler() {}
 	
 	/* CONTROL ELEMENTS
 	/
@@ -375,4 +398,5 @@ var com = com || {}; com.sudo = com.sudo || {};
 
 
 	document.getElementById("copyrightYear").innerHTML = new Date().getFullYear();
+	console.groupEnd();
 }).apply(com.sudo);

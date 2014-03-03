@@ -103,7 +103,7 @@ function GameType(type) {
 				var re = "unresolved";
 				for(var prop in this[level]) {
 					re = prop;
-					console.log("GAMETYPE: setting type to prop: \t" + prop);
+					//console.log("GAMETYPE: setting type to prop: \t" + prop);
 					if(fn.match(regexp)) {
 						console.log("type matched!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 						break;
