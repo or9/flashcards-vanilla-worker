@@ -77,10 +77,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 				};
 				WorkerHandler.prototype.setReadyState = function(data) {
 					console.log("MAIN Generic setReadyState called");
-					setReadyState(data.msg);
+					//setReadyState(data.msg);
 				};
 				WorkerHandler.prototype.toggleReadyState = function(data) {
-					toggleReadyState(data.msg);
+					//toggleReadyState(data.msg);
 				};
 				GameHandler.prototype.getGameType = function(data) {
 					console.log("MAIN GameHandler getGameType called with data: ", data, data.fn, data.msg);
@@ -107,10 +107,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 					var cards = document.querySelectorAll(".card"),
 							len = cards.length,
 							i = 0;
-					for(i; i < len; i++) {
+					/*for(i; i < len; i++) {
 						console.log("setting click handler for: ", cards[i]);
 						cards[i].addEventListener("click", clickHandlerCard, false);
-					}
+					}*/
 				};
 				GameHandler.prototype.init = function(data) {
 					console.log("MAIN GameHandler init called with data: ", data, data.msg);

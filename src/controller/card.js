@@ -1,5 +1,4 @@
 "use strict";
-console.group("Controller - card");
 importScripts("../model/AbstractWorker.js");
 var abworker = new AbstractWorker();
 importScripts("../model/Card.js");
@@ -19,10 +18,10 @@ var ready = {
 };
 var cache = false;
 var cards = [];
-console.log("about to ajax… ");
-
-console.log("====================CARD WORKER CALLING ABWORKER.XHR.CALL===========================");
 var json = {};
+console.log("====================CARD WORKER CALLING ABWORKER.XHR.CALL===========================");
+//abworker.xhr.call(abworker, "../controller/characters.json", create);
+abworker.xhr("../controller/characters.json", create);
 
 function msg_handler(e) {
 	abworker.postmsg("receipt", e.data.fn, e.data.msg, e.data.args);
@@ -33,37 +32,42 @@ function msg_handler(e) {
 function init(data) {
 	console.log("CARD WORKER init called with " + data.msg);
 	console.log(this, data);
-	json = abworker.xhr.call(abworker, "../controller/characters.json", create);
+	//json = abworker.xhr.call(abworker, "../controller/characters.json", create);
 }
 
 function create(xhr) {
-	var initCards = {"fn":"init","msg":"cards"};
+	var jsonData = JSON.parse(xhr.responseText);
+	//var initCards = {"fn":"init","msg":"cards"};
+	postmsg("init", "cards");
 	var i = 0;
 	var len = cards.length;
 	var card = new Card();
 
+	ready.data = true;
 	//console.log("CARDWORKER: cards: create: jsonData: ", xhr.responseText);	
-	var jsonData = JSON.parse(xhr.responseText);
+
 	for(var key in jsonData) {
 		console.log("running for each card " + key);
 		card[key] = jsonData[key];
 		cards.push(card);
+		card.init();
 		len += 1;
 	}
+	ready.model = true;
 	
 	for(i; i < len; i++) {
 		console.log("i:len" + i + ":" + len);
 		console.log("cards[i]: " + cards[i] + " " + cards[i].position + " " + cards[i].character + " " + cards[i].contextualForms +
 				"cards.length - 1" + cards[len - 1]);
 		createCard(cards[i], i);
-		console.log(i + ":" + len);
 	}
 	
-	ready.data = true;
-	ready.model = true;
+
+
 	postmsg("setupClickHandlers", "", "");
 	postmsg("setReadyState", "cards");
-	return xhr.responseText;
+	//return xhr.responseText;
+	json = jsonData; 
 }
 
 function mainReady(data) {
@@ -165,8 +169,6 @@ function request(url) {
 		}
 	};
 }*/
-
-console.groupEnd();
 
 //com.sudo.cards = com.sudo.cards || {};
 // according to design pattern, this should be a worker…
