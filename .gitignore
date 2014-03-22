@@ -1,5 +1,7 @@
-/node_modules/
-/src/ex/
+node_modules/
+src/ex/
+example/
 *.sublime-*
 *.swp
+**.swp
 *.swo

@@ -12,82 +12,114 @@ module.exports = function(grunt) {
       '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
       ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
     // Task configuration.
-    clean: {
+    
+		clean: {
       files: ['dist']
     },
-    concat: {
+    
+		concat: {
       options: {
         banner: '<%= banner %>',
         stripBanners: true
       },
-      dist: {
-        src: ['src/<%= pkg.name %>.js'],
-        dest: 'dist/<%= pkg.name %>.js'
-      },
+      
+			dist: {
+        //src: ["src/<%= pkg.name %>.js"],
+        //dest: "dist/<%= pkg.name %>.js"
+				// basically just moving files...
+        src: ["src/**/*"],
+        dest: "dist/"
+      }
     },
+
     uglify: {
       options: {
         banner: '<%= banner %> %= grunt.template.today("yyyy-mm-dd") %> */\n',
         mangle: {
-            except: ["jquery"]
+          //except: ["jquery"]
+					except: [""]
         }
       },
-      dist: {
-        src: '<%= concat.dist.dest %>',
-        dest: 'dist/<%= pkg.name %>.min.js'
-      },
-      my_target: {
+      
+			dist: {
+				src: "<%= concat.dist.dest %>",
+        //dest: 'dist/<%= pkg.name %>.min.js'
+				dest: "<%= concat.dist.dest %>"
+      }
+      
+			/*src: {
         files: {
           'build/model/model.js': ['src/model/*.js'],
           'build/controller/controller.js': ['src/controller/*.js'],
           'build/main.js': ['src/*.js']
         }
-      }
+      }*/
     },
-    jshint: {
-      gruntfile: {
-        options: {
-          jshintrc: '.jshintrc'
-        },
-        src: 'Gruntfile.js'
-      },
-      src: {
+    
+		jshint: {
+      options: {
+				jshintrc: ".jshintrc"
+			},
+
+			gruntfile: {
+				src: "Gruntfile.js"
+			},
+
+			src: {
         options: {
           jshintrc: 'src/.jshintrc'
         },
         src: ['src/**/*.js']
       },
-      test: {
-        options: {
-          jshintrc: 'test/.jshintrc'
-        },
-        src: ['test/**/*.js']
-      },
+			
+			test: {
+				options: {
+					jshintrc: "spec/.jshintrc"
+				},
+				src: "*.js"
+			},
+
+			dist: {
+				src: "dist/**/*"
+			}
     },
+
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
+
       src: {
         files: '<%= jshint.src.src %>',
-        tasks: ['jshint:src', 'qunit']
+        tasks: ['jshint:src', 'jasmine:src']
       },
+
+			dist: {
+				files: "<%= jshint.dist.src %>",
+				tasks: ["jshint:dist", "jasmine:dist"]
+			},
+
       test: {
         files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'qunit']
-      },
-    },
+        tasks: ['jshint:test']
+      }
+    }
+
+
+
   });
 
-  // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-clean');
+  
+	grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks("grunt-contrib-jasmine");
 
-  // Default task.
-  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify']);
+  
+	grunt.registerTask("default", ["jshint", "jasmine", "clean", "concat", "uglify", "jasmine:dist"]);
 
 };
