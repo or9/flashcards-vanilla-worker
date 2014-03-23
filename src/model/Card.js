@@ -6,31 +6,35 @@ Card.prototype.name = "";
 Card.prototype.forms = {};
 Card.prototype.tags = [];
 Card.prototype.sound = false;
-Card.prototype.init = function(card, we) {
-	function createCard(card, we) {
+Card.prototype.init = function(we) {
+	//function createCard(we) {
+		(function() {
 		//  var msg = jsonData["msg"];
 		//for(var key in card) {
 		//  console.log(key);
 		var position = this.position,
 				character = this.character,
 				name = this.name,
-				forms = contextualForms(this.contextualForms),
-				cardTags = tags(card["tags"]),
+				forms = contextualForms(this.forms),
+				//cardTags = tags(this.tags), //do we actually need this? looks like it's not used
 				sound = this.sound || false;
 
-		console.log("properties of card: \n\t" + position + "\n\t" + character + "\n\t" + name + "\n\t" +     forms + "\n\t" + cardTags +
-				"\n\t" + sound + "\n\t" + card + "\n\t" + we);
+		console.log("properties of card: \n\t" + position + "\n\t" + character + "\n\t" + name + "\n\t" +     forms + "\n\t" + //cardTags + 
+			"\n\t" + sound + "\n\t" + this + "\n\t" + we);
 
-		var card = "\n" + "<div class=\"card\" id=\"card_" + we + "\" data-position=\"" + position + "\" d    ata-sound=\"" + "soundFile.mp4" + "\" \    >" +
+		var card = "\n" + "<div class=\"card\" id=\"card_" + we + 
+			"\" data-position=\"" + position + 
+			"\" data-sound=\"" + "soundFile.mp4" + 
+			"\" \>" +
 			"<h2>" + character + "</h2>" +
 			"<h2>" + name + "</h2>" +
-			htmlForms(this["contextualForms"]) +
-			htmlTags(this["tags"]) +
+			htmlForms(this.forms) +
+			htmlTags(this.tags) +
 			"</div>" + "\n";
 
-		console.log("card created: " + card);
+		console.log("card created: " + this);
 		// set / post each card back to main thread
-		postmsg("createCard", card, "");
+		postmsg("createCard", this, "");
 		//postmsg("init", card, ""); // new… no shortcuts, I guess
 		//}
 
@@ -74,7 +78,9 @@ Card.prototype.init = function(card, we) {
 		}
 
 
-	}
+	//}// /createCard
+}());
+
 };
 
 function Card() {

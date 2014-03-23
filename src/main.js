@@ -89,9 +89,15 @@ var com = com || {}; com.sudo = com.sudo || {};
 				CardHandler.prototype.init = function(data) {
 				//WorkerHandler.prototype.init = function(data) {
 					console.log("MAIN CardHandler init called with data: ", data, data.msg, /cards/gi.test(data.msg));
+					// Set column to either #cardTable or #choiceColumn depending on whether data.msg tests true for "cards"
+					// Legend is the column's legend element
+					// heading is the doocument's main header
 					var col = /cards/gi.test(data.msg)? document.getELementById("cardTable"): document.getElementById("choiceColumn");
 					var legend = col.getElementsByTagName("legend")[0];
 					var heading = document.getElementById("gameTypeHeading");
+					// Move legend and heading out of column into body
+					// Reinsert heading before all child nodes of column;
+					// followed by reinserting legend before heading
 					moveElement(legend);
 					moveElement(heading);
 					col.insertBefore(heading, col.childNodes[0]);
@@ -181,10 +187,13 @@ var com = com || {}; com.sudo = com.sudo || {};
 				}
 
 				function moveElement(element, target) {
-					console.log("element: ", element, target);
+					console.log("MAIN moveElement: ", element, target);
+					// If the element is hidden, leave it hidden; otherwise, hide it
 					element.className = /disp_none/g.test(element.className)? element.className: element.className += "disp_none";
 					var _target = target || document.getElementsByTagName("body")[0];
+					// Move the element to resolved target (element | body)
 					_target.appendChild(element);
+					// Unhide the moved element
 					element.className.replace("\\s{0,}disp_none\\s{0,}","");
 				}
 					
