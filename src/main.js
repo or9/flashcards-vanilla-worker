@@ -75,24 +75,30 @@ var com = com || {}; com.sudo = com.sudo || {};
 					console.log("MAIN Generic getGameType called with data: ", data.fn, data.msg);
 					getGameType(data.msg);
 				};
+
 				WorkerHandler.prototype.setReadyState = function(data) {
 					console.log("MAIN Generic setReadyState called");
 					//setReadyState(data.msg);
 				};
+
 				WorkerHandler.prototype.toggleReadyState = function(data) {
 					//toggleReadyState(data.msg);
 				};
+
 				GameHandler.prototype.getGameType = function(data) {
 					console.log("MAIN GameHandler getGameType called with data: ", data, data.fn, data.msg);
 					getGameType(game);
 				};
+
 				CardHandler.prototype.init = function(data) {
 				//WorkerHandler.prototype.init = function(data) {
 					console.log("MAIN CardHandler init called with data: ", data, data.msg, /cards/gi.test(data.msg));
 					// Set column to either #cardTable or #choiceColumn depending on whether data.msg tests true for "cards"
 					// Legend is the column's legend element
 					// heading is the doocument's main header
-					var col = /cards/gi.test(data.msg)? document.getELementById("cardTable"): document.getElementById("choiceColumn");
+					console.log("log elements: ", document.getElementById("cardTable"), document.getElementById("choiceColumn"), document.getElementById("gameTypeHeading"));
+					//var col = /cards/gi.test(data.msg)? document.getELementById("cardTable"): document.getElementById("choiceColumn");
+					var col = document.getElementById("cardTable");
 					var legend = col.getElementsByTagName("legend")[0];
 					var heading = document.getElementById("gameTypeHeading");
 					// Move legend and heading out of column into body
@@ -103,12 +109,15 @@ var com = com || {}; com.sudo = com.sudo || {};
 					col.insertBefore(heading, col.childNodes[0]);
 					col.insertBefore(legend, heading);
 				};
+
 				CardHandler.prototype.createCard = function(data) {
+					console.log("createCard called… : ", data.msg);
 					var table = document.getElementById("cardTable");
 					var card = data.msg;
 					table.innerHTML += card;
 						
 				};
+
 				CardHandler.prototype.setupClickHandlers = function(data) {
 					var cards = document.querySelectorAll(".card"),
 							len = cards.length,
@@ -118,16 +127,20 @@ var com = com || {}; com.sudo = com.sudo || {};
 						cards[i].addEventListener("click", clickHandlerCard, false);
 					}*/
 				};
+
 				GameHandler.prototype.init = function(data) {
 					console.log("MAIN GameHandler init called with data: ", data, data.msg);
 					
 				};
-				CardHandler.prototype.setupClickHandlers = function(data) {
+
+				/*CardHandler.prototype.setupClickHandlers = function(data) {
 					console.log("MAIN CardHandler setupClickHandlers called");
-				};
+				};*/
+
 				WorkerHandler.prototype.ready = function(data) {
 					console.log("MAIN Generic ready called: ", data.msg);
 				};
+
 				GameHandler.prototype.gameQuestions = function(data) {
 					// Receive all cards
 					// console.log("MAIN gameQuestions called: ", data);
@@ -138,13 +151,16 @@ var com = com || {}; com.sudo = com.sudo || {};
 					// stop from calling during init… 
 					document.getElementById("choiceColumn").innerHTML += data.msg;
 				};
+
 				GameHandler.prototype.setGameType = function(data) {
 					console.log("MAIN GameHandler setGameType to… \t", data.msg);
 				};
+
 				GameHandler.prototype.setGameHeadingForType = function(data) {
 					console.log("MAIN GameHandler setGameHeadingForType");
 					document.getElementById("gameTypeHeading").innerHTML += data.msg;
 				};
+
 				GameHandler.prototype.setQuestionCard = function(data) {
 					console.log("MAIN GameHandle resetQuestionCard to:…", data.msg);
 					var card = document.getElementById("card_" + data.msg),
@@ -152,6 +168,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 					console.log("MAIN setQuestionCard is: ", card);
 					adjustClass([card], name, true);
 				};
+
 				GameHandler.prototype.setQuestions = function(data) {
 					console.log("MAIN GameHandle rsetQuestions to: ", data.msg);
 					var i = 0,
@@ -167,6 +184,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 						adjustClass(elements, name, true);
 					}
 				};
+
 				GameHandler.prototype.hidePreviousQuestions = function(data) {
 					if(data.msg.length > 0) {
 						var i = 0,

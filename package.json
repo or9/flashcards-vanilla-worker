@@ -35,10 +35,17 @@
     "grunt-contrib-watch": "~0.4.0",
     "grunt-contrib-clean": "~0.4.0",
     "grunt": "~0.4.1",
-    "grunt-contrib-cssmin": "~0.7.0"
+    "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-contrib-jasmine": "~0.6.3",
+    "grunt-template-jasmine-istanbul": "~0.3.0"
   },
   "dependencies": {
-    "jquery": "*"
-  },
-  "keywords": ["flashcards", "language", "education", "learning"]
+  
+	},
+  "keywords": [
+    "flashcards",
+    "language",
+    "education",
+    "learning"
+  ]
 }

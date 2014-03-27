@@ -37,33 +37,28 @@ function init(data) {
 
 function create(xhr) {
 	var jsonData = JSON.parse(xhr.responseText);
-	//var initCards = {"fn":"init","msg":"cards"};
-	postmsg("init", "cards");
-	var i = 0;
-	var len = cards.length;
-	var card = new Card();
+	var card = {};
+	var index = 0;
+	//postmsg("init", "cards");
 
 	ready.data = true;
-	//console.log("CARDWORKER: cards: create: jsonData: ", xhr.responseText);	
 
 	for(var key in jsonData) {
-		console.log("running for each card " + key);
-		card[key] = jsonData[key];
+		console.log("running for each card in json data; key: " + key);
+		card = new Card(jsonData[key]);
+		console.log("card character: " + card.getCharacter() + card.getPosition() + card.getSound() + card.getForms() + card.getName());
 		cards.push(card);
-		card.init();
-		len += 1;
+		
+		//postmsg("createCard", cards[jsonData[key].position * 1 - 1].getHTML());
+		//postmsg("createCard", cards[jsonData[key].position * 1 - 1]);
 	}
+
+	// set up card table area, heading, etc
+	postmsg("init", "cards", "");
+
 	ready.model = true;
 	
-	for(i; i < len; i++) {
-		console.log("i:len" + i + ":" + len);
-		console.log("cards[i]: " + cards[i] + " " + cards[i].position + " " + cards[i].character + " " + cards[i].contextualForms +
-				"cards.length - 1" + cards[len - 1]);
-		createCard(cards[i], i);
-	}
 	
-
-
 	postmsg("setupClickHandlers", "", "");
 	postmsg("setReadyState", "cards");
 	//return xhr.responseText;
