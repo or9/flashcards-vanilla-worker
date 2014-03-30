@@ -6,11 +6,11 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
-		banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+		banner: '! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
 							 '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
 							 '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
 							 '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-							 ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+							 ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> \n',
 		// Task configuration.
 
 		path: {
@@ -23,8 +23,7 @@ module.exports = function(grunt) {
 							 server: {
 												 options: {
 																		hostname: "localhost",
-																		//port: "8000",
-																		port: "?",
+																		port: "9876",
 																		base: "."
 																	}
 											 }
@@ -38,7 +37,8 @@ module.exports = function(grunt) {
 
 		copy: {
 						options: {
-											 mode: true
+											 mode: true,
+											 stripBanners: true
 										 },
 						main: {
 										files: [{
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
 
 		uglify: {
 							options: {
-												 banner: '<%= banner %> %= grunt.template.today("yyyy-mm-dd") %> */\n',
+												 //banner: '<%= banner %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
 												 mangle: 	{
 													 					//except: ["jquery"]
 													 					except: [""]
@@ -112,9 +112,9 @@ module.exports = function(grunt) {
 															 },
 											files: [{
 															 expand: true,
-															 cwd: "<%= path.src %>",
-															 src: "**/*.js",
-															 dest: "<%= path.dest %>/dist"
+															 cwd: "<%= path.dest %>",
+															 src: ["**/*.js"],
+															 dest: "<%= path.dest %>"
 														 }]
 										}
 							/*workers: {
@@ -129,6 +129,19 @@ module.exports = function(grunt) {
 																}]
 											 }*/
 																
+						},
+		
+
+		cssmin: {
+							dist: {
+											files: [{
+															 expand: true,
+															 cwd: "<%= path.dest %>",
+															 src: ["**/*.css"],
+															 dest: "<%= path.dest %>"
+														 }]
+										}
+
 						},
 
 		jshint: {
@@ -159,6 +172,7 @@ module.exports = function(grunt) {
 									 }
 						},
 
+		// run grunt karma:dev:start watch
 		watch: {
 						 gruntfile: {
 													files: '<%= jshint.gruntfile.src %>',
@@ -185,54 +199,6 @@ module.exports = function(grunt) {
 										}
 					 },
 
-		jasmine: {
-							 options: {
-													specs: "spec/**/*.spec.js",
-													vendor: "lib/**/*",
-													helpers: "spec/**/*.helper.js",
-													host: "<%= connect.server.hostname %>:<%= connect.server.port %>",
-													template: require("grunt-template-jasmine-istanbul"),
-													templateOptions: {
-														coverage: "bin/coverage",
-														report: {
-															type: "html",
-															options: {
-																dir: "<%= jasmine.options.templateOptions.coverage %>/"
-															}
-														}
-													}
-												},
-
-							 source: {
-												 src:	[	"src/main.js",
-												 "src/controller/**/*.js",
-												 "src/model/**/*.js"
-													 ]
-											 },
-
-							 dist: {
-											 src:	[	"<%= path.dest %>/main.js",
-											 "<%= path.dest %>/controller/**/*.js",
-											 "<%= path.dest %>/model/**/*.js"
-												 ]
-										 },
-
-							 ci: {
-										 options: {
-																templateOptions: {
-																									 report: {
-																														 type: "cobertura",
-																														 options: {
-																															 dir: "<%= jasmine.options.templateOptions.coverage %>/"
-																														 }
-																													 }
-																								 }
-															},
-
-										 src: ["<%= jasmine.source.src %>", "<%= jasmine.dist.src %>"]
-									 }
-						 },
-
 		karma: {
 						 options: {
 												configFile: "karma.conf.js"
@@ -240,9 +206,10 @@ module.exports = function(grunt) {
 												//browsers: ["PhantomLocal"],
 												//logLevel: "DEBUG" // [OFF|ERROR|WARN|INFO|DEBUG]
 											},
-						 ci:	{
+						 build:	{
 										singleRun: true,
-										browsers: ["PhantomLocal"]
+										//browsers: ["PhantomLocal"] // has issues…
+										browsers: ["Chrome", "PhantomJS"]
 									},
 						 dev: {
 										background: true
@@ -259,10 +226,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-karma");
-	grunt.loadNpmTasks("grunt-contrib-jasmine");
 
 
 	//	grunt.registerTask("default", ["jshint", "jasmine", "clean", "concat", "uglify", "jasmine:dist"]);
@@ -271,8 +238,9 @@ module.exports = function(grunt) {
 	//		grunt.registerTask("default", ["clean", "concat", "uglify", "jasmine:dist"]);
 	//
 	//		No need to concat
-
+	//
+	// run grunt karma:dev:start watch
 	//grunt.registerTask("default", ["connect", "clean", "uglify", "karma:dev"]);
-	grunt.registerTask("default", ["clean", "copy", "uglify", "karma:dev"]);
+	grunt.registerTask("default", ["clean", "copy", "uglify", "cssmin", "karma:build"]);
 
 };
