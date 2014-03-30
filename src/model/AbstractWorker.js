@@ -15,9 +15,7 @@ AbstractWorker.prototype.cache = {
 	// this can't work. Each worker loads a new instance of this file
 	id: "CACHE ID",
 	create: function(url, dataValue) {
-						console.log("\n\n\ncreating cache… : " + this + 
-								"\n\t" + url + "\t" + this[url] +
-								"\n\t" + dataValue + "\n" + this.id + "\n\n\n");
+//						console.log("\n\n\ncreating cache… : " + this + "\n\t" + url + "\t" + this[url] + "\n\t" + dataValue + "\n" + this.id + "\n\n\n");
 						this[url] = {data: dataValue};
 					}
 };
@@ -26,7 +24,7 @@ AbstractWorker.prototype.msgHandler = function(e) {
 	this.postmsg("receipt", e.data.fn, e.data.msg, e.data.args);
 	this.data.fn = e.data.fn; 
 	this.data.msg = "response";
-	console.log("abworker calling: " + this[e.data.fn]);
+	//console.log("abworker calling: " + this[e.data.fn]);
 	this[e.data.fn](e.data);
 };
 AbstractWorker.prototype.errHandler = function(e) {
@@ -42,7 +40,7 @@ AbstractWorker.prototype.xhr = function(data, callback, args) {
 	//console.log(this);
 	//var sel = self;
 	var	xhr = new XMLHttpRequest();
-	console.log("ABSTRACT WORKER received ajax call for… " + data);
+	//console.log("ABSTRACT WORKER received ajax call for… " + data);
 	var url = data.msg || data;
 	var contentType = checkArgs(contentType) || "application/x-www-form-urlencoded";
 	var method = checkArgs(method) || "GET";
@@ -53,7 +51,7 @@ AbstractWorker.prototype.xhr = function(data, callback, args) {
 	}*/
 	
 	//if(!sel.cache[url]) {
-	console.log(">>> response not cached <<<");
+	//console.log(">>> response not cached <<<");
 	xhr.open(method, url + random, true);
 	xhr.addEventListener("readystatechange", ajax_handler, false);
 	xhr.setRequestHeader("Content-type", contentType);
@@ -77,9 +75,9 @@ AbstractWorker.prototype.xhr = function(data, callback, args) {
 	}
 
 	function ajax_handler(e) {
-		console.log("ABSTRACT WORKER ajax_handler called with e: " + e);
+		//console.log("ABSTRACT WORKER ajax_handler called with e: " + e);
 		if(xhr.readyState === 4) {
-			console.log("XHR calling back with data as " + e + " and status of " + xhr.status);
+			//console.log("XHR calling back with data as " + e + " and status of " + xhr.status);
 			//console.log("\n\n\ncache in handler: " + cache + "\n" + url + "\n\n\n");
 			//sel.cache.create(url, xhr);
 			//console.log("creating instance.cache[url] as: " + instance.cache[url]);
@@ -121,16 +119,16 @@ AbstractWorker.prototype.postmsg = function(fn, msg, args) {
 	this.data.fn = fn;
 	this.data.msg = msg;
 	this.data.args = args;
-	console.log("abstract worker posting message: \n\tfn: " + this.data.fn + "\n\tdata: " + this.data.msg + "\n\targs: " + this.data.args); 
+	//console.log("abstract worker posting message: \n\tfn: " + this.data.fn + "\n\tdata: " + this.data.msg + "\n\targs: " + this.data.args); 
  	self.postMessage(this.data);
 };
 AbstractWorker.prototype.getLocation = function(part) {
 	return getLocation(part);
 };
 AbstractWorker.prototype.log = function(fn) {
-	console.group("AbstractWorker Log");
-	console[fn]("%c color: black; background: grey;", arguments);
-	console.groupEnd();
+	//console.group("AbstractWorker Log");
+	//console[fn]("%c color: black; background: grey;", arguments);
+	//console.groupEnd();
 };
 AbstractWorker.prototype.status = function() {
 	this.postmsg("status", this.data.status);
@@ -139,9 +137,7 @@ AbstractWorker.prototype.status = function() {
 function AbstractWorker() {}
 Cache.prototype.id = "CACHE ID";
 Cache.prototype.create = function(url, dataValue) {
-						console.log("\n\n\ncreating cache… : " + this + 
-								"\n\t" + url + "\t" + this[url] +
-								"\n\t" + dataValue + "\n" + this.id + "\n\n\n");
+						//console.log("\n\n\ncreating cache… : " + this + "\n\t" + url + "\t" + this[url] + "\n\t" + dataValue + "\n" + this.id + "\n\n\n");
 						this[url] = {data: dataValue};
 };
 function Cache() {}
@@ -150,7 +146,7 @@ function getLocation(part) {
 }
 
 if(getLocation("search")) {
-	console.log("loadScripts from… ../controller/" + getLocation("search").slice(1));
+	//console.log("loadScripts from… ../controller/" + getLocation("search").slice(1));
 	importScripts("../controller/" + getLocation("search").slice(1));
 }
 

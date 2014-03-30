@@ -14,7 +14,7 @@ function Game() {
 	};
 
 	this.setExpected = function(expectedAnswer) {
-		console.log("setting expected to " + expectedAnswer + " " + typeof expectedAnswer);
+		//console.log("setting expected to " + expectedAnswer + " " + typeof expectedAnswer);
 		expected = expectedAnswer;
 	};
 }
@@ -36,21 +36,21 @@ function CardGame(type) {
 	};
 
 //	if(!this.state.initialized) {
-		console.log("CARDGAME: state is NOT initialized. \t set GameType");
+		//console.log("CARDGAME: state is NOT initialized. \t set GameType");
 		types = new GameType(type, Array.prototype.slice.apply(arguments).slice(1));
-		console.log("finished creating types");
+		//console.log("finished creating types");
 	//}
 
 	for(var prop in types) {
-		console.log("\t CARDGAME: prop in types: " + prop + "\t val: " + types[prop]);
+		//console.log("\t CARDGAME: prop in types: " + prop + "\t val: " + types[prop]);
 	}
 	
 	this.init = function(cardsDataObj) {
 		/*
 		 * id, character, name, transliteration, position, contextualForms, tags
 		 */
-		console.log(cardsDataObj);
-		console.log("CARDGAME INIT: cards param from game: ", cards);
+		//console.log(cardsDataObj);
+		//console.log("CARDGAME INIT: cards param from game: ", cards);
 		
 		this.state.initialized = true;
 		postmsg("init", "game");
@@ -63,7 +63,7 @@ function CardGame(type) {
 			createQuestionElement(cardsDataObj[single]);
 		}
 
-		console.log("setting game type and setting heading for type: " + types.current + " \t " + types.heading);
+		//console.log("setting game type and setting heading for type: " + types.current + " \t " + types.heading);
 		postmsg("setGameType", types.current);	
 		postmsg("setGameHeadingForType", types.heading);
 		
@@ -84,7 +84,7 @@ function CardGame(type) {
 	
 	function createQuestionElement(cardObj) {
 		// Create HTML for answer label and input elements, send to main
-		console.log("createQuestionElement type properties \t" + types.current + types.question + types.heading);
+		//console.log("createQuestionElement type properties \t" + types.current + types.question + types.heading);
 		var index = cardObj.position - 1;
 		var label = "<label class=\"question " + types.current + "\" id=\"question_" + index + "\" for=\"question_rad_" + index + "\" >"; // questions.current
 		var labelEnd = "</label>";
@@ -108,28 +108,33 @@ function CardGame(type) {
 			arr = [],
 			newExpected = randomIntFromSet();
 
-		console.log("Game Model new expected answer is: " + newExpected);
-		/*	
-		for(i; i < len; i++) {
-			arr.push(randomQuestion());
-		}*/
-		//while(i < len) {
-			//arr.push(randomQuestion());
-			//i += 1; // REQUIRED to increase or suffer
-		//}
+		//console.log("Game Model new expected answer is: " + newExpected);
+		
+		// Tried while; it broke everything
 		for(var i = 0; i < len; i++) {
 			arr.push(randomQuestion());	
 		}
 
 		function randomQuestion() {
 			var q = randomIntFromTotal();
-			console.log("check if random is also newExpected answer");
+			//console.log("check if random is also newExpected answer");
 			if(q === newExpected) {
-				console.log("\tnewExpected IS IN FACT random gen. regen");
+				//console.log("\tnewExpected IS IN FACT random gen. regen");
+				randomQuestion();
+			} else if(checkIfDuplicate(q)) {
 				randomQuestion();
 			} else {
-				console.log("\tnewExpected was NOT random gen. return random");
+				//console.log("\tnewExpected was NOT random gen., and not already present; return random");
 				return q;
+			}
+
+			function checkIfDuplicate(n) {
+				var len = arr.length;
+				for(var i = 0; i < len; i++) {
+					if(arr[i] === n) {
+						randomQuestion();
+					}
+				}
 			}
 
 			//return q;
@@ -137,7 +142,7 @@ function CardGame(type) {
 		
 		this.setExpected(newExpected);
 		initExpected = newExpected;
-		console.log("newExpected is " + newExpected + " " + typeof newExpected);
+		//console.log("newExpected is " + newExpected + " " + typeof newExpected);
 		arr.push(newExpected);
 		
 		postmsg("setQuestionCard", newExpected);
@@ -211,7 +216,7 @@ function CardGame(type) {
 	this.getInitExpected = function() {
 		var tmp = initExpected;
 		initExpected = null;
-		console.log("---posting seQuestionCard message with tmp: " + tmp);
+		//console.log("---posting seQuestionCard message with tmp: " + tmp);
 		postmsg("setQuestionCard", tmp);
 		tmp = null;
 	};

@@ -5,8 +5,6 @@ Card.prototype.getPosition = function() {
 };
 
 function Card(cardPropsObj) {
-	console.log("CARD MODEL instantiating card");
-	console.log("cards object: " + cardPropsObj);
 	var position = cardPropsObj.position;
 	var character = cardPropsObj.character;
 	var name = cardPropsObj.name;
@@ -53,7 +51,7 @@ function Card(cardPropsObj) {
 	}
 
 	function htmlTags(arr) {
-		console.log("arr: " + arr);
+		//console.log("arr: " + arr);
 		var i = 0;
 		var len = arr.length;
 		var _tags = "<ul class=\"tags\">";
