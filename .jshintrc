@@ -13,5 +13,15 @@
   "unused": 	true,
   "boss": 		true,
   "eqnull": 	true,
-  "node": 		true
+  "node": 		true,
+	"globals":	{
+		"it":					false,
+		"xit":				false,
+		"describe":		false,
+		"xdescribe":	false,
+		"beforeEach":	false,
+		"afterEach":	false,
+		"expect":			false,
+		"spyOn":			false
+	}
 }
