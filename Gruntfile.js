@@ -13,10 +13,18 @@ module.exports = function(grunt) {
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 		// Task configuration.
 		
+		path: {
+			src: "src/**/*",
+			dest: "bin/dist"
+		},
+
+
 		clean: {
 			files: ['dist']
 		},
-		
+
+
+
 		concat: {
 			options: {
 				banner: '<%= banner %>',
@@ -27,8 +35,15 @@ module.exports = function(grunt) {
 				//src: ["src/<%= pkg.name %>.js"],
 				//dest: "dist/<%= pkg.name %>.js"
 				// basically just moving files...
-				src: ["src/**/*"],
-				dest: "bin/dist/"
+				src: "<%= path.src %>",
+				dest: "<%= path.dest %>",
+				//filter: "isFile"
+				//files: [{
+				//			src: ["**/*.*"],
+				//			dest: "bin/dist",
+				//			cwd: "src",
+				//			expand: true
+				//			}]
 			}
 		},
 
@@ -42,9 +57,11 @@ module.exports = function(grunt) {
 			},
 			
 			dist: {
-				src: "<%= concat.dist.dest %>",
+				//src: "<%= concat.dist.dest %>",
+				src: "<%= path.src %>",
 				//dest: 'dist/<%= pkg.name %>.min.js'
-				dest: "<%= concat.dist.dest %>"
+				dest: "<%= path.dest %>",
+				filter: "isFile"
 			}
 			
 			/*src: {
@@ -102,7 +119,7 @@ module.exports = function(grunt) {
 
 			test: {
 				files: '<%= jshint.test.src %>',
-				tasks: ['jshint:test', "jasmine:srcfiles:build"]
+				tasks: ['jshint:test', "jasmine:source:build"]
 			}
 		},
 
@@ -169,6 +186,11 @@ module.exports = function(grunt) {
 	
 //	grunt.registerTask("default", ["jshint", "jasmine", "clean", "concat", "uglify", "jasmine:dist"]);
 //	temporarily rm jshint. it doesn't know anything anyway
-		grunt.registerTask("default", ["jasmine:source", "clean", "concat", "uglify", "jasmine:dist"]);
+//		grunt.registerTask("default", ["jasmine:source", "clean", "concat", "uglify", "jasmine:dist"]);
+//		grunt.registerTask("default", ["clean", "concat", "uglify", "jasmine:dist"]);
+//
+//		No need to concat
+
+		grunt.registerTask("default", ["concat", "clean", "uglify", "jasmine:dist"]);
 
 };

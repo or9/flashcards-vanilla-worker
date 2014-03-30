@@ -25,7 +25,11 @@ var com = com || {}; com.sudo = com.sudo || {};
 		storage: {state: false, depends: [], ready:function(bool) {storageReady(bool);}},
 		change: function(resource, state) {
 			this[resource].state = state || true;
-		}
+		},
+		update: function() {
+							this.iteration += 1;
+						},
+		iteration: 0 
 	};
 	var gameOptions = {
 		// Options as defined by DOM
@@ -77,8 +81,9 @@ var com = com || {}; com.sudo = com.sudo || {};
 				};
 
 				WorkerHandler.prototype.setReadyState = function(data) {
-					console.log("MAIN Generic setReadyState called");
-					//setReadyState(data.msg);
+					console.log("MAIN Generic setReadyState called", data, data.msg);
+					// INFINITE LOOP…
+					setReadyState(data.msg);
 				};
 
 				WorkerHandler.prototype.toggleReadyState = function(data) {
@@ -98,6 +103,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 					// heading is the doocument's main header
 					console.log("log elements: ", document.getElementById("cardTable"), document.getElementById("choiceColumn"), document.getElementById("gameTypeHeading"));
 					//var col = /cards/gi.test(data.msg)? document.getELementById("cardTable"): document.getElementById("choiceColumn");
+					
 					var col = document.getElementById("cardTable");
 					var legend = col.getElementsByTagName("legend")[0];
 					var heading = document.getElementById("gameTypeHeading");
@@ -118,14 +124,18 @@ var com = com || {}; com.sudo = com.sudo || {};
 						
 				};
 
+				CardHandler.prototype.createQuestion = function(data) {
+						
+				};
+
 				CardHandler.prototype.setupClickHandlers = function(data) {
 					var cards = document.querySelectorAll(".card"),
 							len = cards.length,
 							i = 0;
-					/*for(i; i < len; i++) {
+					for(i; i < len; i++) {
 						console.log("setting click handler for: ", cards[i]);
 						cards[i].addEventListener("click", clickHandlerCard, false);
-					}*/
+					}
 				};
 
 				GameHandler.prototype.init = function(data) {
@@ -147,8 +157,10 @@ var com = com || {}; com.sudo = com.sudo || {};
 				};
 
 				GameHandler.prototype.layoutQuestion = function(data) {
-					console.log("MAIN GameHandler layout question"); 
-					// stop from calling during init… 
+					console.log("MAIN GameHandler layout question data: ", data);
+					console.log(data.msg);
+					// stop from calling during init…
+					//var heading = document.getElementById("choiceColumn").
 					document.getElementById("choiceColumn").innerHTML += data.msg;
 				};
 
@@ -167,10 +179,14 @@ var com = com || {}; com.sudo = com.sudo || {};
 							name = "current";
 					console.log("MAIN setQuestionCard is: ", card);
 					adjustClass([card], name, true);
+
+					// setup question card area
+					
 				};
 
+				// Accepts: Array
 				GameHandler.prototype.setQuestions = function(data) {
-					console.log("MAIN GameHandle rsetQuestions to: ", data.msg);
+					console.log("MAIN GameHandle resetQuestions to: ", data.msg);
 					var i = 0,
 							len = data.msg.length,
 							elements = [],
@@ -190,7 +206,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 						var i = 0,
 							len = data.msg.length,
 									elements = [],
-									name = "display-true";
+									name = "display-false";
 						for(i; i < len; i++) {
 							elements[0] = document.getElementById("question_" + data.msg[i]);
 							elements[1] = elements[0].nextSibling;
@@ -274,23 +290,25 @@ var com = com || {}; com.sudo = com.sudo || {};
 	//addScript.call(scripts.layout);
 
 	function msg_handler_main(e) {
-		console.log("%cMAIN msg_handler_MAIN called", "color: orange;", e);
+		//console.log("%cMAIN msg_handler_MAIN called", "color: orange;", e);
+		console.log("%cMAIN msg_handler_MAIN called", "color: orange;");
 		msg_handler.call(mainHandler, e.data);
 	}
 
 	function msg_handler_game(e) {
-		console.log("%cMAIN msg_handler_GAME called", "color: cyan;", e);
+		console.log("%cMAIN msg_handler_GAME called", "color: cyan;");
 		msg_handler.call(gameHandler, e.data);
 	}
 
 	function msg_handler_card(e) {
-		console.log("%cMAIN msg_handler_CARD called", "color: magenta;", e);
+		console.log("%cMAIN msg_handler_CARD called", "color: magenta;");
 		msg_handler.call(cardHandler, e.data);
 	}
 
 	function msg_handler(dataFromWorker) {
 		//console.log("%cmsg_handler: ", "color: blue;",  dataFromWorker, this, "\n\tfn: ", dataFromWorker.fn);
-		console.log("%ccalling: ", "color: blue;", this, this[dataFromWorker.fn]);
+		console.log("%ccalling: ", "color: blue;", this);
+		//console.log("%ccalling: ", "color: blue;", this, this[dataFromWorker.fn]);
 		this[dataFromWorker.fn](dataFromWorker);
 	}
 
@@ -343,7 +361,7 @@ var com = com || {}; com.sudo = com.sudo || {};
 	}
 
 	function readyGame() {
-		console.log("set readyGame()");
+		console.log("MAIN set readyGame()");
 		postmsg.call(card, "mainReady", "true");
 		postmsg.call(game, "mainReady", "true");
 	}
@@ -376,7 +394,14 @@ var com = com || {}; com.sudo = com.sudo || {};
 	function setReadyState(resource) {
 		console.log("setReadyState from: ", readiness[resource].state);
 		readiness[resource].state = true;
-		readiness[resource].ready(readiness[resource].state);
+		console.log("readiness: ", readiness);
+		console.log("resource: ", resource);
+		//readiness[resource].ready(readiness[resource].state);
+		/*if(readiness.iteration <= 4) {
+			// @Debug only
+			readiness[resource].ready(true);
+		}*/
+		readiness[resource].ready(true);
 		console.log("setReadyState to: ", resource, readiness[resource].state);
 	}
 

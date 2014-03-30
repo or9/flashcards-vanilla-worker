@@ -62,6 +62,8 @@ function CardGame(type) {
 			populateQuestions(cardsDataObj[single]);
 			createQuestionElement(cardsDataObj[single]);
 		}
+
+		console.log("setting game type and setting heading for type: " + types.current + " \t " + types.heading);
 		postmsg("setGameType", types.current);	
 		postmsg("setGameHeadingForType", types.heading);
 		
@@ -82,13 +84,15 @@ function CardGame(type) {
 	
 	function createQuestionElement(cardObj) {
 		// Create HTML for answer label and input elements, send to main
-		console.log("createQuestionElement type properties \t" + types.current + types.question + types.heading); 
-		var label = "<label class=\"question " + types.current + "\" id=\"question_" + cardObj.position + "\" for=\"question_rad_" + cardObj.position + "\" >"; // questions.current
+		console.log("createQuestionElement type properties \t" + types.current + types.question + types.heading);
+		var index = cardObj.position - 1;
+		var label = "<label class=\"question " + types.current + "\" id=\"question_" + index + "\" for=\"question_rad_" + index + "\" >"; // questions.current
 		var labelEnd = "</label>";
 		var _question = types.question + "<strong class=\"answer\">" + cardObj.name + "</strong>"; // questions.text
-		var radio = "<input class=\"question\" type=\"radio\" name=\"questions\" id=\"question_rad_" + cardObj.position + "\" />";
+		var radio = "<input class=\"question\" type=\"radio\" name=\"questions\" id=\"question_rad_" + index + "\" />";
+		var concat = label + _question + labelEnd + radio;
 		
-		postmsg("layoutQuestion", label + _question + labelEnd + radio);
+		postmsg("layoutQuestion", concat);
 	}
 	
 	function postmsg(fn, msg) {
@@ -103,12 +107,18 @@ function CardGame(type) {
 			len = questions.numToShow - 1,
 			arr = [],
 			newExpected = randomIntFromSet();
+
+		console.log("Game Model new expected answer is: " + newExpected);
 		/*	
 		for(i; i < len; i++) {
 			arr.push(randomQuestion());
 		}*/
-		while(i < len) {
-			arr.push(randomQuestion());
+		//while(i < len) {
+			//arr.push(randomQuestion());
+			//i += 1; // REQUIRED to increase or suffer
+		//}
+		for(var i = 0; i < len; i++) {
+			arr.push(randomQuestion());	
 		}
 
 		function randomQuestion() {
@@ -121,6 +131,8 @@ function CardGame(type) {
 				console.log("\tnewExpected was NOT random gen. return random");
 				return q;
 			}
+
+			//return q;
 		}
 		
 		this.setExpected(newExpected);
@@ -137,8 +149,6 @@ function CardGame(type) {
 	
 	function randomIntFromSet() {
 		// Used for getting a single random integer
-		//var _max = max || limit.max;
-		//return Math.floor(Math.random() * (_max - limit.min + 1) + limit.min);
 		var rand = Math.floor(Math.random() * questions.unanswered.length);
 		return questions.unanswered[rand];
 	}

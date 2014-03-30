@@ -2,6 +2,7 @@
 importScripts("../model/AbstractWorker.js");
 var abworker = new AbstractWorker();
 importScripts("../model/Card.js");
+
 addEventListener("message", msg_handler, false);
 addEventListener("error", abworker.err_handler, false);
 
@@ -33,36 +34,31 @@ function init(data) {
 	console.log("CARD WORKER init called with " + data.msg);
 	console.log(this, data);
 	//json = abworker.xhr.call(abworker, "../controller/characters.json", create);
+	abworker.xhr("../controller/characters.json", create);
 }
 
 function create(xhr) {
-	var jsonData = JSON.parse(xhr.responseText);
-	var card = {};
-	var index = 0;
-	//postmsg("init", "cards");
+	json = JSON.parse(xhr.responseText);
+	console.log("jsonData: " + json);
+	postmsg("init", "cards");
+	var i = 0;
+	var len = cards.length;
+	var card = {}; 
 
 	ready.data = true;
 
-	for(var key in jsonData) {
-		console.log("running for each card in json data; key: " + key);
-		card = new Card(jsonData[key]);
-		console.log("card character: " + card.getCharacter() + card.getPosition() + card.getSound() + card.getForms() + card.getName());
+	for(var key in json) {
+		console.log("running for each card " + key);
+		card = new Card(json[key]);
 		cards.push(card);
-		
-		//postmsg("createCard", cards[jsonData[key].position * 1 - 1].getHTML());
-		//postmsg("createCard", cards[jsonData[key].position * 1 - 1]);
+
 	}
 
-	// set up card table area, heading, etc
-	postmsg("init", "cards", "");
 
 	ready.model = true;
-	
-	
 	postmsg("setupClickHandlers", "", "");
 	postmsg("setReadyState", "cards");
 	//return xhr.responseText;
-	json = jsonData; 
 }
 
 function mainReady(data) {

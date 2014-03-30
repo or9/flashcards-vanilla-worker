@@ -6,11 +6,12 @@ Card.prototype.getPosition = function() {
 
 function Card(cardPropsObj) {
 	console.log("CARD MODEL instantiating card");
-
+	console.log("cards object: " + cardPropsObj);
 	var position = cardPropsObj.position;
 	var character = cardPropsObj.character;
 	var name = cardPropsObj.name;
 	var forms = contextualForms(cardPropsObj.forms);
+	var tags = cardPropsObj.tags;
 	var sound = cardPropsObj.sound || false;
 	var index = position - 1;
 
@@ -22,7 +23,7 @@ function Card(cardPropsObj) {
 				"<h2>" + character + "</h2>" +
 				"<h2>" + name + "</h2>" +
 				htmlForms(forms) +
-//				htmlTags(tags) +
+				htmlTags(tags) +
 				"</div>" + "\n";
 
 	

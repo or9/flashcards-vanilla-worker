@@ -77,6 +77,10 @@ div {
 }
 .card.current {
 	background: rgba(0, 128, 164, 1);
+	width: 100%;
+	height: auto;
+	min-height: 200px;
+	font-size: 48px;
 }
 .card.answered {
 	

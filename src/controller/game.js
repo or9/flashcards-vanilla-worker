@@ -65,6 +65,7 @@ function mainReady(data) {
 }
 
 function start(data) {
+	console.log("on game start, who's ready? data? " + ready.data + " model? " + ready.model + " main? " + ready.main);
 	console.log("-----------------------------------------> START <-------------------------------------");
 	if(!!ready.data && !!ready.model && !!ready.main) {
 		console.log("SATISFACTORY CONDITIONS FOR STARTING");
