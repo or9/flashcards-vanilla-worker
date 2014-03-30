@@ -45,7 +45,7 @@ module.exports = function(grunt) {
 														 expand: true,
 														 cwd: "src",
 														 dest: "<%= path.dest %>/",
-														 src: ["**", "!*~", "!.swp", "!test*", "!example*"]
+														 src: ["**", "!**/*~", "!**/*.swp", "!**/test*", "!**/example*"]
 													 }]
 									}
 
@@ -137,7 +137,7 @@ module.exports = function(grunt) {
 											files: [{
 															 expand: true,
 															 cwd: "<%= path.dest %>",
-															 src: ["**/*.css"],
+															 src: ["**/*.css", "!**/*~"],
 															 dest: "<%= path.dest %>"
 														 }]
 										}
