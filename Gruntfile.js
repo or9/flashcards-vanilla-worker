@@ -87,10 +87,10 @@ module.exports = function(grunt) {
 		uglify: {
 							options: {
 												 //banner: '<%= banner %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
-												 mangle: 	{
-													 					//except: ["jquery"]
-													 					except: [""]
-												 					},
+												 mangle:	{
+																		//except: ["jquery"]
+																		except: [""]
+																	},
 												 compress: {
 																		 global_defs: {
 																										"DEBUG": false
@@ -158,18 +158,18 @@ module.exports = function(grunt) {
 																jshintrc: 'src/.jshintrc'
 															},
 										 src: ['src/**/*.js']
-																		},
+										},
 
-																		test: {
-																		options: {
-																		jshintrc: "spec/.jshintrc"
-																		},
-																		src: "*.js"
-																		},
+							test:	{
+											options:	{
+																	jshintrc: "spec/.jshintrc"
+																},
+											src: "*.js"
+										},
 
-																		dist: {
-																		src: "bin/dist/**/*"
-									 }
+							dist:	{
+											src: "bin/dist/**/*"
+										}
 						},
 
 		// run grunt karma:dev:start watch
@@ -209,7 +209,8 @@ module.exports = function(grunt) {
 						 build:	{
 										singleRun: true,
 										//browsers: ["PhantomLocal"] // has issues…
-										browsers: ["Chrome", "PhantomJS"]
+										//browsers: ["Chrome", "PhantomJS"]
+										browsers: ["PhantomJS"]
 									},
 						 dev: {
 										background: true
