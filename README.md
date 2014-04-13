@@ -21,13 +21,14 @@ In your web page:
 ### Build Process
 In order to build the project, go to the project's root directory and run `grunt`
 This will delete the output directory, concat the main source files,
-* main.init.js
+`* main.init.js
 * main.abstract.workerHandler.js
 * main.main.workerHandler.js
 * main.card.workerHandler.js
 * main.game.workerHandler.js
 * main.workerHandler.helper.js
-* main.utility.js
+* main.utility.js`
+
 into a single main.js. This file, along with the workers, are copied to the dist directory where UglifyJS minifies them and generates a map; the CSS is minified to remove white-space; and Jasmine unit tests are run against the resulting files.
 
 ### Development Process
