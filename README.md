@@ -32,7 +32,7 @@ This will delete the output directory, concat the main source files,
 The resulting file, main.js, along with the workers, are copied to the dist directory where UglifyJS minifies them and generates a map; the CSS is minified to remove white-space; and Jasmine unit tests are run against the resulting files.
 
 ### Development Process
-From the project's root directory, run `grunt watch:jasmine:dev:build`
+From the project's root directory, run `grunt watch:dev:build`, or for verbose output, `grunt -v watch:dev:build`
 This will not alter the output directory, but will concatenate the main.*.js files into a single main.js, which Jasmine then runs unit tests against.
 
 ## Examples
