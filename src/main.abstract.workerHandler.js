@@ -1,3 +1,5 @@
+// Abstract WorkerHandler model
+
 WorkerHandler.prototype.receipt = function(data) {
 	console.log("%cWORKER HANDLER: receipt: ", "color: green;", data, "\tmsg: ", data.msg);
 };

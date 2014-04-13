@@ -19,6 +19,10 @@ function Game() {
 	};
 }
 
+/*CardGame.prototype.init = function(cardsDataObj) {
+		// requires access to private functions….
+}*/
+
 function CardGame(type) {
 	"use strict";
 	
@@ -180,6 +184,18 @@ function CardGame(type) {
 		}
 		return array;
 	}
+
+	this.nextQuestion = function() {
+		nextRandomQuestion.call(this);
+	};
+
+	this.previousQuestion = function() {
+	
+	};
+
+	this.getQuestionAt = function(index) {
+
+	};
 	
 	this.verify = function(answerIndex) {
 		var index = questions.unanswered.indexOf(answerIndex);
@@ -187,7 +203,9 @@ function CardGame(type) {
 			questions.unanswered.splice(index, 1);
 			questions.answered.push(index);
 			nextRandomQuestion();
+			return true;
 		} else {
+			return false;
 			postmsg("game", ["Incorrect", answerIndex]);
 		}
 	};

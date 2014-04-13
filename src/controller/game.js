@@ -68,13 +68,30 @@ function start(data) {
 	//console.log("on game start, who's ready? data? " + ready.data + " model? " + ready.model + " main? " + ready.main);
 	//console.log("-----------------------------------------> START <-------------------------------------");
 	if(!!ready.data && !!ready.model && !!ready.main) {
-		// don't think need to check if already started. Loading two sets, probably because card controller
-		//		if(!cardGame.state.started) {
-			//console.log("SATISFACTORY CONDITIONS FOR STARTING");
-			// DO NOT call init() here. It will recursively Init > Ready > Start > Init > etc.
 			cardGame.start();
-//		}
 	}
+}
+
+function userAnswered(data) {
+	if(cardGame.verify(data)) {
+		postmsg("correct");	
+	} else {
+		postmsg("incorrect");
+	}
+}
+
+function nextQuestion(data) {
+	cardGame.nextQuestion();
+}
+
+function previousQuestion(data) {
+	// should accept current index
+	cardGame.previousQuestion(data);
+}
+
+function getQuestion(data) {
+	// get previously answered question by index
+	cardGame.getQuestionAt(data);
 }
 
 function getGameType(data) {
@@ -96,13 +113,7 @@ function destroy(data) {
 function kill(data) {
 	self.close();
 }
-/*
-function postmsg(fn, msg, args) {
-	data.fn = fn;
-	data.msg = msg;
-	data.args = args;
-	self.postMessage(data);
-}*/
+
 function postmsg(fn, msg, args) {
 	abworker.postmsg(fn, msg, args);
 }

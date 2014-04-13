@@ -8,8 +8,7 @@
     "email": "durmon.albasir@gmail.com",
     "url": "https://github.com/or9"
   },
-  "bin": "/usr/local/lib/node_modules/phantomjs/bin/phantomjs",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -39,13 +38,9 @@
     "grunt": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-connect": "*",
-    "karma": "*",
-    "grunt-karma": "*",
-    "karma-jasmine": "^0.2.2",
-    "karma-phantomjs-launcher": "*",
-    "karma-coverage": "*",
-    "phantomjs": "*",
-    "karma-chrome-launcher": "*"
+    "grunt-contrib-jasmine": "^0.6.3",
+    "grunt-template-jasmine-istanbul": "^0.3.0",
+    "phantomjs": "^1.9.7-3"
   },
   "keywords": [
     "flashcards",
