@@ -10,8 +10,8 @@ console.group("main");
 var language = "Arabic";
 var data = {
 	"fn"		:	"init",
-	"msg"		: "",
-	"args"	:	""
+	"msg"		: 	"",
+	"args"		:	""
 };
 var readiness = {
 	// Check ready state based on dependency table

@@ -25,8 +25,10 @@ module.exports = function(grunt) {
 			server: {
 				options: {
 					hostname: "localhost",
+					keepalive: false,
+					livereload: true,
 					port: "9876",
-					base: "."
+					base: ["./"]
 				}
 			}
 		},
@@ -69,7 +71,7 @@ module.exports = function(grunt) {
 			
 			// used for watch dev task
 			dev: {
-				src: [	"<%= path.src %>/main.init.js",
+				src: 	["<%= path.src %>/main.init.js",
 						"<%= path.src %>/main.abstract.workerHandler.js",
 						"<%= path.src %>/main.main.workerHandler.js",
 						"<%= path.src %>/main.card.workerHandler.js",
@@ -165,6 +167,10 @@ module.exports = function(grunt) {
 
 		// run grunt karma:dev:start watch
 		watch: {
+			options: {
+				livereload: true
+			},
+			
 			gruntfile: {
 				files: "<%= jshint.gruntfile.src %>",
 				tasks: ["jshint:gruntfile"]
@@ -184,20 +190,23 @@ module.exports = function(grunt) {
 						"<%= path.spec %>/**/*.js", 
 						"*.js"],
 						
-				tasks: ["concat:dev", 
+				tasks: ["concat:dev",
 						"jasmine:dev:build"]
 			}
 		},
 		
 		jasmine: {
 			options: {
-				"--web-security": "no",
+				"--web-security": false,
+				"--local-to-remote-url-access": true,
+				
+				host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>",
 				
 				specs: 		["spec/**/*.spec.js"],
 				
 				helpers: 	["spec/*.helper.js"],
 				
-				vendor: 	["lib/**/*"],
+				vendor: 	["lib/**/*.js"],
 				
 				summary: 	true, 
 				
@@ -228,26 +237,32 @@ module.exports = function(grunt) {
 			},
 			
 			dist: {
+				options: {
+					outfile: "<%= path.dest %>/_SpecRunner.html"
+				},
+				
 				files: [{
 					expand: true,
 					
 					cwd: 	"<%= path.dist %>",
 					
-					src: [	"main.js",
-							"**/*.js"]
+					src: 	["main.js"]
 				}]
 			},
 			
 			dev: {
+				options: {
+					template: "FlashcardSpecRunner.tmpl",
+					
+					outfile: "<%= path.src %>/_SpecRunner.html"
+				},
+				
 				files: [{
 					expand: true,
 					
 					cwd: 	"<%= path.src %>",
 					
-					src: [	"main.js",
-							"**/*.js",
-							"!main.*.js",
-							"!**/*test*.js"]
+					src: 	["main.js"]
 				}]
 			}
 			
@@ -271,6 +286,7 @@ module.exports = function(grunt) {
 
 	// run grunt karma:dev:start watch
 	//grunt.registerTask("default", ["clean", "copy", "uglify", "cssmin", "karma:build"]);
+	grunt.registerTask("server", ["connect:server:livereload:keepalive"]);
 	grunt.registerTask("default", ["clean", "concat", "copy", "uglify", "cssmin", "jasmine:dist"]);
 
 };

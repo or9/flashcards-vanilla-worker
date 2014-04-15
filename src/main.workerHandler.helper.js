@@ -1,3 +1,6 @@
+// @TODO
+// Limit the scope of these utility functions to Handlers only, not global
+
 gameHandler = new GameHandler();
 mainHandler = new MainHandler();
 cardHandler = new CardHandler();

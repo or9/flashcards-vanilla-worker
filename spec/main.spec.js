@@ -7,6 +7,8 @@ describe("Main suite", function() {
 //	help.test(["arrVal0", "arrVal1"], "test helper constructor");
 		expect(true).toBe(true);
 	});
+	
+	
 
 
 });
