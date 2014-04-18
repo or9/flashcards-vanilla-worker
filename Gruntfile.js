@@ -17,6 +17,7 @@ module.exports = function(grunt) {
 		path: {
 			src: 	"src",
 			spec: 	"spec",
+			specTemplates: "spec/templates",
 			dest: 	"bin/dist",
 			test: 	"bin/test"
 		},
@@ -24,11 +25,11 @@ module.exports = function(grunt) {
 		connect: {
 			server: {
 				options: {
-					hostname: "localhost",
-					keepalive: false,
+					hostname: 	"localhost",
+					keepalive: 	false,
 					livereload: true,
-					port: "9876",
-					base: ["./"]
+					port: 			"9876",
+					base: 			["./"]
 				}
 			}
 		},
@@ -50,14 +51,14 @@ module.exports = function(grunt) {
 					
 					cwd: 	"src",
 					
-					dest: 	"<%= path.dest %>/",
+					dest: "<%= path.dest %>/",
 					
-					src: [	"**",
-							"!main.*.js",
-							"!**/*~", 
-							"!**/*.swp", 
-							"!**/test*", 
-							"!**/example*"]
+					src: 	["**",
+								"!main.*.js",
+								"!**/*~", 
+								"!**/*.swp", 
+								"!**/test*", 
+								"!**/example*"]
 				}]
 			}
 
@@ -72,14 +73,14 @@ module.exports = function(grunt) {
 			// used for watch dev task
 			dev: {
 				src: 	["<%= path.src %>/main.init.js",
-						"<%= path.src %>/main.abstract.workerHandler.js",
-						"<%= path.src %>/main.main.workerHandler.js",
-						"<%= path.src %>/main.card.workerHandler.js",
-						"<%= path.src %>/main.game.workerHandler.js",
-						"<%= path.src %>/main.workerHandler.helper.js",
-						"<%= path.src %>/main.utility.js"],
+							"<%= path.src %>/main.abstract.workerHandler.js",
+							"<%= path.src %>/main.main.workerHandler.js",
+							"<%= path.src %>/main.card.workerHandler.js",
+							"<%= path.src %>/main.game.workerHandler.js",
+							"<%= path.src %>/main.workerHandler.helper.js",
+							"<%= path.src %>/main.utility.js"],
 						
-				dest: 	"<%= path.src %>/main.js"
+				dest: "<%= path.src %>/main.js"
 				
 			}
 
@@ -113,8 +114,8 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: "<%= path.dest %>",
-					src: ["**/*.js"],
+					cwd: 	"<%= path.dest %>",
+					src: 	["**/*.js"],
 					dest: "<%= path.dest %>"
 				}]
 			}
@@ -126,8 +127,8 @@ module.exports = function(grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: "<%= path.dest %>",
-					src: ["**/*.css", "!**/*~"],
+					cwd: 	"<%= path.dest %>",
+					src: 	["**/*.css", "!**/*~"],
 					dest: "<%= path.dest %>"
 				}]
 			}
@@ -159,9 +160,9 @@ module.exports = function(grunt) {
 				options: {
 					jshintrc: ".jshintrc"
 				},
-				src: [	"*.js", 
-						"<%= path.src %>/**/*.js", 
-						"!<%= path.src %>/main.*.js"]
+				src: 	["*.js", 
+							"<%= path.src %>/**/*.js", 
+							"!<%= path.src %>/main.*.js"]
 			}
 		},
 
@@ -172,26 +173,26 @@ module.exports = function(grunt) {
 			},
 			
 			gruntfile: {
-				files: "<%= jshint.gruntfile.src %>",
-				tasks: ["jshint:gruntfile"]
+				files: 	"<%= jshint.gruntfile.src %>",
+				tasks: 	["jshint:gruntfile"]
 			},
 
 			dist: {
-				files: "<%= jshint.dist.src %>",
+				files: 	"<%= jshint.dist.src %>",
 				
-				tasks: ["jshint:dist", 
-						"jasmine:dist"]
+				tasks: 	["jshint:dist", 
+								"jasmine:dist"]
 			},
 
 			// run watch:dev:build
 			dev: {
-				files: ["<%= path.src %>/**/*.js",
-						"!<%= path.src %>/main.js",
-						"<%= path.spec %>/**/*.js", 
-						"*.js"],
+				files: 	["<%= path.src %>/**/*.js",
+								"!<%= path.src %>/main.js",
+								"<%= path.spec %>/**/*", 
+								"*.js"],
 						
-				tasks: ["concat:dev",
-						"jasmine:dev:build"]
+				tasks: 	["concat:dev",
+								"jasmine:dev:build"]
 			}
 		},
 		
@@ -206,11 +207,11 @@ module.exports = function(grunt) {
 				
 				helpers: 	["spec/*.helper.js"],
 				
-				vendor: 	["lib/**/*.js"],
+				//vendor: 	["lib/**/*.js"], // only load if/when available
 				
 				summary: 	true, 
 				
-				template: 	require("grunt-template-jasmine-istanbul"),
+				template: require("grunt-template-jasmine-istanbul"),
 				
 				templateOptions: {
 					coverage: "bin/test/coverage/json",
@@ -252,9 +253,11 @@ module.exports = function(grunt) {
 			
 			dev: {
 				options: {
-					template: "FlashcardSpecRunner.tmpl",
+					template: "<%= path.specTemplates %>/dom.tmpl",
 					
-					outfile: "<%= path.src %>/_SpecRunner.html"
+					styles: 	["<%= path.specTemplates %>/*.css"],
+					
+					outfile: 	"<%= path.src %>/_SpecRunner.html"
 				},
 				
 				files: [{

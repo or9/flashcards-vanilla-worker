@@ -1,0 +1,27 @@
+.row {
+	max-height: 400px;
+	float: none;
+	display: inline-block;
+	overflow-y: auto;
+}
+.col {
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+}
+.col.question {
+	width: 66%;
+}
+.col.choices {
+	width: 33%;
+}
+.col.full {
+	width: 100%;
+}
+.card {
+	max-width: 90px;
+	display: inline-block;
+	vertical-align: top;
+	background: grey;
+	border: 1px solid cyan;
+}

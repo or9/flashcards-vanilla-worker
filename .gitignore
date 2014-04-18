@@ -6,6 +6,7 @@ example/
 bin/
 coverage/
 _SpecRunner*
+*.*~
 javaws
 *.sublime-*
 *.swp

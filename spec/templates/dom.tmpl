@@ -1,28 +1,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Jasmine Spec Runner</title>
-  
-  <script>
-  (function() {
-	  var head = document.getElementsByTagName("head")[0];
-	  var script = document.createElement("script");
-	  // var firstScript = head.getElementsByTagName("script")[0];
-	  // console.log(firstScript);
-	  script.src = "test.js";
-	  // head.insertBefore(script, firstScript);
-	  head.appendChild(script);
-	  
-	  script.addEventListener("load", followup, false);
-	  
-	  function followup(e) {
-		  console.log(e);
-		  var test = testScript;
-		  console.log("test: ", test);
-	  }
-	  
-  })();
-  </script>
+  <title>Flashcards Jasmine Spec Runner</title>
   
 <% css.forEach(function(style){ %>
   <link rel="stylesheet" type="text/css" href="<%= style %>">
