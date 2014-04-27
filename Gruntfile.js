@@ -169,7 +169,7 @@ module.exports = function(grunt) {
 		// run grunt karma:dev:start watch
 		watch: {
 			options: {
-				livereload: true
+				//livereload: true
 			},
 			
 			gruntfile: {
@@ -201,15 +201,15 @@ module.exports = function(grunt) {
 				"--web-security": false,
 				"--local-to-remote-url-access": true,
 				
-				host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>",
-				
 				specs: 		["spec/**/*.spec.js"],
 				
 				helpers: 	["spec/*.helper.js"],
 				
 				//vendor: 	["lib/**/*.js"], // only load if/when available
 				
-				summary: 	true, 
+				summary: 	true,
+				
+				display: 	"full",
 				
 				template: require("grunt-template-jasmine-istanbul"),
 				
@@ -257,7 +257,9 @@ module.exports = function(grunt) {
 					
 					styles: 	["<%= path.specTemplates %>/*.css"],
 					
-					outfile: 	"<%= path.src %>/_SpecRunner.html"
+					outfile: 	"<%= path.src %>/_SpecRunner.html",
+					
+					host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>"
 				},
 				
 				files: [{
@@ -290,6 +292,7 @@ module.exports = function(grunt) {
 	// run grunt karma:dev:start watch
 	//grunt.registerTask("default", ["clean", "copy", "uglify", "cssmin", "karma:build"]);
 	grunt.registerTask("server", ["connect:server:livereload:keepalive"]);
+	grunt.registerTask("watchdev", ["watch:dev:build"]);
 	grunt.registerTask("default", ["clean", "concat", "copy", "uglify", "cssmin", "jasmine:dist"]);
 
 };

@@ -1,10 +1,16 @@
 .row {
-	max-height: 400px;
+	position: relative;
 	float: none;
 	display: inline-block;
 	overflow-y: auto;
+	background: #ccf;
+	min-height: 20px;
+	min-width: 200px;
+	border: 1px solid #000;
 }
 .col {
+	overflow-y: auto;
+	min-height: 20px;
 	display: inline-block;
 	vertical-align: top;
 	box-sizing: border-box;
@@ -24,4 +30,17 @@
 	vertical-align: top;
 	background: grey;
 	border: 1px solid cyan;
+}
+.collapsed {
+	overflow: hidden;
+}
+.collapsed.vertical {
+	height: 20px;
+}
+.collapsed.horizontal {
+	width: 30px;
+}
+.expand {
+	position: absolute;
+	top: 0;
 }

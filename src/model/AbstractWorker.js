@@ -35,10 +35,6 @@ AbstractWorker.prototype.importScripts = function(data) {
 	postmsg(this.data.fn, data.msg, true);
 };
 AbstractWorker.prototype.xhr = function(data, callback, args) {
-	//var instance = this;
-	//console.log(self);
-	//console.log(this);
-	//var sel = self;
 	var	xhr = new XMLHttpRequest();
 	//console.log("ABSTRACT WORKER received ajax call for… " + data);
 	var url = data.msg || data;
