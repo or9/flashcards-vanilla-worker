@@ -161,8 +161,8 @@ module.exports = function(grunt) {
 					jshintrc: ".jshintrc"
 				},
 				src: 	["*.js", 
-							"<%= path.src %>/**/*.js", 
-							"!<%= path.src %>/main.*.js"]
+				     	 "<%= path.src %>/**/*.js", 
+				     	 "!<%= path.src %>/main.*.js"]
 			}
 		},
 
@@ -181,18 +181,26 @@ module.exports = function(grunt) {
 				files: 	"<%= jshint.dist.src %>",
 				
 				tasks: 	["jshint:dist", 
-								"jasmine:dist"]
+				       	 "jasmine:dist"]
 			},
 
 			// run watch:dev:build
 			dev: {
-				files: 	["<%= path.src %>/**/*.js",
-								"!<%= path.src %>/main.js",
-								"<%= path.spec %>/**/*", 
-								"*.js"],
+				files: 		["<%= path.src %>/**/*.js",
+				       		 "!<%= path.src %>/main.js",
+				       		 "<%= path.spec %>/**/*", 
+				       		 "*.js"],
 						
-				tasks: 	["concat:dev",
-								"jasmine:dev:build"]
+				tasks: 		["concat:dev",
+				       		 "jasmine:dev"]
+			},
+			
+			devserver: {
+				livereload: true,
+				
+				files:		"<%= watch.dev.files %>",
+				
+				tasks:		"<%= watch.dev.tasks %>"
 			}
 		},
 		
@@ -257,9 +265,9 @@ module.exports = function(grunt) {
 					
 					styles: 	["<%= path.specTemplates %>/*.css"],
 					
-					outfile: 	"<%= path.src %>/_SpecRunner.html",
+					//outfile: 	"<%= path.src %>/_SpecRunner.html"
 					
-					host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>"
+//					host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>"
 				},
 				
 				files: [{
@@ -269,11 +277,24 @@ module.exports = function(grunt) {
 					
 					src: 	["main.js"]
 				}]
+			},
+			
+			devserver: {
+				options: {
+					template: 	"<%= path.specTemplates %>/dom.tmpl",
+					
+					styles: 	["<%= path.specTemplates %>/*.css"],
+					
+					outfile: 	"<%= path.src %>/_SpecRunner.html",
+					
+					host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>"
+				}
+				
 			}
 			
 		}
 
-
+		
 
 	});
 
@@ -292,7 +313,8 @@ module.exports = function(grunt) {
 	// run grunt karma:dev:start watch
 	//grunt.registerTask("default", ["clean", "copy", "uglify", "cssmin", "karma:build"]);
 	grunt.registerTask("server", ["connect:server:livereload:keepalive"]);
-	grunt.registerTask("watchdev", ["watch:dev:build"]);
+	grunt.registerTask("dev", ["watch:dev:build"]);
+	grunt.registerTask("devserver", ["watch:dev:build"]);
 	grunt.registerTask("default", ["clean", "concat", "copy", "uglify", "cssmin", "jasmine:dist"]);
 
 };
