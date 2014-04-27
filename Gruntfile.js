@@ -261,13 +261,7 @@ module.exports = function(grunt) {
 			
 			dev: {
 				options: {
-					template: "<%= path.specTemplates %>/dom.tmpl",
-					
-					styles: 	["<%= path.specTemplates %>/*.css"],
-					
-					//outfile: 	"<%= path.src %>/_SpecRunner.html"
-					
-//					host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>"
+					template: "<%= path.specTemplates %>/dom.tmpl"
 				},
 				
 				files: [{
