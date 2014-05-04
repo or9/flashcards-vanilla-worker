@@ -1,46 +1,68 @@
 "use strict";
 
 module.exports = function(grunt) {
+	
+	grunt.initConfig(getTasksConfiguration());
 
-	// Project configuration
-	grunt.initConfig({
+
+	grunt.loadNpmTasks("grunt-contrib-copy");
+	grunt.loadNpmTasks("grunt-contrib-connect");
+	grunt.loadNpmTasks("grunt-contrib-clean");
+	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-contrib-cssmin");
+	grunt.loadNpmTasks("grunt-contrib-jshint");
+	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-contrib-jasmine");
+
+
+	grunt.registerTask("server", ["connect:server:keepalive"]);
+	grunt.registerTask("dev", ["watch:dev"]);
+	grunt.registerTask("devserver", ["watch:devserver:build"]);
+	grunt.registerTask("default", ["clean", "concat", "copy", "uglify", "cssmin", "jasmine:dist"]);
+
+	
+	function getTasksConfiguration() {
+		var task = {};
+		
 		// Metadata
-		pkg: grunt.file.readJSON('package.json'),
-		banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + 
+		task.pkg = grunt.file.readJSON("package.json");
+		
+		
+		task.banner = '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + 
 				'<%= grunt.template.today("yyyy-mm-dd") %>\n' + 
 				'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' + 
 				'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + 
-				' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>*/ \n',
+				' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>*/ \n';
+		
 
-		// Task configuration.
-
-		path: {
+		task.path = {
 			src: 	"src",
 			spec: 	"spec",
 			specTemplates: "spec/templates",
 			dest: 	"bin/dist",
 			test: 	"bin/test"
-		},
+		};
 
-		connect: {
+		task.connect = {
 			server: {
 				options: {
 					hostname: 	"localhost",
 					keepalive: 	false,
 					livereload: true,
-					port: 			"9876",
-					base: 			["./"]
+					port: 		"9876",
+					base: 		["./"]
 				}
 			}
-		},
+		};
 
 
-		clean: {
+		task.clean = {
 			files: ['bin']
-		},
+		};
 
 
-		copy: {
+		task.copy = {
 			options: {
 				mode: true,
 				stripBanners: true
@@ -62,9 +84,9 @@ module.exports = function(grunt) {
 				}]
 			}
 
-		},
+		};
 
-		concat: {
+		task.concat = {
 			options: {
 				banner: '<%= banner %>',
 				stripBanners: true
@@ -84,9 +106,9 @@ module.exports = function(grunt) {
 				
 			}
 
-		},
+		};
 
-		uglify: {
+		task.uglify = {
 			options: {
 				//banner: '<%= banner %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
 				mangle: {
@@ -120,10 +142,10 @@ module.exports = function(grunt) {
 				}]
 			}
 
-		},
+		};
 
 
-		cssmin: {
+		task.cssmin = {
 			dist: {
 				files: [{
 					expand: true,
@@ -133,9 +155,9 @@ module.exports = function(grunt) {
 				}]
 			}
 
-		},
+		};
 
-		jshint: {
+		task.jshint = {
 			options: {
 				jshintrc: ".jshintrc",
 				force: true
@@ -164,10 +186,10 @@ module.exports = function(grunt) {
 				     	 "<%= path.src %>/**/*.js", 
 				     	 "!<%= path.src %>/main.*.js"]
 			}
-		},
+		};
 
-		// run grunt karma:dev:start watch
-		watch: {
+		
+		task.watch = {
 			options: {
 				//livereload: true
 			},
@@ -193,7 +215,7 @@ module.exports = function(grunt) {
 						
 				tasks: 		["concat:dev",
 				       		 "jasmine:dev"]
-			},
+			}, 
 			
 			devserver: {
 				livereload: true,
@@ -202,9 +224,9 @@ module.exports = function(grunt) {
 				
 				tasks:		"<%= watch.dev.tasks %>"
 			}
-		},
+		};
 		
-		jasmine: {
+		task.jasmine = {
 			options: {
 				"--web-security": false,
 				"--local-to-remote-url-access": true,
@@ -259,7 +281,7 @@ module.exports = function(grunt) {
 				}]
 			},
 			
-			dev: {
+			dev: { 
 				options: {
 					template: "<%= path.specTemplates %>/dom.tmpl"
 				},
@@ -281,34 +303,16 @@ module.exports = function(grunt) {
 					
 					outfile: 	"<%= path.src %>/_SpecRunner.html",
 					
-					host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>"
+					host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>",
+					
+					build:		true
 				}
 				
 			}
 			
-		}
-
+		};
 		
-
-	});
-
-
-	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-contrib-connect");
-	grunt.loadNpmTasks("grunt-contrib-clean");
-	grunt.loadNpmTasks("grunt-contrib-concat");
-	grunt.loadNpmTasks("grunt-contrib-uglify");
-	grunt.loadNpmTasks("grunt-contrib-cssmin");
-	grunt.loadNpmTasks("grunt-contrib-jshint");
-	grunt.loadNpmTasks("grunt-contrib-watch");
-	grunt.loadNpmTasks("grunt-contrib-jasmine");
-
-
-	// run grunt karma:dev:start watch
-	//grunt.registerTask("default", ["clean", "copy", "uglify", "cssmin", "karma:build"]);
-	grunt.registerTask("server", ["connect:server:livereload:keepalive"]);
-	grunt.registerTask("dev", ["watch:dev:build"]);
-	grunt.registerTask("devserver", ["watch:dev:build"]);
-	grunt.registerTask("default", ["clean", "concat", "copy", "uglify", "cssmin", "jasmine:dist"]);
-
+		
+		return task;
+	}
 };

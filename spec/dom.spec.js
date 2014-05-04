@@ -36,13 +36,17 @@ describe("DOM suite", function() {
 		});
 	});
 	
-	describe("Game test suites", function() {
+	describe("Game test suites verifying initialization", function() {
 		it("Expects that gameTypeHeading is defined", function() {
 			expect(typeHeading).toBeDefined();
 		});
 	
-		it("Expects that gameTypeHeading is not null", function() {
+		xit("Expects that gameTypeHeading is not null", function() {
 			expect(typeHeading.innerHTML).not.toBeUndefined();
+		});
+		
+		xit("Expects cards to be present", function() {
+			expect(cards.length).not.toEqual(0);
 		});
 	
 	});

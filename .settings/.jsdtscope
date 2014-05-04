@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="src/model/|src/controller/" kind="src" path=""/>
-	<classpathentry kind="src" path="src/controller"/>
-	<classpathentry kind="src" path="src/model"/>
+	<classpathentry excluding=".grunt/|bin/|node_modules/|target/" including="**/*.js" kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
