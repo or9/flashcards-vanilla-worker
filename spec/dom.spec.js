@@ -40,7 +40,7 @@ describe("DOM suite", function() {
 		it("Expects that gameTypeHeading is defined", function() {
 			expect(typeHeading).toBeDefined();
 		});
-	
+		
 		xit("Expects that gameTypeHeading is not null", function() {
 			expect(typeHeading.innerHTML).not.toBeUndefined();
 		});

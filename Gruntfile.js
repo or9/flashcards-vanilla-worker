@@ -24,19 +24,14 @@ module.exports = function(grunt) {
 	
 	function getTasksConfiguration() {
 		var task = {};
+		var pkg = grunt.file.readJSON("package.json");
+		var banner = "/*! " + pkg.title || pkg.name + "- v" + pkg.version + " - " + 
+				grunt.template.today("yyyy-mm-dd") + "\n" + 
+				pkg.homepage + "\n" + 
+				"* Copyright (c)" + grunt.template.today("yyyy") + pkg.author.name + 
+				" Licensed " + _.pluck(pkg.licenses, "type").join(", ") + "\n";
 		
-		// Metadata
-		task.pkg = grunt.file.readJSON("package.json");
-		
-		
-		task.banner = '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + 
-				'<%= grunt.template.today("yyyy-mm-dd") %>\n' + 
-				'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' + 
-				'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + 
-				' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>*/ \n';
-		
-
-		task.path = {
+		var path = {
 			src: 	"src",
 			spec: 	"spec",
 			specTemplates: "spec/templates",
@@ -73,7 +68,7 @@ module.exports = function(grunt) {
 					
 					cwd: 	"src",
 					
-					dest: "<%= path.dest %>/",
+					dest: 	path.dest + "/",
 					
 					src: 	["**",
 								"!main.*.js",
@@ -94,15 +89,15 @@ module.exports = function(grunt) {
 			
 			// used for watch dev task
 			dev: {
-				src: 	["<%= path.src %>/main.init.js",
-							"<%= path.src %>/main.abstract.workerHandler.js",
-							"<%= path.src %>/main.main.workerHandler.js",
-							"<%= path.src %>/main.card.workerHandler.js",
-							"<%= path.src %>/main.game.workerHandler.js",
-							"<%= path.src %>/main.workerHandler.helper.js",
-							"<%= path.src %>/main.utility.js"],
+				src: 		[path.src + "/main.init.js",
+							path.src + "/main.abstract.workerHandler.js",
+							path.src + "/main.main.workerHandler.js",
+							path.src + "/main.card.workerHandler.js",
+							path.src + "/main.game.workerHandler.js",
+							path.src + "/main.workerHandler.helper.js",
+							path.src + "/main.utility.js"],
 						
-				dest: "<%= path.src %>/main.js"
+				dest: path.src + "/main.js"
 				
 			}
 
@@ -136,9 +131,9 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 	"<%= path.dest %>",
+					cwd: 	path.dest,
 					src: 	["**/*.js"],
-					dest: "<%= path.dest %>"
+					dest: 	path.dest
 				}]
 			}
 
@@ -149,9 +144,9 @@ module.exports = function(grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: 	"<%= path.dest %>",
+					cwd: 	path.dest,
 					src: 	["**/*.css", "!**/*~"],
-					dest: "<%= path.dest %>"
+					dest: 	path.dest
 				}]
 			}
 
@@ -183,8 +178,8 @@ module.exports = function(grunt) {
 					jshintrc: ".jshintrc"
 				},
 				src: 	["*.js", 
-				     	 "<%= path.src %>/**/*.js", 
-				     	 "!<%= path.src %>/main.*.js"]
+				     	 path.src + "/**/*.js", 
+				     	 "!" + path.src + "/main.*.js"]
 			}
 		};
 
@@ -195,34 +190,34 @@ module.exports = function(grunt) {
 			},
 			
 			gruntfile: {
-				files: 	"<%= jshint.gruntfile.src %>",
+				files: 	task.jshint.gruntfile.src,
 				tasks: 	["jshint:gruntfile"]
 			},
 
 			dist: {
-				files: 	"<%= jshint.dist.src %>",
+				files: 	task.jshint.dist.src,
 				
-				tasks: 	["jshint:dist", 
-				       	 "jasmine:dist"]
+				tasks: 	["task.jshint:dist", 
+				       	 "task.jasmine:dist"]
 			},
 
 			// run watch:dev:build
 			dev: {
-				files: 		["<%= path.src %>/**/*.js",
-				       		 "!<%= path.src %>/main.js",
-				       		 "<%= path.spec %>/**/*", 
+				files: 		[task.path.src + "/**/*.js",
+				       		 "!" + task.path.src + "/main.js",
+				       		 task.path.spec + "/**/*", 
 				       		 "*.js"],
 						
-				tasks: 		["concat:dev",
-				       		 "jasmine:dev"]
-			}, 
+				tasks: 		["task.concat:dev",
+				       		 "task.jasmine:dev"]
+			},
 			
 			devserver: {
 				livereload: true,
 				
-				files:		"<%= watch.dev.files %>",
+				files:		task.watch.dev.files,
 				
-				tasks:		"<%= watch.dev.tasks %>"
+				tasks:		task.watch.dev.tasks + ":build"
 			}
 		};
 		
@@ -269,13 +264,13 @@ module.exports = function(grunt) {
 			
 			dist: {
 				options: {
-					outfile: "<%= path.dest %>/_SpecRunner.html"
+					outfile: path.dest + "/_SpecRunner.html"
 				},
 				
 				files: [{
 					expand: true,
 					
-					cwd: 	"<%= path.dist %>",
+					cwd: 	path.dist,
 					
 					src: 	["main.js"]
 				}]
@@ -283,13 +278,13 @@ module.exports = function(grunt) {
 			
 			dev: { 
 				options: {
-					template: "<%= path.specTemplates %>/dom.tmpl"
+					template: path.specTemplates + "/dom.tmpl"
 				},
 				
 				files: [{
 					expand: true,
 					
-					cwd: 	"<%= path.src %>",
+					cwd: 	path.src,
 					
 					src: 	["main.js"]
 				}]
@@ -297,13 +292,13 @@ module.exports = function(grunt) {
 			
 			devserver: {
 				options: {
-					template: 	"<%= path.specTemplates %>/dom.tmpl",
+					template: 	path.specTemplates + "/dom.tmpl",
 					
-					styles: 	["<%= path.specTemplates %>/*.css"],
+					styles: 	[path.specTemplates + "/*.css"],
 					
-					outfile: 	"<%= path.src %>/_SpecRunner.html",
+					outfile: 	path.src + "/_SpecRunner.html",
 					
-					host: 		"<%= connect.server.options.hostname %>:<%= connect.server.options.port %>",
+					host: 		connect.server.options.hostname + ":" + connect.server.options.port,
 					
 					build:		true
 				}
