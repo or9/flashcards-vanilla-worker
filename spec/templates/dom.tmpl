@@ -8,7 +8,7 @@
 <% }) %>
 <% with (scripts) { %>
   <% [].concat(polyfills, jasmine, boot, vendor, helpers).forEach(function(script){ %>
-  <script src="<%= script %>"></script>
+  <script src="../spec/<%= script %>"></script>
   <% }) %>
 <% }; %>
 
@@ -56,7 +56,7 @@
 	<div class="row footer" id="mainFooter"><dl><dt class="copyright">&copy; <span id="copyrightYear"></span></dt></dl></div>
 	
 	
-	<script src="../spec/templates/behavior.js"></script>
+	<!--<script src="../spec/templates/behavior.js"></script>-->
 	
 	
 <% with (scripts) { %>

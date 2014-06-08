@@ -1,9 +1,5 @@
 "use strict";
 
-//var grunt 	= null;
-//var pkg 		= null;
-//var banner	= null;
-
 var grunt = require("grunt");
 var pkg = grunt.file.readJSON("package.json");
 var banner = getBanner();
@@ -18,13 +14,12 @@ var path 		= {
 var taskConfig = new TaskConfig();
 
 module.exports = taskConfig;
+for(var prop in taskConfig) {
+	//console.info("Exporting prop ", prop, " as task");
+	module.exports[prop] = taskConfig[prop];
+}
 
 function TaskConfig(_grunt) {
-	//init(grunt);
-	//grunt = _grunt;
-	//pkg = _grunt.file.readJSON("package.json");
-	//banner = "";
-
 	this.connect = connect();
 	this.clean = clean();
 	this.copy = copy();
@@ -32,19 +27,12 @@ function TaskConfig(_grunt) {
 	this.uglify = uglify();
 	this.cssmin = cssmin();
 	this.jshint = jshint();
-	this.watch = watch();
 	this.jasmine = jasmine();
+	this.watch = watch();
 
-}
-
-function init(_grunt) {
-	grunt = _grunt;
-	pkg = _grunt.file.readJSON("package.json");
-	banner = "";
 }
 
 function getBanner() {
-	//return "/*! " + pkg.title || pkg.name + "- v" + pkg.version + " - " + grunt.template.today("yyyy-mm-dd") + "\n" + pkg.homepage + "\n * Copyright (c)" + grunt.template.today("yyyy") + pkg.author.name + " Licensed " + _.pluck(pkg.licenses, "type").join(", ") + "\n";
 	return "";
 }
 
@@ -221,8 +209,7 @@ function watch() {
 	function dist() {
 		return {
 			files:	jshint().dist.src,
-			tasks:	["jshint:dist",
-							"jasmine:dist"]
+			tasks:	["jshint:dist", "jasmine:dist"]
 		};
 
 	}
@@ -230,12 +217,12 @@ function watch() {
 	function dev() {
 		return {
 			files:	[path.src + "/**/*.js",
+							"task/**/*",
 							"!" + path.src + "/main.js",
 							path.spec + "/**/*",
 							"*.js"],
 
-			tasks:	["concat:dev",
-							"jasmine:dev"]
+			tasks:	["concat:dev", "jasmine:dev"]
 		};
 
 	}
@@ -244,7 +231,7 @@ function watch() {
 		return {
 			livereload:	true,
 			files:			dev().files,
-			tasks:			dev().tasks + ":build"
+			tasks:			["concat:dev", "jasmine:dev:build"]
 		};
 	}
 }
@@ -259,7 +246,6 @@ function jasmine() {
 
 			files: [{
 				expand: true,
-				//cwd: 	path.dist,
 				cwd:	path.dest,
 				src: 	["main.js"]
 			}]
@@ -292,7 +278,7 @@ function jasmine() {
 
 	function options() {
 		return {
-			"--web-security": false,
+				"--web-security": false,
 				"--local-to-remote-url-access": true,
 
 				specs: 		["spec/**/*.spec.js"],
