@@ -1,11 +1,5 @@
 // handler for receiving messages, based on WorkerHandler model
 
-card.addEventListener("message", msg_handler_card, false);
-
-postmsg.call(card, "init", language);
-
-CardHandler.prototype = new WorkerHandler();
-
 CardHandler.prototype.init = function(data) {
 	//WorkerHandler.prototype.init = function(data) {
 	console.log("MAIN CardHandler init called with data: ", data, data.msg, /cards/gi.test(data.msg));

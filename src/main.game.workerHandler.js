@@ -1,9 +1,5 @@
 // handler for receiving messages, based on WorkerHandler model
 
-postmsg.call(game, "init", gameOptions.type() + ", " +  gameOptions.vowels());
-
-GameHandler.prototype = new WorkerHandler();
-
 GameHandler.prototype.getGameType = function(data) {
 	console.log("MAIN GameHandler getGameType called with data: ", data, data.fn, data.msg);
 	getGameType(game);

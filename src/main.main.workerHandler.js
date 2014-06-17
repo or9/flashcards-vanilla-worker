@@ -3,7 +3,6 @@
 // Set prototype first based on Parent class,
 // Otherwise prototype properties will be overridden by parent prototype properties
 // When setting Decendent.prototype = new Parent()
-MainHandler.prototype = new WorkerHandler();
 
 WorkerHandler.prototype.getGameType = function(data) {
 	console.log("MAIN Generic getGameType called with data: ", data.fn, data.msg);
