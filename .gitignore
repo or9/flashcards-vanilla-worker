@@ -12,3 +12,4 @@ javaws
 *.swp
 **.swp
 *.swo
+*.log
